@@ -1,0 +1,75 @@
+```markdown
+# Binary Search Tree
+
+## Summary
+This lecture covers the fundamental concepts of binary search trees (BST) in data structures. It includes the structure of binary trees, the process of inserting nodes, an introduction to Big O notation, and the initial steps of the deletion process.
+
+## Outline
+1. Binary Tree
+2. Insert Operation
+3. Big O Notation
+4. Delete Operation
+
+## Detailed Notes
+
+### 1. Binary Tree
+- **Definition**: A binary tree is a data structure in which each node has at most two children, referred to as the left child and the right child.
+- **Children**: Each node can have 0, 1, or 2 children.
+
+#### Diagrams
+- **Valid Binary Tree**: A tree with one root and two children.
+  - ![Valid Binary Tree](https://en.wikipedia.org/wiki/Binary_tree)
+  - **Interpretation**: This represents a correct structure of a binary tree.
+- **Invalid Binary Tree**: A tree with one root and three children.
+  - **Interpretation**: This represents an incorrect structure of a binary tree.
+
+### 2. Insert Operation
+- **Process**:
+  1. Compare the value to be inserted (e.g., 9) with the root node (e.g., 10).
+     - If 9 < 10, move to the left child.
+     - If 9 > 10, move to the right child.
+  2. Continue this process until the correct position is found.
+  3. Insert the value at the correct position.
+
+#### Diagrams
+- **Example**: Inserting 9 into a binary tree with root 10 and left child 4.
+  - ![Insert Example](https://en.wikipedia.org/wiki/Binary_search_tree)
+  - **Interpretation**: The value 9 is inserted as the right child of 4.
+
+### 3. Big O Notation
+- **Definition**: Big O notation describes the upper bound of the time complexity of an algorithm.
+- **General Form**: 
+  \[
+  |f(n)| \leq C \cdot g(n)
+  \]
+
+#### Formulas
+- The notation \( f(n) = O(g(n)) \) is used to describe an upper bound on the growth rate of the function \( f(n) \) in terms of the function \( g(n) \).
+  \[
+  f(n) = O(g(n))
+  \]
+- This line states the equivalence condition, indicating that there exist constants \( C \) and \( N_0 \) in the set of real numbers such that for all \( N \) greater than or equal to \( N_0 \).
+  \[
+  \Leftrightarrow \exists C, N_0 \in \mathbb{R}, \text{ s.t. } \forall N \geq N_0
+  \]
+- This line provides the formal definition of Big-O notation, stating that the absolute value of \( f(N) \) is less than or equal to a constant \( c \) times \( g(N) \).
+  \[
+  |f(N)| \leq c \cdot g(N)
+  \]
+
+#### Diagrams
+- **Formal Definition of Big-O Notation**:
+  - ![Big-O Notation](https://en.wikipedia.org/wiki/Big_O_notation)
+  - **Interpretation**: Big-O notation is a mathematical concept used in computer science to describe the upper bound of an algorithm's time or space complexity. It provides an asymptotic analysis of the algorithm's performance.
+
+### 4. Delete Operation
+- **Step-by-Step Deletion Process**:
+  1. **Step 1**: Start at the root node.
+     - Traverse the tree to find the node to delete.
+  2. **Step 2**: (Unclear in the notes)
+     - Reconnect the right child to the parent?
+     - Additional steps needed for clarification.
+
+## Summary
+The notes cover the basics of binary search trees, including the structure of binary trees, how to insert nodes, an introduction to Big O notation, and the initial steps of the deletion process, though the deletion process is not fully detailed.
+```

@@ -1,0 +1,59 @@
+{
+    "Diagrams": [
+        {
+            "Description": "The left diagram is a binary tree structure where each node can have at most two children.",
+            "Summary": "Binary tree showing nodes with up to two children",
+            "Interpretation": "A binary tree is a data structure used in computer science where each node can have at most two children, making it useful for binary search operations.",
+            "Text": "Binary tree, children \u2264 2",
+            "Equations": [],
+            "Related Concepts": [
+                "Binary Tree",
+                "Data Structures",
+                "Tree Traversal"
+            ],
+            "Reillustration": "https://en.wikipedia.org/wiki/Binary_tree"
+        },
+        {
+            "Description": "The right diagram depicts a tree structure where nodes can have more than two children, contrasting with the binary tree.",
+            "Summary": "General tree showing nodes with potentially more than two children",
+            "Interpretation": "A general tree structure where nodes are not limited to two children, used in various hierarchical representations.",
+            "Text": "X",
+            "Equations": [],
+            "Related Concepts": [
+                "Tree Data Structure",
+                "General Tree",
+                "Hierarchical Data"
+            ],
+            "Reillustration": "https://en.wikipedia.org/wiki/Tree_(data_structure)"
+        },
+        {
+            "Description": "The diagram illustrates a binary search tree (BST) with nodes following the BST properties. The left child nodes are less than the parent node, and the right child nodes are greater.",
+            "Summary": "Binary search tree (BST) showing node values and BST properties",
+            "Interpretation": "A BST is a binary tree where each node maintains the property that left children are smaller, and right children are larger. This structure is used for efficient search, insertion, and deletion operations.",
+            "Text": "9, 9 > 4, 9 < 10, 7 < 9, h = O(1?)",
+            "Equations": [],
+            "Related Concepts": [
+                "Binary Search Tree",
+                "BST Properties",
+                "Data Structures"
+            ],
+            "Reillustration": "https://en.wikipedia.org/wiki/Binary_search_tree"
+        },
+        {
+            "Description": "The diagram provides a formal definition of Big-O notation, used to describe the upper bound of an algorithm's growth rate concerning input size.",
+            "Summary": "Formal definition of Big-O notation",
+            "Interpretation": "Big-O notation is a mathematical concept used in computer science to describe the upper bound of an algorithm's time or space complexity. It provides an asymptotic analysis of the algorithm's performance.",
+            "Text": "Definition big-O, f(n) = O(g(n)), \\iff \\exists C, N_0 \\in \\mathbb{R}, \\text{ s.t. } \\forall N \\geq N_0 |f(N)| \\leq C \\cdot g(N)",
+            "Equations": [
+                "f(n) = O(g(n))",
+                "\\iff \\exists C, N_0 \\in \\mathbb{R}, \\text{ s.t. } \\forall N \\geq N_0 |f(N)| \\leq C \\cdot g(N)"
+            ],
+            "Related Concepts": [
+                "Big-O Notation",
+                "Complexity Analysis",
+                "Algorithm Efficiency"
+            ],
+            "Reillustration": "https://en.wikipedia.org/wiki/Big_O_notation"
+        }
+    ]
+}

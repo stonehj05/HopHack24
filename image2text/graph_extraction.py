@@ -28,7 +28,7 @@ When provided with an image, please anaylze the content and extract the followin
 '''
 followup_prompt = '''
 Now, output the extracted information in the following JSON format, and include only the JSON data without any additional text, your output should be able to be directly parsed as JSON using a JSON parser in Python or any other programming language.
-Start your answer with the open bracket "{", and end it with a closing bracket "}". Please escape any special characters in the output, like the blackslash "\" should be output as "\\".
+Start your answer with the open bracket "{" without any extra character, and end it with a closing bracket "}". Please escape any special characters in the output, like the blackslash "\" should be output as "\\".
 {
   "Diagrams": [
     {
@@ -36,7 +36,7 @@ Start your answer with the open bracket "{", and end it with a closing bracket "
       "Summary": "<Brief summary of the diagram's content that would be helpful when listed alongside the diagram>",
       "Interpretation": "<Explanation of what it represents and its significance>",
       "Text": "<A paragraph recording the transcribed and organized text labels and markings on this diagram>",
-      "Equations": ["<List of equations involved in the equation in LaTeX format>"],"
+      "Equations": ["<List of equations involved in the equation in LaTeX format, make sure the code can be compiled by latex. Do not use unicodes>"],"
       "Related Concepts": ["<List of related concepts or topics covered in the diagram>"]
       "Reillustration": "<Search the internet and find a webpage containing similar image illustrating diagram or graph, paste the link here, it should be a well known site like wikipedia.>"
     }

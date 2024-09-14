@@ -1,6 +1,15 @@
 import base64
+import json
+import os
+
+import dotenv
 import matplotlib.pyplot as plt
 import openai
+
+def get_openai_api_key():
+    dotenv.load_dotenv()
+    return os.getenv("OPENAI_API_KEY")
+
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
@@ -54,68 +63,27 @@ def prepare_image_message(prompt: str, image_path: str) -> dict:
             ]}
         ]
 
-def gpt_api_call(prompt: str, temperature: float, api_key: str) -> dict:
+def gpt_api_call(messages: list, temperature: float, api_key: str) -> str:
     """
-    Calls the OpenAI GPT API with the given prompt and temperature.
-
-    Args:
-        prompt (str): The system prompt to guide the AI's behavior.
-        temperature (float): Sampling temperature for the response.
-        api_key (str): Your OpenAI API key.
-
-    Returns:
-        dict: The API response containing the AI's completion.
+    Calls the OpenAI GPT API with the given messages and temperature.
+    Returns: str: The API response string.
     """
     # Initialize the OpenAI client using the helper function
     client = get_openai_client(api_key)
 
-    # Prepare the message payload using the helper function
-    messages = prepare_messages(prompt)
-
     try:
         # Make the API call to OpenAI's Chat Completion endpoint
         response = client.chat.completions.create(
-            model="gpt-4",          # Ensure the model name is correct
+            model="gpt-4o",          # Ensure the model name is correct
             messages=messages,
             temperature=temperature
         )
-        return response
-    except openai.error.OpenAIError as e:
+        return response.choices[0].message.content.strip()
+    except openai.OpenAIError as e:
         # Handle API errors gracefully
         print(f"An error occurred: {e}")
         return {}
 
-def gpt_api_call_with_image(prompt: str, image_path: str, temperature: float, api_key: str) -> dict:
-    """
-    Calls the OpenAI GPT API with the given prompt, image, and temperature.
-
-    Args:
-        prompt (str): The system prompt to guide the AI's behavior.
-        image_path (str): The path to the image file.
-        temperature (float): Sampling temperature for the response.
-        api_key (str): Your OpenAI API key.
-
-    Returns:
-        dict: The API response containing the AI's completion.
-    """
-    # Initialize the OpenAI client using the helper function
-    client = get_openai_client(api_key)
-
-    # Prepare the image message payload using the helper function
-    messages = prepare_image_message(prompt, image_path)
-
-    try:
-        # Make the API call to OpenAI's Chat Completion endpoint
-        response = client.chat.completions.create(
-            model="gpt-4",          # Ensure the model name is correct
-            messages=messages,
-            temperature=temperature
-        )
-        return response
-    except openai.error.OpenAIError as e:
-        # Handle API errors gracefully
-        print(f"An error occurred: {e}")
-        return {}
 def latex_rendering(latex_source_code, output_file_path):
     fig, ax = plt.subplots()
     ax.axis('off')
@@ -129,3 +97,17 @@ def append_assistant_message(messages: list, assistant_msg: str) -> list:
 def prepare_followup_user_messages(messages: list, followup_user_msg: str) -> list:
     messages.append({"role": "user", "content": followup_user_msg})
     return messages
+
+def get_default_chat_response(initial_message:dict, follow_up_prompt:str, temperature=0.7, api_key="") -> dict:
+    # Process the assistant's initial analysis (response)
+    messages = initial_message
+    response = gpt_api_call(messages, temperature, api_key)
+    messages = append_assistant_message(messages, response)
+
+
+    # Step 2: Request for JSON output or any other followup
+    messages = prepare_followup_user_messages(messages, follow_up_prompt)
+    output = gpt_api_call(messages, temperature, api_key)
+
+
+    return output

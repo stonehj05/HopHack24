@@ -3,9 +3,9 @@ import ast
 import re
 import json
 api_key = ""
-def handnotes_extraction(image_path):
-    prompt = """
-        You are an AI assistant designed to help students by analyzing images of classroom blackboards or whiteboards taken during lectures. The images may contain handwritten text, diagrams, graphs, equations, and other visual elements related to the lecture content.
+# Step 1: Initial analysis
+prompt = """
+        You are an AI assistant designed to help students by analyzing images of their hand-written note taken during lectures. The images may contain handwritten text, diagrams, graphs, equations, and other visual elements related to the lecture content.
 
         **Your tasks are as follows:**
 
@@ -27,30 +27,32 @@ def handnotes_extraction(image_path):
         - **Formatting**: Use markdown formatting to enhance readability (e.g., bold for key terms, italics for emphasis, code blocks for equations).
         - **Summarization**: At the end of the notes, provide a brief summary of the main points covered in the image.
 
-        5. **JSON Output**:
-        - Present the organized information in the following JSON structure:
-
-        ```json
-        {
-        "Title": "<If a title or topic is identified, include it here>",
-        "Content": [
-            {
-            "SectionTitle": "<Title of the section>",
-            "Text": "<Transcribed and organized text for this section>",
-            "Equations": ["<List of equations in LaTeX format>"],
-            "Diagrams": [
-                {
-                "Description": "<Detailed description of the diagram or graph>",
-                "Interpretation": "<Explanation of what it represents and its significance>"
-                }
-            ]
-            }
-            // Repeat for additional sections
-        ],
-        "Summary": "<Brief summary of the main points>"
-        }
-        Do not give any extra information
     """
+followup_prompt = '''
+Now, output the extracted information in the following JSON format, and include only the JSON data without any additional text, your output should be able to be directly parsed as JSON using a JSON parser in Python or any other programming language.
+
+JSON Format:
+{
+    "Title": "<If a title or topic is identified, include it here>",
+    "Content": [
+        {
+        "SectionTitle": "<Title of the section>",
+        "Text": "<Transcribed and organized text for this section>",
+        "Equations": ["<List of equations in LaTeX format>"],
+        "Diagrams": [
+            {
+            "Description": "<Detailed description of the diagram or graph>",
+            "Interpretation": "<Explanation of what it represents and its significance>"
+            }
+        ]
+        }
+        // Repeat for additional sections
+    ],
+    "Summary": "<Brief summary of the main points>"
+}
+'''
+
+def handnotes_extraction(image_path):
     response = gpt_api_call(prompt, 0.0, api_key, image_path)
     note = ast.literal_eval(response)
     json.dump(note, "note.json", indent=4)

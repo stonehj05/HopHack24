@@ -2,10 +2,10 @@
 import json
 
 from image2text.utils import prepare_image_message, gpt_api_call, prepare_followup_user_messages, \
-    append_assistant_message
+    append_assistant_message, get_openai_api_key, get_default_chat_response
 
-api_key = "YOUR_API_KEY"
-image_path = "path_to_your_image.jpg"
+api_key = get_openai_api_key()
+image_path = "../img/test_graph.jpeg"
 temperature = 0.7
 
 # Step 1: Initial analysis
@@ -54,17 +54,17 @@ JSON Format:
 
 def extract_information_from_image(image_path: str, context: str) -> dict:
     messages = prepare_image_message(prompt + context, image_path)
-    response = gpt_api_call(messages, temperature, api_key)
-    messages = append_assistant_message(messages, response)
+    output = get_default_chat_response(messages, followup_prompt, temperature=0.7, api_key=api_key)
 
-    # Process the assistant's initial analysis (response)
-
-    # Step 2: Request for JSON output
-    messages = prepare_followup_user_messages(messages, followup_prompt)
-    response = gpt_api_call(messages, temperature, api_key)
-
-    # The final response should be the JSON output
-    json_output = response['choices'][0]['message']['content']
     # parsing
-    json_output = json.loads(json_output)
+    try:
+        json_output = json.loads(output)
+    except json.JSONDecodeError as e:
+        print(f"An JSONDecodeError occurred: {e}")
+        return {}
     return json_output
+
+if __name__ == '__main__':
+    context = ""
+    extracted_info = extract_information_from_image(image_path, context)
+    print(extracted_info)

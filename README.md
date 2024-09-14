@@ -1,4 +1,9 @@
 # HopHack24
+put a `.env` file in the root directory with the following content:
+```
+OPENAI_API_KEY=your_openai_api_key
+```
+
 The official repo for Hopkins Hackathon 2024 integrative learning-helper project.
 AI-powered Note Taking for Disability Student
 

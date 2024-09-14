@@ -1,78 +1,96 @@
 # Binary Search Tree
 
 ## Summary
-This lecture covers the fundamental concepts of binary search trees (BSTs), including their structure, operations (insertion and deletion), and time complexity analysis using Big-O notation. The lecture also differentiates between binary trees and binary search trees, emphasizing the importance of maintaining a balanced tree for efficient operations.
+This lecture covers the basics of binary search trees (BSTs), including the definition and structure of a binary tree, the insert and delete operations with examples, the concept of Big O notation, and the time complexity of these operations. The lecture also briefly touches on the importance of tree balancing and introduces Big O notation for algorithm complexity.
 
 ## Outline
 1. Introduction to Binary Trees
-   1. Definition
-   2. Example of a Binary Tree
+   - Definition and structure
+   - Examples of valid and invalid binary trees
 2. Binary Search Trees (BST)
-   1. Definition and Properties
-   2. Example of a BST
-3. Operations on BST
-   1. Insert Operation
-   2. Delete Operation
-4. Time Complexity and Big-O Notation
-   1. Definition of Big-O Notation
-   2. Time Complexity of BST Operations
+   - Definition and properties
+   - Use cases and advantages
+3. Insert Operation in BST
+   - Step-by-step process
+   - Example with diagrams
+4. Delete Operation in BST
+   - Step-by-step process
+   - Example with diagrams
+5. Time Complexity
+   - Relationship between tree height and number of nodes
+   - Best and worst-case scenarios
+6. Big O Notation
+   - Definition and formal representation
+   - Application to BST operations
 
 ## Detailed Notes
 
 ### 1. Introduction to Binary Trees
-#### 1.1 Definition
-- A binary tree is a data structure where each node has 0, 1, or 2 children.
-- These children are commonly referred to as the left and right children.
-
-#### 1.2 Example of a Binary Tree
-- **Valid Binary Tree**: Each node has at most two children.
-- **Invalid Binary Tree**: A node with more than two children is not a binary tree.
-
-![Binary Tree](https://en.wikipedia.org/wiki/Binary_tree)
+- **Definition**: A binary tree is a tree data structure where each node has at most two children, referred to as the left and right children.
+- **Structure**: Each node can have 0, 1, or 2 children.
+- **Examples**:
+  - Valid binary tree with two children.
+  - Valid binary tree with one child.
+  - Invalid binary tree with more than two children.
 
 ### 2. Binary Search Trees (BST)
-#### 2.1 Definition and Properties
-- A binary search tree is a binary tree with an additional property: for any given node, all values in the left subtree are less than the node's value, and all values in the right subtree are greater.
-- This property allows for efficient search, insertion, and deletion operations.
+- **Definition**: A binary search tree is a binary tree with an additional property: for any given node, all values in the left subtree are less than the node's value, and all values in the right subtree are greater.
+- **Properties**:
+  - Efficient for search, insertion, and deletion operations.
+  - Maintains a sorted order within the tree.
+- **Use Cases**: Useful for dynamically changing data that requires quick lookup times.
 
-#### 2.2 Example of a BST
-- Example: A BST with nodes labeled as 10, 4, 13, 15, 1, 7, 6, and 9.
-- Comparisons: 9 is greater than 4 and less than 10; 7 is less than 9.
+### 3. Insert Operation in BST
+- **Process**:
+  1. Start at the root.
+  2. Compare the value to be inserted with the current node.
+  3. If the value is smaller, go left; if larger, go right.
+  4. Repeat until an empty spot is found.
+  5. Insert the new value at the empty spot.
+- **Example**:
+  - Initial tree: Root = 10, Left child = 4.
+  - Insert value 9:
+    - Compare 9 with 10 (9 < 10, go left).
+    - Compare 9 with 4 (9 > 4, go right).
+    - Insert 9 as the right child of 4.
 
-![Binary Search Tree](https://en.wikipedia.org/wiki/Binary_search_tree)
+### 4. Delete Operation in BST
+- **Process**:
+  1. Find the node to delete.
+  2. If the node has no children, remove it.
+  3. If the node has one child, reconnect the child to the parent.
+  4. If the node has two children, replace it with its in-order successor or predecessor.
+- **Example**:
+  - Delete node with value 10:
+    - If 10 has no children, remove it.
+    - If 10 has one child, replace 10 with that child.
+    - If 10 has two children, find the in-order successor (smallest value in the right subtree) and replace 10 with that value.
 
-### 3. Operations on BST
-#### 3.1 Insert Operation
-- To insert a value in a BST:
-  1. Compare the value with the root.
-  2. If the value is less than the root, move to the left child; if greater, move to the right child.
-  3. Repeat the process until you find a suitable position.
-- Example: Inserting 9 into the tree:
-  - 9 is less than 10, so move left.
-  - 9 is greater than 4, so move right.
-  - 9 is inserted as the right child of 4.
+### 5. Time Complexity
+- **Height of the Tree**: The height of the tree affects the time complexity of operations.
+  - Best case (balanced tree): Height is logarithmic with respect to the number of nodes (O(log n)).
+  - Worst case (unbalanced tree): Height is equal to the number of nodes (O(n)).
+- **Importance of Balancing**: Balancing techniques like AVL trees and Red-Black trees help maintain the logarithmic height.
 
-#### 3.2 Delete Operation
-- To delete a node from a BST:
-  1. **Step 1**: Start from the root and find the node to delete.
-  2. **Step 2**: Handle different cases for node deletion:
-     - If the node has no children, simply remove it.
-     - If the node has one child, reconnect the child to the parent of the node.
-     - If the node has two children, find the in-order successor (smallest node in the right subtree) and replace the node's value with it, then delete the in-order successor.
-
-### 4. Time Complexity and Big-O Notation
-#### 4.1 Definition of Big-O Notation
-- Big-O notation describes the upper bound of the time complexity of an algorithm.
-- It provides an idea of the worst-case scenario for how long an operation will take as the input size grows.
-
-#### 4.2 Time Complexity of BST Operations
-- For both insertion and deletion, the time complexity is proportional to the height of the tree.
-- **Best Case**: When the tree is balanced, the height is logarithmic with respect to the number of nodes, making the time complexity \( O(\log n) \).
-- **Worst Case**: If the tree is unbalanced (e.g., a linked list structure), the height is equal to the number of nodes, making the time complexity \( O(n) \).
-
-![Big-O Notation](https://en.wikipedia.org/wiki/Big_O_notation)
+### 6. Big O Notation
+- **Definition**: Big O notation describes the upper bound of an algorithm's time complexity, focusing on the worst-case scenario.
+- **Formal Representation**:
+  - A function \( f(n) \) is Big-O of \( g(n) \):
+    \[
+    f(n) = O(g(n))
+    \]
+  - There exist constants \( C \) and \( N_0 \) such that for all \( N \geq N_0 \):
+    \[
+    \exists C, N_0 \in \mathbb{R}, \text{ s.t. } \forall N \geq N_0
+    \]
+  - The absolute value of \( f(N) \) is less than or equal to a constant \( c \) times \( g(N) \):
+    \[
+    |f(N)| \leq c \cdot g(N)
+    \]
+- **Application to BST**:
+  - Insert and delete operations in a balanced BST have a time complexity of \( O(\log n) \).
 
 ## Diagrams & Related Resources
-- [Binary Tree Diagram](https://en.wikipedia.org/wiki/Binary_tree): Binary tree with at most two children per node; Incorrect structure with more than two children on the right.
-- [Binary Search Tree Diagram](https://en.wikipedia.org/wiki/Binary_search_tree): Binary search tree with comparisons between nodes.
-- [Big-O Notation Diagram](https://en.wikipedia.org/wiki/Big_O_notation): Definition and formal mathematical expression of Big-O notation.
+- [Comparison between a binary tree and a non-binary tree](https://en.wikipedia.org/wiki/Binary_tree)
+- [Binary Search Tree with a highlighted path showing traversal logic](https://en.wikipedia.org/wiki/Binary_search_tree)
+- [Definition of Big-O notation and its formal mathematical representation](https://en.wikipedia.org/wiki/Big_O_notation)

@@ -1,4 +1,6 @@
 import streamlit as st
+from generate_note import generate_note
+import os
 # Define the content for Page 1
 
 def page1():
@@ -150,6 +152,16 @@ def page3():
 
     # Example content in the notebook page
     st.write("This is the content of your notebook.")
+
+    #st.session_state.audio_file
+    #st.session_state.blackboard_file
+    #st.session_state.personal_file
+    syllabus_file = st.session_state.syllabusList[st.session_state.courseList[1]]
+    os.makedirs()
+    with open(os.path.join(os.getcwd("data", syllabus_file.name), "wb")) as file:
+        file.write(syllabus_file.get_buffer())
+
+    
 
 def page4():
     # Set page configuration

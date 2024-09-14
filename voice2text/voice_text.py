@@ -1,9 +1,14 @@
 from moviepy.editor import AudioFileClip
 import speech_recognition as sr
+from datetime import datetime
 
 # MP3 to WAV conversion using moviepy
 mp3_file_path = r'/home/yru2/HopHack24/voice2text/Harry.mp3'
-wav_output_path = r'/home/yru2/HopHack24/voice2text/file1.wav'
+wav_output_path = r'/home/yru2/HopHack24/voice2text/WAV_AUDIO_FILE.wav'
+
+# Record the current time (start time of recording)
+start_time_real = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+print(f"Recording Start Time: {start_time_real}")
 
 # Load the MP3 file
 audio_clip = AudioFileClip(mp3_file_path)

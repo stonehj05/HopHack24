@@ -1,6 +1,7 @@
 import base64
 import matplotlib.pyplot as plt
 import openai
+import requests
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
@@ -129,3 +130,13 @@ def append_assistant_message(messages: list, assistant_msg: str) -> list:
 def prepare_followup_user_messages(messages: list, followup_user_msg: str) -> list:
     messages.append({"role": "user", "content": followup_user_msg})
     return messages
+
+def check_url(url):
+    try:
+        response = requests.head(url, timeout=5)
+        if response.status_code == 200:
+            return True
+        else:
+            return False
+    except requests.exceptions.RequestException as e:
+        return False

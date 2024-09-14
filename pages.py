@@ -1,12 +1,12 @@
 import streamlit as st
 # Define the content for Page 1
-def page1(courseNoteBookNumberCount):
+def page1():
     # Set page configuration
     st.write(page_title="Course Notebook", layout="wide")
 
     # Initialize session state for the notebook name
-    if 'courseName' not in st.session_state:
-        st.session_state['courseName'] = None  # Default value if not set
+    if 'notebookName' not in st.session_state:
+        st.session_state['notebookName'] = None  # Default value if not set
 
     # Retrieve the syllabus from session_state (optional, if needed)
     syllabus = st.session_state.get('syllabus', None)
@@ -41,10 +41,10 @@ def page1(courseNoteBookNumberCount):
     )
 
     # Fetch the course name from session state
-    #course_name = st.session_state.get('CourseName', 'Course Name')
+    notebook_name = st.session_state.get('notebookName', 'Course Name')
 
     # Display the course title at the top
-    st.markdown(f"<h2 style='text-align: center; margin-top: 0;'>{course_name}</h2>", unsafe_allow_html=True)
+    st.markdown(f"<h2 style='text-align: center; margin-top: 0;'>{notebook_name}</h2>", unsafe_allow_html=True)
 
     # Display the course summary
     st.markdown('<div class="text-content">' + summary + '</div>', unsafe_allow_html=True)

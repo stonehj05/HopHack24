@@ -36,7 +36,7 @@ def align_transcription_with_outline(transcription_text: str, outline_text: str,
     {
         "segments": [
             {
-                "topic": "<Title from the outline>",
+                "topic": "<Title from the outline in the form of section_title@subsection_title>",
                 "text": "<Corresponding transcription text>"
             }
             // Repeat for each segment
@@ -181,6 +181,32 @@ def generate_questions(segments: list) -> dict:
         print(f"A JSONDecodeError occurred: {e}")
         return {}
     return json_output
+
+def post_process_transcription_data(transcription_text: str, note_text: str, course_name="default_course", lecture_name="default_lecture") -> None:
+    # Create the directory structure /data/<course_name>/<lecture_name> if it doesn't exist
+    lecture_dir = os.path.join("data", course_name, lecture_name)
+    os.makedirs(lecture_dir, exist_ok=True)
+
+    # Step 1: Align transcription with outline
+    aligned_output = align_transcription_with_outline(transcription_text, note_text)
+    # save the aligned_output to a JSON file
+    with open(os.path.join(lecture_dir, "segments.json"), "w") as f:
+        json.dump(aligned_output, f, indent=4)
+    segments = aligned_output.get('segments', [])
+
+    # Step 2: Generate flashcards
+    flashcards_output = generate_flashcards(segments)
+    print(json.dumps(flashcards_output, indent=4))
+    # Save the flashcards to a JSON file
+    with open(os.path.join(lecture_dir, "flashcards.json"), "w") as f:
+        json.dump(flashcards_output, f, indent=4)
+
+    # Step 3: Generate questions
+    questions_output = generate_questions(segments)
+    print(json.dumps(questions_output, indent=4))
+    # Save the questions to a JSON file
+    with open(os.path.join(lecture_dir, "questions.json"), "w") as f:
+        json.dump(questions_output, f, indent=4)
 
 if __name__ == '__main__':
     # Replace the following strings with your actual transcription and outline texts

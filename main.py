@@ -1,22 +1,17 @@
 import streamlit as st
-
 from pages import page1
 
 # Initialize session state variables if they don't exist
-if 'firstCourseNotebookCount' not in st.session_state:
-    st.session_state.firstCourseNotebookCount = 0
+for i in range(1, 6):
+    if f'{i}thCourseNotebookCount' not in st.session_state:
+        st.session_state[f'{i}thCourseNotebookCount'] = 0
 
-if 'secondCourseNotebookCount' not in st.session_state:
-    st.session_state.secondCourseNotebookCount = 0
+# Initialize session state for syllabus and course name
+if 'syllabus' not in st.session_state:
+    st.session_state['syllabus'] = None
 
-if 'thirdCourseNotebookCount' not in st.session_state:
-    st.session_state.thirdCourseNotebookCount = 0
-
-if 'fourthCourseNotebookCount' not in st.session_state:
-    st.session_state.fourthCourseNotebookCount = 0
-
-if 'fifthCourseNotebookCount' not in st.session_state:
-    st.session_state.fifthCourseNotebookCount = 0
+if 'CourseName' not in st.session_state:
+    st.session_state['CourseName'] = ""
 
 # Set page config
 st.set_page_config(page_title="AI Notetaker", page_icon="📝", layout="wide")
@@ -76,17 +71,19 @@ def main_page():
     if syllabus is not None:
         st.session_state['syllabus'] = syllabus
 
-    # Text input for notebook name
-    notebook_name = st.text_input("Enter Notebook Name", value="", placeholder="Enter notebook name here")
-    if notebook_name:
-        st.session_state['notebookName'] = notebook_name
+    # Text input for course name
+    course_name = st.text_input("Enter Course Name", value=st.session_state['CourseName'], placeholder="Enter course name here")
+    if course_name:
+        st.session_state['CourseName'] = course_name
 
-    # Conditionally display the button to go to Page 1 only if both the syllabus is uploaded and the notebook name is entered
-    if 'syllabus' in st.session_state and 'notebookName' in st.session_state:
-        st.markdown('<div class="description">Syllabus uploaded and notebook name provided!</div>', unsafe_allow_html=True)
+    # Conditionally display the button to go to Page 1 only if both the syllabus is uploaded and the course name is entered
+    if st.session_state['syllabus'] is not None and st.session_state['CourseName']:
+        st.markdown('<div class="description">Syllabus uploaded and course name provided!</div>', unsafe_allow_html=True)
 
-        # Show button to navigate to Page 1 only after inputs are given
-        if st.button('Go to Introductory Chemistry I'):
+        # Use the course name as the button label
+        button_label = f'Go to {course_name}' if course_name else 'Go to Page 1'
+
+        if st.button(button_label):
             st.session_state.page = 'page1'
             st.rerun()  # Reload the app to switch to page 1
 

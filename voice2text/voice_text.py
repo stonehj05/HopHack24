@@ -33,10 +33,10 @@
 # def recognize_and_modify_text(wav_file_path, timestamps):
 #     # Initialize recognizer
 #     recognizer = sr.Recognizer()
-    
+
 #     # Get audio duration
 #     audio_duration = get_audio_duration(wav_file_path)
-    
+
 #     # Load the entire audio file
 #     with sr.AudioFile(wav_file_path) as source:
 #         audio_data = recognizer.record(source)
@@ -49,11 +49,11 @@
 #         # Convert the recognized text into a list of words
 #         words = text.split()
 #         total_words = len(words)
-        
+
 #         # Calculate approximate position of each timestamp in terms of word index
 #         word_per_second = total_words / audio_duration
 #         marker_positions = [int(timestamp * word_per_second) for timestamp in timestamps]
-        
+
 #         # Ensure positions are within the range of the text
 #         marker_positions = [min(max(0, pos), total_words - 1) for pos in marker_positions]
 
@@ -67,7 +67,7 @@
 #                 modified_text.append(f"[image {timestamps[marker_positions.index(i)]}s]")
 #             # Add the current word
 #             modified_text.append(word)
-        
+
 #         # Join modified words into a single paragraph
 #         final_text = ' '.join(modified_text)
 #         print(f"Modified Recognition Result: {final_text}")
@@ -85,12 +85,37 @@
 
 from openai import OpenAI
 import dotenv
-import os 
+import os
+
 dotenv.load_dotenv()
 client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
-audio_file= open("/home/yru2/HopHack24/voice2text/Matrix multiplication.mp3", "rb")
-transcription = client.audio.transcriptions.create(
-  model="whisper-1", 
-  file=audio_file
-)
-print(transcription.text)
+
+
+def transcribe_audio_files(file_paths):
+    transcriptions = []
+
+    for file_path in file_paths:
+        try:
+            # Open the audio file
+            with open(file_path, "rb") as audio_file:
+                # Create a transcription using the Whisper model
+                transcription = client.audio.transcriptions.create(
+                    model="whisper-1",
+                    file=audio_file
+                )
+                # Append the transcribed text to the results list
+                transcriptions.append(transcription["text"])
+        except Exception as e:
+            print(f"Error transcribing {file_path}: {e}")
+            transcriptions.append(None)
+
+    return transcriptions
+
+
+if __name__ == '__main__':
+    audio_file = open("/home/yru2/HopHack24/voice2text/Matrix multiplication.mp3", "rb")
+    transcription = client.audio.transcriptions.create(
+        model="whisper-1",
+        file=audio_file
+    )
+    print(transcription.text)

@@ -31,8 +31,23 @@ def generate_note(board_notes, audio_transcript, hand_notes, context = ""):
     Handwriting: the original notes taken by the students. 
     Transcription: the lecture transcription given by the professor
     
-    With all the information, your goal is to generate a complete note of the lecture integrating each part of information. You should provide a brief summary of the lecture's contents at the beginning, then provide an outline for the lecture at the beginning of the note. Finally, you should generate a detailed note following the outline, with detailed explaination based on lecture transcript, formulas and diagrams. Your output should be in markdown format. Only include node content in your output, without any additional information or summary.
+    With all the information, your goal is to generate a complete note of the lecture integrating each part of 
+    information. You should provide a brief summary of the lecture's contents at the beginning, then provide an 
+    outline for the lecture at the beginning of the note. Finally, you should generate a detailed note following the 
+    outline, with detailed explanation based on lecture transcript, formulas and diagrams. Your output should be in 
+    markdown format. Only include node content in your output, without any additional information or summary.
+    Here is an example of the output format:
+    # <Title of the lecture>
+    ## Summary
+    <Brief summary of the lecture content>
+    ## Outline
+    <Numbered list (with nested unnumbered list) of the main topics covered in the lecture>
+    ## Detailed Notes
+    <Detailed notes for each topic, with explanations, formulas, and diagrams, matching structure of the outline>
+    ## Diagrams & Related Resources
+    <For each diagram, generate a hyperlink with description, using the reillustration field for each diagram>
     """
+
     prompt += f"""  
         Inputs:
         Context: {context}

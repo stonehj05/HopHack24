@@ -1,5 +1,4 @@
 import streamlit as st
-
 from pages import page1
 
 courseNoteBookNumberCount = {"first": 0, "second": 0, "third": 0, "forth": 0, "fifth": 0}

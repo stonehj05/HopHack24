@@ -101,7 +101,7 @@ def prepare_multiple_image_message(prompt: str, image_paths: list) -> dict:
     return message_payload
 
 
-def gpt_api_call(messages: dict, temperature: float, api_key: str) -> str:
+def gpt_api_call(messages: dict, temperature: float, api_key: str, json_mode = False) -> str:
     """
     Calls the OpenAI GPT API with the given messages and temperature.
     Returns: str: The API response string.
@@ -114,7 +114,8 @@ def gpt_api_call(messages: dict, temperature: float, api_key: str) -> str:
         response = client.chat.completions.create(
             model="gpt-4o",  # Ensure the model name is correct
             messages=messages,
-            temperature=temperature
+            temperature=temperature,
+            response_format={"type": "json_object"} if json_mode else {"type": "text"}
         )
         return response.choices[0].message.content.strip()
     except openai.OpenAIError as e:
@@ -148,7 +149,7 @@ def get_default_chat_response(initial_message: dict, follow_up_prompt: str, temp
 
     # Step 2: Request for JSON output or any other followup
     messages = prepare_followup_user_messages(messages, follow_up_prompt)
-    output = gpt_api_call(messages, temperature, api_key)
+    output = gpt_api_call(messages, temperature, api_key, json_mode=True)
 
     return output
 

@@ -1,0 +1,64 @@
+{
+    "flashcards": [
+        {
+            "topic": "Introduction to Binary Trees",
+            "question": "What is a Binary Tree?",
+            "answer": "A Binary Tree is a tree structure where each node has at most two children, commonly referred to as the left and right children."
+        },
+        {
+            "topic": "Introduction to Binary Trees",
+            "question": "Can a node in a Binary Tree have three children?",
+            "answer": "No, in a Binary Tree each node can have at most two children."
+        },
+        {
+            "topic": "Definition of Binary Search Trees",
+            "question": "What is a Binary Search Tree (BST)?",
+            "answer": "A Binary Search Tree is a binary tree where the left child of a node contains values less than the parent, and the right child contains values greater than the parent."
+        },
+        {
+            "topic": "Definition of Binary Search Trees",
+            "question": "Why are Binary Search Trees efficient for operations like search, insertion, and deletion?",
+            "answer": "Because the ordering rule (left child < parent < right child) allows for maintaining a sorted order within the tree, making these operations faster compared to other data structures like arrays."
+        },
+        {
+            "topic": "Insertion Operation",
+            "question": "How do you insert a value into a Binary Search Tree?",
+            "answer": "Start at the root and compare the value to the current node. If the value is smaller, go left; if it\u2019s larger, go right. Repeat until you find an empty spot to insert the new value."
+        },
+        {
+            "topic": "Deletion Operation",
+            "question": "What are the steps to delete a node with no children in a Binary Search Tree?",
+            "answer": "Simply remove the node."
+        },
+        {
+            "topic": "Deletion Operation",
+            "question": "How do you handle deleting a node with one child in a Binary Search Tree?",
+            "answer": "Reconnect the child to the parent of the node being deleted."
+        },
+        {
+            "topic": "Deletion Operation",
+            "question": "What is the process for deleting a node with two children in a Binary Search Tree?",
+            "answer": "Replace the node with its in-order successor or predecessor, and then reconnect the tree to maintain the binary search property."
+        },
+        {
+            "topic": "Time Complexity and Big-O Notation",
+            "question": "What is the time complexity of insertion and deletion in a balanced Binary Search Tree?",
+            "answer": "Big-O of log N, because the height of the tree is logarithmic with respect to the number of nodes."
+        },
+        {
+            "topic": "Time Complexity and Big-O Notation",
+            "question": "What happens to the time complexity if a Binary Search Tree becomes unbalanced?",
+            "answer": "The time complexity degrades to Big-O of N, as the height of the tree becomes equal to the number of nodes."
+        },
+        {
+            "topic": "Time Complexity and Big-O Notation",
+            "question": "What does Big-O notation describe?",
+            "answer": "Big-O notation describes the upper bound of an algorithm\u2019s time complexity, indicating the worst-case scenario for how long an operation will take as the input size grows."
+        },
+        {
+            "topic": "Conclusion",
+            "question": "What topics were covered in today's lecture?",
+            "answer": "We covered binary trees, binary search trees, how to insert and delete nodes, and how time complexity works."
+        }
+    ]
+}

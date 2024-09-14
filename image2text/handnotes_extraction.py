@@ -78,3 +78,6 @@ if __name__ == '__main__':
     image_path = './test_images/first_order_linear_ode.jpg'
     output = extract_information_from_handnotes(image_path, context)
     print(output)
+    # Save the output to a JSON file
+    with open('handnote_output.json', 'w') as f:
+        json.dump(output, f, indent=4)

@@ -1,0 +1,48 @@
+{
+    "Title": "First Order Linear Differential Equations",
+    "Content": [
+        {
+            "SectionTitle": "1. General Solution",
+            "Text": "For an equation \nwe can multiply both sides by an integrating factor u(t):",
+            "Equations": [
+                "\\frac{dy}{dt} + p(t)y = g(t)",
+                "u(t) \\frac{dy}{dt} + u(t)p(t)y = u(t)g(t)",
+                "u(t) = e^{\\int p(t) \\, dt}",
+                "\\left( e^{\\int p(t) \\, dt} y \\right)' = e^{\\int p(t) \\, dt} g(t)",
+                "e^{\\int p(t) \\, dt} y = \\int e^{\\int p(t) \\, dt} g(t) \\, dt + C",
+                "y = \\frac{\\int e^{\\int p(t) \\, dt} g(t) \\, dt + C}{e^{\\int p(t) \\, dt}}"
+            ],
+            "Diagrams": []
+        },
+        {
+            "SectionTitle": "2. An Example",
+            "Text": "Solve",
+            "Equations": [
+                "ty' + (t+1)y = 2t e^{-t}",
+                "y' + \\frac{t+1}{t} y = 2 e^{-t}",
+                "u(t) = e^{\\int \\frac{t+1}{t} \\, dt} = e^{\\int (1 + \\frac{1}{t}) \\, dt} = t e^t",
+                "(t e^t y)' = 2t",
+                "t e^t y = t^2 + C",
+                "y = \\frac{t^2 + C}{t e^t}"
+            ],
+            "Diagrams": []
+        },
+        {
+            "SectionTitle": "3. Describe Solution's Behavior",
+            "Text": "Assume solution to previous equation takes initial condition y(1) = a. Describe solution's behavior for t > 0 when a = \\frac{2}{e}. Plug in t = 1, y = a:",
+            "Equations": [
+                "a = \\frac{1^2 + C}{1 e} = \\frac{1 + C}{e}",
+                "C = e a - 1 = 1",
+                "\\frac{t^2 + C}{t e^t} \\to +\\infty \\text{ as } t \\to 0",
+                "\\frac{t^2 + C}{t e^t} \\to 0 \\text{ as } t \\to \\infty"
+            ],
+            "Diagrams": [
+                {
+                    "Description": "A graph showing the behavior of the solution.",
+                    "Interpretation": "The graph demonstrates that as t approaches 0, the solution tends to infinity, and as t approaches infinity, the solution tends to 0."
+                }
+            ]
+        }
+    ],
+    "Summary": "This lecture covers the general solution of first-order linear differential equations, an example problem, and the behavior of the solution under certain initial conditions."
+}

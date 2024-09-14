@@ -70,6 +70,36 @@ def prepare_image_message(prompt: str, image_path: str) -> dict:
     ]
 
 
+def prepare_multiple_image_message(prompt: str, image_paths: list) -> dict:
+    """
+    Prepares the image message payload for the OpenAI Chat Completion API,
+    accepting multiple images and adding them to the context.
+
+    Args:
+        prompt (str): The prompt for the system.
+        image_paths (list): A list of paths to image files.
+
+    Returns:
+        dict: The image message dictionary with multiple images.
+    """
+    # Prepare the initial context with the system prompt
+    message_payload = [{"role": "system", "content": prompt}]
+
+    # Loop through the list of image paths and encode each image
+    for image_path in image_paths:
+        image_data = encode_image(image_path)  # Function that encodes image to base64
+
+        # Add the image and accompanying text to the user message
+        message_payload.append(
+            {"role": "user", "content": [
+                {"type": "text", "text": f"Input image {image_paths.index(image_path) + 1}"},
+                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_data}"}}
+            ]}
+        )
+
+    return message_payload
+
+
 def gpt_api_call(messages: list, temperature: float, api_key: str) -> str:
     """
     Calls the OpenAI GPT API with the given messages and temperature.

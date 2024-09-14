@@ -37,7 +37,7 @@ def page1():
     )
 
     # Ensure there is a valid course index
-    if len(st.session_state.courseIndex) == 0:
+    if st.session_state.courseIndex == 0:
         st.error("No course selected.")
         return
 
@@ -89,13 +89,10 @@ def page1():
     st.markdown('<p class="input-title">Create a new notebook by entering its name:</p>', unsafe_allow_html=True)
     new_notebook_name = st.text_input("", value="", placeholder="Enter Notebook Name Here")
 
-    # Handle the creation of a new notebook (from page4 functionality)
-    if new_notebook_name:
-        st.session_state['notebookName'] = new_notebook_name
-        st.markdown(f"Notebook '{st.session_state['notebookName']}' created!")
-
-        # Display the link to page2 for further information with large font size
-        st.markdown('<a href="/page2" target="_self" class="upload-link">Upload further information</a>', unsafe_allow_html=True)
+    # Handle the creation of a new notebook
+    if st.button('Generate result'):
+            st.session_state.page = 'page2'
+            st.rerun()  # Reload the app to switch to page 1
 
     # Button to return to the homepage
     if st.button('Go back to homepage'):
@@ -141,8 +138,9 @@ def page2():
         st.session_state.personal_file is not None):
         
         # Generate a clickable link with large font size that says "Loading the new AI notebook"
-        page_link = f"<a href='/page3' style='font-size:36px;'>Loading the new AI notebook</a>"
-        st.markdown(page_link, unsafe_allow_html=True)
+        if st.button('Generate result'):
+            st.session_state.page = 'page3'
+            st.rerun()  # Reload the app to switch to page 1
 
 
 def page3():

@@ -12,13 +12,29 @@ def page1():
         .css-1d391kg { 
             padding-top: 2rem;  /* Reduce padding for narrow pages */
         }
+        .text-content {
+            margin-left: 20px;  /* Push text two spaces */
+            font-size: 1.2rem;  /* Increase font size for summary */
+            margin-bottom: 30px;  /* Add margin below the summary */
+        }
+        .input-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .spacer {
+            margin-top: 40px;  /* Add space above the notebook input */
+        }
+        .upload-link {
+            font-size: 2rem;  /* Make the "Upload further information" text as large as the title */
+            text-align: center;
+            display: block;
+            margin-top: 20px;
+        }
         </style>
         """,
         unsafe_allow_html=True
     )
-
-    # Set page configuration
-    st.write(page_title="Course Notebook", layout="wide")
 
     # Ensure there is a valid course index
     if len(st.session_state.courseIndex) == 0:
@@ -26,50 +42,59 @@ def page1():
         return
 
     # Get the most recent course index and course name
-    # current_index = st.session_state.courseDictionary # Get the most recent course index (0-based)
-    
-    # if current_index < len(st.session_state.courseList):
-    #     course_name = st.session_state.courseList[current_index]  # Get the course name based on the index
-    # else:
-    #     st.error("Invalid course selection.")
-    #     return
-
     course_name = st.session_state.courseDictionary[1]  # Get the course name based on the index
-
     syllabus = st.session_state.syllabusList.get(1, "No syllabus available")
 
-    # Display the course name
+    # Display the course title at the top
     st.markdown(f"<h2 style='text-align: center; margin-top: 0;'>{course_name}</h2>", unsafe_allow_html=True)
 
-    # Display the course summary or syllabus (for now, a static summary can be used)
+    # Display the course summary or syllabus
     summary = "This course introduces students to the fundamentals of chemistry, including atomic structure, periodic trends, and chemical reactions."
     st.markdown('<div class="text-content">' + summary + '</div>', unsafe_allow_html=True)
 
-    # Example: number of pictures we have (range 0-6)
-    count = 0  # Default count of images
-    images = ["Notebook.png"] * count  # List of image paths
-    links = [f"Notebook {i+1}" for i in range(count)]  # Corresponding links
+    # Create a two-column layout for the images and links, aligned horizontally to the left
+    col_left, col_mid, col_right = st.columns([1, 1, 6])  # Adjust the column proportions (1:6) for left alignment
 
-    if count != 0:
-        # Create a dynamic layout for images and links, with all elements left-aligned
-        columns = st.columns(count)
-        for i, col in enumerate(columns):
-            with col:
-                if i < count:
-                    st.image(images[i], width=150)  # Adjust the image size
-                    st.markdown(f'<a href="/page2" target="_self">{links[i]}</a>', unsafe_allow_html=True)
+    with col_left:
+        # First image and link
+        st.image("Notebook.png", width=150)  # Make the image small
+        st.markdown("""
+        <div style="display: flex; justify-content: space-between;">
+            <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 1</a></span>
+        </div>
+        """, unsafe_allow_html=True)
 
-        st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
+    with col_mid:
+        # Second image and link
+        st.image("Notebook.png", width=150)  # Make the image small
+        st.markdown("""
+        <div style="display: flex; justify-content: space-between;">
+            <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 2</a></span>
+        </div>
+        """, unsafe_allow_html=True)
 
-    st.markdown('<a href="/page4" target="_self" class="upload-link">Access Existing Notes</a>', unsafe_allow_html=True)
+    with col_right:
+        # Third image and link
+        st.image("Notebook.png", width=150)  # Make the image small
+        st.markdown("""
+        <div style="display: flex; justify-content: space-between;">
+            <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 3</a></span>
+        </div>
+        """, unsafe_allow_html=True)
 
-    # Create a new notebook text input with a large font
+    # Add a blank space before the text input field
+    st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
+
+    # Create a new notebook text input with a large font (integrating page4 functionality)
     st.markdown('<p class="input-title">Create a new notebook by entering its name:</p>', unsafe_allow_html=True)
     new_notebook_name = st.text_input("", value="", placeholder="Enter Notebook Name Here")
 
-    # Handle the creation of a new notebook
+    # Handle the creation of a new notebook (from page4 functionality)
     if new_notebook_name:
-        st.markdown(f"Notebook '{new_notebook_name}' created!")
+        st.session_state['notebookName'] = new_notebook_name
+        st.markdown(f"Notebook '{st.session_state['notebookName']}' created!")
+
+        # Display the link to page2 for further information with large font size
         st.markdown('<a href="/page2" target="_self" class="upload-link">Upload further information</a>', unsafe_allow_html=True)
 
     # Button to return to the homepage
@@ -77,6 +102,7 @@ def page1():
         st.session_state.page = 'main'
         st.rerun()  # Reload the app to switch to the main page
 
+        
 def page2():
     # Initialize session state for the files if not already present
     if 'audio_file' not in st.session_state:

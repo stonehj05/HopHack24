@@ -1,0 +1,5 @@
+{
+    "The notation \\( f(n) = O(g(n)) \\) is used to describe an upper bound on the growth rate of the function \\( f(n) \\) in terms of the function \\( g(n) \\).": "\\[ f(n) = O(g(n)) \\]",
+    "This line states the equivalence condition, indicating that there exist constants \\( C \\) and \\( N_0 \\) in the set of real numbers such that for all \\( N \\) greater than or equal to \\( N_0 \\).": "\\[ \\Leftrightarrow \\exists C, N_0 \\in \\mathbb{R}, \\text{ s.t. } \\forall N \\geq N_0 \\]",
+    "This line provides the formal definition of Big-O notation, stating that the absolute value of \\( f(N) \\) is less than or equal to a constant \\( c \\) times \\( g(N) \\).": "\\[ |f(N)| \\leq c \\cdot g(N) \\]"
+}

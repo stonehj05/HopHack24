@@ -1,0 +1,46 @@
+{
+    "Title": "Binary Search Tree",
+    "Content": [
+        {
+            "SectionTitle": "Binary Tree",
+            "Text": "A binary tree is a data structure in which each node has at most two children, referred to as the left child and the right child.\nChildren: 0, 1, or 2 children",
+            "Equations": [],
+            "Diagrams": [
+                {
+                    "Description": "Valid Binary Tree: A tree with one root and two children.",
+                    "Interpretation": "This represents a correct structure of a binary tree."
+                },
+                {
+                    "Description": "Invalid Binary Tree: A tree with one root and three children.",
+                    "Interpretation": "This represents an incorrect structure of a binary tree."
+                }
+            ]
+        },
+        {
+            "SectionTitle": "Insert",
+            "Text": "Process:\n1. Compare the value to be inserted (e.g., 9) with the root node (e.g., 10).\n   - If 9 < 10, move to the left child.\n   - If 9 > 10, move to the right child.\n2. Continue this process until the correct position is found.\n3. Insert the value at the correct position.",
+            "Equations": [],
+            "Diagrams": [
+                {
+                    "Description": "Example of inserting 9 into a binary tree with root 10 and left child 4.",
+                    "Interpretation": "The value 9 is inserted as the right child of 4."
+                }
+            ]
+        },
+        {
+            "SectionTitle": "Big O Notation",
+            "Text": "Big O notation describes the upper bound of the time complexity of an algorithm.\nGeneral form: \\(|f(n)| \\leq C \\cdot g(n)\\)",
+            "Equations": [
+                "|f(n)| \\leq C \\cdot g(n)"
+            ],
+            "Diagrams": []
+        },
+        {
+            "SectionTitle": "Delete",
+            "Text": "Step-by-Step Deletion Process:\n1. Step 1: Start at the root node.\n   - Traverse the tree to find the node to delete.\n2. Step 2: (Unclear in the notes)\n   - Reconnect the right child to the parent?\n   - Additional steps needed for clarification.",
+            "Equations": [],
+            "Diagrams": []
+        }
+    ],
+    "Summary": "The notes cover the basics of binary search trees, including the structure of binary trees, how to insert nodes, an introduction to Big O notation, and the initial steps of the deletion process, though the deletion process is not fully detailed."
+}

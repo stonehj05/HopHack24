@@ -1,5 +1,6 @@
 from image2text.utils import *
-import ast
+import os
+import json
 from image2text import math_extraction
 from image2text import graph_extraction
 from image2text import handnotes_extraction
@@ -14,19 +15,25 @@ def generate_note(board_notes, audio_transcript, hand_notes, context = ""):
     hand_writings = handnotes_extraction.extract_information_from_handnotes(hand_notes)
     print(f"Handwriting: {hand_writings}")
     transcription = transcribe_audio_files(audio_transcript)
+    os.makedirs("temp_dir", exist_ok=True)
+    with open("temp_dir/formulas.json", "w") as file:
+        json.dump(formulas, file, indent=4)
+    with open("temp_dir/diagrams.json", "w") as file:
+        json.dump(diagrams, file, indent=4)
+    with open("temp_dir/handwriting.json", "w") as file:
+        json.dump(hand_writings, file, indent=4)
     print(f"Transcription: {transcription}")
     prompt = r"""You are a adept note taker, and your task is to help a student organizing the notes in a lecture. 
     You will read several things: 
     Context: the context of the course material and the topics for the lecture 
     Formulas: mathematical formulas professor written on the board with explaination of their purposes 
-    Diagram:describing the graphs professor draw on the board Handwriting: the original notes taken by the students. 
+    Diagram: describing the graphs professor draw on the board 
+    Handwriting: the original notes taken by the students. 
+    Transcription: the lecture transcription given by the professor
     
-    With all the information, reorganize and process them into a high quality learning note. You should respect the 
-    materials in the original notes and make sure the final note is clear and easy to understand. Your output should be in markdown format. 
-    
-    First start with an Summary paragraph of this lecture. Then generate an outline for the note that includes all the topics and subtopics.
-    without fine-grained details. Afterwards start generating"""
-    prompt += f"""
+    With all the information, your goal is to generate a complete note of the lecture integrating each part of information. You should provide a brief summary of the lecture's contents at the beginning, then provide an outline for the lecture at the beginning of the note. Finally, you should generate a detailed note following the outline, with detailed explaination based on lecture transcript, formulas and diagrams. Your output should be in markdown format. Only include node content in your output, without any additional information or summary.
+    """
+    prompt += f"""  
         Inputs:
         Context: {context}
         Formulas: {formulas}
@@ -36,11 +43,12 @@ def generate_note(board_notes, audio_transcript, hand_notes, context = ""):
     """
     response = gpt_api_call(prepare_messages(prompt), 0.0, api_key)
     print("\n\n\n===Final Note===\n\n\n")
-    print(response)
+    with open("temp_dir/note.txt", "w") as file:
+        file.write(response)
 
 if __name__ == '__main__':
-    board_notes = ['./img/test_graph.jpeg']
-    hand_notes = ['./image2text/test_images/first_order_linear_ode.jpg', './image2text/test_images/exact_equation_theorem.jpg']
-    transcription = ['./voice2text/Harry.mp3']
-    context = "This is a lecture on calculus and linear algebra"
+    board_notes = ['./img/board_1.jpg', './img/board_2.jpg', './img/board_3.jpg']
+    hand_notes = ['./img/handnote.jpg']
+    transcription = ['./example_audio.mp3']
+    context = "This is a lecture about binary search tree in a data structure class."
     generate_note(board_notes, transcription, hand_notes, context)

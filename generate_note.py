@@ -3,7 +3,7 @@ import ast
 from image2text import math_extraction
 from image2text import graph_extraction
 from image2text import handnotes_extraction
-api_key = ""
+api_key = get_openai_api_key()
 def generate_note(board_notes, audio_transcript, hand_notes, context):
     formulas = math_extraction.extract_information_from_math(board_notes)
     diagrams = graph_extraction.extract_information_from_graph(board_notes)

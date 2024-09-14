@@ -55,8 +55,8 @@ JSON Format:
 '''
 
 
-def extract_information_from_handnotes(image_path: str, context: str) -> dict:
-    messages = prepare_image_message(prompt + context, image_path)
+def extract_information_from_handnotes(image_paths: list[str], context: str) -> dict:
+    messages = prepare_multiple_image_message(prompt + context, image_paths)
     output = get_default_chat_response(messages, followup_prompt, temperature=0.7, api_key=api_key)
     print(output)
     # parsing
@@ -75,7 +75,7 @@ def extract_information_from_handnotes(image_path: str, context: str) -> dict:
 
 if __name__ == '__main__':
     context = ""
-    image_path = './test_images/first_order_linear_ode.jpg'
+    image_path = ['./test_images/first_order_linear_ode.jpg', './test_images/exact_equation_theorem.jpg']
     output = extract_information_from_handnotes(image_path, context)
     print(output)
     # Save the output to a JSON file

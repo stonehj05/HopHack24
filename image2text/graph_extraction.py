@@ -1,7 +1,6 @@
 import json
 
-from image2text.utils import prepare_image_message, gpt_api_call, prepare_followup_user_messages, \
-    append_assistant_message, get_openai_api_key, get_default_chat_response
+from image2text.utils import *
 
 api_key = get_openai_api_key()
 
@@ -51,8 +50,8 @@ JSON Format:
 }'''
 
 
-def extract_information_from_graph(image_path: str, context: str) -> dict:
-    messages = prepare_image_message(prompt + context, image_path)
+def extract_information_from_graph(image_paths: list[str], context: str) -> dict:
+    messages = prepare_multiple_image_message(prompt + context, image_paths)
     output = get_default_chat_response(messages, followup_prompt, temperature=0.7, api_key=api_key)
 
     # parsing
@@ -65,7 +64,7 @@ def extract_information_from_graph(image_path: str, context: str) -> dict:
 
 
 if __name__ == '__main__':
-    image_path = "../img/test_graph.jpeg"
+    image_path = ["../img/test_graph.jpeg"]
     context = ""
     extracted_info = extract_information_from_graph(image_path, context)
     print(extracted_info)

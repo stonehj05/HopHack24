@@ -3,11 +3,11 @@ import ast
 import re
 import os
 api_key = get_openai_api_key()
-def extract_information_from_math(image_path) -> dict:
+def extract_information_from_math(image_paths:list[str]) -> dict:
     """
     Extracts mathematical formulas from an image containing handwritten text.
     Args:
-        image_path:
+        image_paths:
 
     Returns: A dictionary containing the mathematical formulas extracted from the image.
 
@@ -18,7 +18,7 @@ def extract_information_from_math(image_path) -> dict:
     of hand-writing when converting, and only include converted latex code in your response. When you are converting, 
     you may identify the context of the formulas and modify latex codes based on the relevant topics. If there is no 
     mathematical formula, response with "No mathematical formula". Do not give any extra information."""
-    response = gpt_api_call(prepare_image_message(prompt,image_path), 0.0, api_key)
+    response = gpt_api_call(prepare_multiple_image_message(prompt,image_paths), 0.0, api_key)
     if response[0:2] == "No":
         return []
     prompt = f""" You are a helpful assistant helping people organize a piece of latex code. You will read some piece 
@@ -48,5 +48,5 @@ def extract_information_from_math(image_path) -> dict:
 
 
 if __name__ == '__main__':
-    image_path = "./test_images/exact_equation_theorem.jpg"
-    print(math_extraction(image_path))
+    image_path = ["./test_images/exact_equation_theorem.jpg", "./test_images/first_order_linear_ode.jpg"]
+    print(extract_information_from_math(image_path))

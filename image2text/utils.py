@@ -70,6 +70,7 @@ def prepare_image_message(prompt: str, image_path: str) -> dict:
     ]
 
 
+
 def prepare_multiple_image_message(prompt: str, image_paths: list) -> dict:
     """
     Prepares the image message payload for the OpenAI Chat Completion API,
@@ -100,7 +101,7 @@ def prepare_multiple_image_message(prompt: str, image_paths: list) -> dict:
     return message_payload
 
 
-def gpt_api_call(messages: list, temperature: float, api_key: str) -> str:
+def gpt_api_call(messages: dict, temperature: float, api_key: str) -> str:
     """
     Calls the OpenAI GPT API with the given messages and temperature.
     Returns: str: The API response string.

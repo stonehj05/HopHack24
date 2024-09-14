@@ -1,48 +1,76 @@
 {
-    "Title": "First Order Linear Differential Equations",
+    "Title": "First Order Linear Differential Equations and Exact Equation Theorem",
     "Content": [
         {
-            "SectionTitle": "1. General Solution",
-            "Text": "For an equation \nwe can multiply both sides by an integrating factor u(t):",
+            "SectionTitle": "General Solution",
+            "Text": "For a differential equation: \\(\\frac{dy}{dt} + p(t)y = g(t)\\)\nWe can multiply both sides by an integrating factor \\(u(t)\\):\n\\(u(t)\\frac{dy}{dt} + u(t)p(t)y = u(t)g(t)\\)\nFor LHS (left-hand side), if \\(u(t)' = u(t)p(t)\\):\n\\(LHS = (u(t)y(t))'\\)\nIntegrating factor:\n\\(u(t) = e^{\\int p(t) \\, dt}\\)\nThe equation becomes:\n\\(\\left(e^{\\int p(t) \\, dt} y \\right)' = e^{\\int p(t) \\, dt} g(t)\\)\nIntegrating both sides:\n\\(e^{\\int p(t) \\, dt} y = \\int e^{\\int p(t) \\, dt} g(t) \\, dt + C\\)\nSolving for \\(y\\):\n\\(y = \\frac{\\int e^{\\int p(t) \\, dt} g(t) \\, dt + C}{e^{\\int p(t) \\, dt}}\\)",
             "Equations": [
                 "\\frac{dy}{dt} + p(t)y = g(t)",
-                "u(t) \\frac{dy}{dt} + u(t)p(t)y = u(t)g(t)",
+                "u(t)\\frac{dy}{dt} + u(t)p(t)y = u(t)g(t)",
+                "u(t)' = u(t)p(t)",
+                "LHS = (u(t)y(t))'",
                 "u(t) = e^{\\int p(t) \\, dt}",
-                "\\left( e^{\\int p(t) \\, dt} y \\right)' = e^{\\int p(t) \\, dt} g(t)",
+                "\\left(e^{\\int p(t) \\, dt} y \\right)' = e^{\\int p(t) \\, dt} g(t)",
                 "e^{\\int p(t) \\, dt} y = \\int e^{\\int p(t) \\, dt} g(t) \\, dt + C",
                 "y = \\frac{\\int e^{\\int p(t) \\, dt} g(t) \\, dt + C}{e^{\\int p(t) \\, dt}}"
             ],
             "Diagrams": []
         },
         {
-            "SectionTitle": "2. An Example",
-            "Text": "Solve",
+            "SectionTitle": "An Example",
+            "Text": "Solve \\(ty' + (t+1)y = 2te^{-t}\\)\nStep-by-step solution:\n1. Rewrite the equation and find the integrating factor:\n\\(y' + \\frac{t+1}{t}y = 2e^{-t}\\)\n\\(u(t) = e^{\\int \\frac{t+1}{t} \\, dt} = e^{\\int (1 + \\frac{1}{t}) \\, dt} = t e^t\\)\n2. Multiply both sides by integrating factor:\n\\((te^t y)' = 2t\\)\n3. Integrate both sides:\n\\(te^t y = t^2 + C\\)\n4. Solve for \\(y\\):\n\\(y = \\frac{t^2 + C}{t e^t}\\)",
             "Equations": [
-                "ty' + (t+1)y = 2t e^{-t}",
-                "y' + \\frac{t+1}{t} y = 2 e^{-t}",
+                "ty' + (t+1)y = 2te^{-t}",
+                "y' + \\frac{t+1}{t}y = 2e^{-t}",
                 "u(t) = e^{\\int \\frac{t+1}{t} \\, dt} = e^{\\int (1 + \\frac{1}{t}) \\, dt} = t e^t",
-                "(t e^t y)' = 2t",
-                "t e^t y = t^2 + C",
+                "(te^t y)' = 2t",
+                "te^t y = t^2 + C",
                 "y = \\frac{t^2 + C}{t e^t}"
             ],
             "Diagrams": []
         },
         {
-            "SectionTitle": "3. Describe Solution's Behavior",
-            "Text": "Assume solution to previous equation takes initial condition y(1) = a. Describe solution's behavior for t > 0 when a = \\frac{2}{e}. Plug in t = 1, y = a:",
+            "SectionTitle": "Describe Solution's Behavior",
+            "Text": "Assume the solution to the previous equation takes the initial condition \\(y(1) = a\\). Describe the solution's behavior for \\(t > 0\\) when \\(a = \\frac{2}{e}\\).\nGiven:\n\\(y = \\frac{t^2 + C}{t e^t}\\)\nPlugging in \\(t = 1\\), \\(y = a\\):\n\\(a = \\frac{1 + C}{e}\\)\n\\(C = ea - 1 = 1\\)\nAs \\(t \\to 0\\):\n\\(\\frac{t^2 + 1}{t e^t} \\to +\\infty\\)\nAs \\(t \\to \\infty\\):\n\\(\\frac{t^2 + 1}{t e^t} \\to 0\\)",
             "Equations": [
-                "a = \\frac{1^2 + C}{1 e} = \\frac{1 + C}{e}",
-                "C = e a - 1 = 1",
-                "\\frac{t^2 + C}{t e^t} \\to +\\infty \\text{ as } t \\to 0",
-                "\\frac{t^2 + C}{t e^t} \\to 0 \\text{ as } t \\to \\infty"
+                "y = \\frac{t^2 + C}{t e^t}",
+                "a = \\frac{1 + C}{e}",
+                "C = ea - 1 = 1",
+                "\\frac{t^2 + 1}{t e^t} \\to +\\infty",
+                "\\frac{t^2 + 1}{t e^t} \\to 0"
             ],
             "Diagrams": [
                 {
-                    "Description": "A graph showing the behavior of the solution.",
-                    "Interpretation": "The graph demonstrates that as t approaches 0, the solution tends to infinity, and as t approaches infinity, the solution tends to 0."
+                    "Description": "Graph showing behavior where y decreases as t increases",
+                    "Interpretation": "The solution decreases as time increases and approaches zero."
                 }
             ]
+        },
+        {
+            "SectionTitle": "Exact Equation Theorem",
+            "Text": "For a differential equation \\(M(x,y) + N(x,y)\\frac{dy}{dx} = 0\\), the equation is exact if:\n\\(\\frac{\\partial M}{\\partial y} = \\frac{\\partial N}{\\partial x}\\)\nIn this case:\n\\(\\Phi(x,y) = C\\)\nWhere \\(\\Phi_x = M\\) and \\(\\Phi_y = N\\) is a solution for the differential equation.",
+            "Equations": [
+                "M(x,y) + N(x,y)\\frac{dy}{dx} = 0",
+                "\\frac{\\partial M}{\\partial y} = \\frac{\\partial N}{\\partial x}",
+                "\\Phi(x,y) = C",
+                "\\Phi_x = M",
+                "\\Phi_y = N"
+            ],
+            "Diagrams": []
+        },
+        {
+            "SectionTitle": "How to Solve Exact Equations",
+            "Text": "1. \\(\\int M(x,y) \\, dx = Q(x,y) + h(y) = \\Phi(x,y)\\)\n2. \\(\\frac{\\partial \\Phi}{\\partial y} = \\frac{\\partial Q}{\\partial y} + h'(y) = N\\)\n3. \\(h'(y) = N - Q_y\\)\n4. \\(h(y) = \\int (N - Q_y) \\, dy\\)\n5. \\(\\Phi(x,y) = Q(x,y) + \\int (N - Q_y) \\, dy\\)\n6. \\(\\Phi(x,y) = C\\) is a solution.",
+            "Equations": [
+                "\\int M(x,y) \\, dx = Q(x,y) + h(y) = \\Phi(x,y)",
+                "\\frac{\\partial \\Phi}{\\partial y} = \\frac{\\partial Q}{\\partial y} + h'(y) = N",
+                "h'(y) = N - Q_y",
+                "h(y) = \\int (N - Q_y) \\, dy",
+                "\\Phi(x,y) = Q(x,y) + \\int (N - Q_y) \\, dy",
+                "\\Phi(x,y) = C"
+            ],
+            "Diagrams": []
         }
     ],
-    "Summary": "This lecture covers the general solution of first-order linear differential equations, an example problem, and the behavior of the solution under certain initial conditions."
+    "Summary": "The general solution for first order linear differential equations involves finding an integrating factor. An example problem demonstrated the method of solving and analyzing the behavior of the solution. The exact equation theorem provides a method to solve exact differential equations by checking for equality of mixed partial derivatives and integrating accordingly."
 }

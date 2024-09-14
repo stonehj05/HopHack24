@@ -1,12 +1,29 @@
 import streamlit as st
 
-# Set the page configuration
-st.set_page_config(page_title="AI Notetaker", page_icon="📝")
+from pages import page1
 
-# Custom CSS to style the elements
+# Initialize session state variables if they don't exist
+if 'firstCourseNotebookCount' not in st.session_state:
+    st.session_state.firstCourseNotebookCount = 0
+
+if 'secondCourseNotebookCount' not in st.session_state:
+    st.session_state.secondCourseNotebookCount = 0
+
+if 'thirdCourseNotebookCount' not in st.session_state:
+    st.session_state.thirdCourseNotebookCount = 0
+
+if 'fourthCourseNotebookCount' not in st.session_state:
+    st.session_state.fourthCourseNotebookCount = 0
+
+if 'fifthCourseNotebookCount' not in st.session_state:
+    st.session_state.fifthCourseNotebookCount = 0
+
+# Set page config
+st.set_page_config(page_title="AI Notetaker", page_icon="📝", layout="wide")
+
+# Custom CSS
 st.markdown("""
     <style>
-    /* Adjust the padding of the main block container to move content up */
     .block-container {
         padding-top: 1rem;
         padding-bottom: 1rem;
@@ -16,13 +33,13 @@ st.markdown("""
         font-size: 50px;
         font-weight: bold;
         text-align: center;
-        margin-top: 10px;  /* Reduced margin */
+        margin-top: 10px;
     }
     .description {
         font-family: "Times New Roman", Times, serif;
         font-size: 20px;
         text-align: center;
-        margin: 10px;  /* Reduced margin */
+        margin: 10px;
     }
     .section-header {
         font-family: "Times New Roman", Times, serif;
@@ -31,50 +48,50 @@ st.markdown("""
         margin: 20px 0 10px 0;
     }
     .course-link {
-        font-family: "Times New Roman", Times, serif;
-        font-size: 20px;
-        color: #1a73e8; /* Link color */
-        cursor: pointer;
-    }
-    .course-link:hover {
-        text-decoration: underline;
+        font-size: 24px;
+        font-weight: bold;
+        color: #3498db;
+        text-decoration: none;
     }
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
-# Title
-st.markdown('<div class="title">AI Notetaker</div>', unsafe_allow_html=True)
+# Initialize session state to keep track of pages
+if 'page' not in st.session_state:
+    st.session_state.page = 'main'
 
-# Updated description
-description_text = """
-Our AI-powered note-taking application transforms the educational experience by automating the capture of lecture content, benefiting all students, especially those with ADHD, visual or hearing impairments, and mental health challenges. The platform allows students to engage more actively in lectures without the distraction of manual note-taking.
-"""
+# Define the main page content (this will be the default landing page)
+def main_page():
+    st.markdown('<div class="title">AI Notetaker</div>', unsafe_allow_html=True)
 
-# Description
-st.markdown(f'<div class="description">{description_text}</div>', unsafe_allow_html=True)
+    description_text = """
+    Our AI-powered note-taking application transforms the educational experience by automating the capture of lecture content, benefiting all students, especially those with ADHD, visual or hearing impairments, and mental health challenges. The platform allows students to engage more actively in lectures without the distraction of manual note-taking.
+    """
+    st.markdown(f'<div class="description">{description_text}</div>', unsafe_allow_html=True)
 
-# Section Header
-st.markdown('<div class="section-header">Current Courses</div>', unsafe_allow_html=True)
+    # Syllabus file uploader
+    st.markdown('<div class="description">Please enter the new course syllabus to start: 📂</div>', unsafe_allow_html=True)
+    syllabus = st.file_uploader("", type=['pdf', 'docx', 'txt'])
 
-# Additional sentence and file uploader for syllabus
-st.markdown('<div class="description">Please enter the course syllabus to start: 📂</div>', unsafe_allow_html=True)
+    if syllabus is not None:
+        st.session_state['syllabus'] = syllabus
 
-# Initialize the syllabus in session state
-if 'syllabus' not in st.session_state:
-    st.session_state['syllabus'] = None
+    # Text input for notebook name
+    notebook_name = st.text_input("Enter Notebook Name", value="", placeholder="Enter notebook name here")
+    if notebook_name:
+        st.session_state['notebookName'] = notebook_name
 
-# Syllabus file uploader
-syllabus = st.file_uploader("", type=['pdf', 'docx', 'txt'])
+    # Conditionally display the button to go to Page 1 only if both the syllabus is uploaded and the notebook name is entered
+    if 'syllabus' in st.session_state and 'notebookName' in st.session_state:
+        st.markdown('<div class="description">Syllabus uploaded and notebook name provided!</div>', unsafe_allow_html=True)
 
-# Store the uploaded syllabus in session state
-if syllabus is not None:
-    st.session_state['syllabus'] = syllabus
+        # Show button to navigate to Page 1 only after inputs are given
+        if st.button('Go to Introductory Chemistry I'):
+            st.session_state.page = 'page1'
+            st.rerun()  # Reload the app to switch to page 1
 
-# Generate the course link after syllabus upload
-if st.session_state['syllabus'] is not None:
-    if st.button('Upload File'):
-        st.experimental_rerun()
-
-# Check if syllabus is uploaded and show the course link
-if st.session_state['syllabus'] is not None:
-    st.markdown('<a href="/page1" class="course-link">Introductory Chemistry I: AS.030.101</a>', unsafe_allow_html=True)
+# Dynamically show content based on the current page
+if st.session_state.page == 'main':
+    main_page()
+elif st.session_state.page == 'page1':
+    page1()

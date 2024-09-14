@@ -21,7 +21,7 @@ st.markdown(
         margin-bottom: 30px;  /* Add margin below the summary */
     }
     .input-title {
-        font-size: 1.5rem;
+        font-size: 2rem;
         font-weight: bold;
         margin-bottom: 10px;
     }
@@ -39,35 +39,32 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Fetch the course name from session state
+course_name = st.session_state.get('course_name', 'Course Name')
+
 # Display the course title at the top
-st.markdown("<h2 style='text-align: center; margin-top: 0;'>Introductory Chemistry I: AS.030.101</h2>", unsafe_allow_html=True)
+st.markdown(f"<h2 style='text-align: center; margin-top: 0;'>{course_name}</h2>", unsafe_allow_html=True)
 
 # Display the course summary
 st.markdown('<div class="text-content">' + summary + '</div>', unsafe_allow_html=True)
 
-# Create a two-column layout for the images and links, aligned horizontally to the left
-col_left, col_right = st.columns([1, 6])  # Adjust the column proportions (1:6) for left alignment
-
-with col_left:
-    # First image and link
-    st.image("Notebook.png", width=150)  # Make the image small
-    st.markdown("""
-    <div style="display: flex; justify-content: space-between;">
-        <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 1</a></span>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col_right:
-    # Second image and link
-    st.image("Notebook.png", width=150)  # Make the image small
-    st.markdown("""
-    <div style="display: flex; justify-content: space-between;">
-        <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 2</a></span>
-    </div>
-    """, unsafe_allow_html=True)
-
-# Add a blank space before the text input field
-st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
+# Example: number of pictures we have (range 0-6)
+if 'Firstnotebook' in st.session_state and st.session_state['Firstnotebook'] is not None:
+    count = st.session_state['Firstnotebook']
+else:
+    count = 0
+images = ["Notebook.png"] * count  # List of image paths
+links = [f"Notebook {i+1}" for i in range(count)]  # Corresponding links
+if count != 0:
+    # Create a dynamic layout for images and links, with all elements left-aligned
+    columns = st.columns(count)  # Create as many columns as there are images (based on count)
+    for i, col in enumerate(columns):
+        with col:
+            if i < count:
+                st.image(images[i], width=150)  # Adjust the image size
+                st.markdown(f'<a href="/page2" target="_self">{links[i]}</a>', unsafe_allow_html=True)
+    # Add a blank space before the text input field
+    st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
 
 # Create a new notebook text input with a large font
 st.markdown('<p class="input-title">Create a new notebook by entering its name:</p>', unsafe_allow_html=True)
@@ -75,9 +72,12 @@ notebook_name = st.text_input("", value="", placeholder="Enter notebook name her
 
 # If a notebook name is entered, store it in session state and display the link
 if notebook_name:
+    if 'Firstnotebook' in st.session_state and st.session_state['Firstnotebook'] is None:
+        st.session_state['Firstnotebook'] = 1
+    else:
+        st.session_state['Firstnotebook'] += 1
     st.session_state['notebookName'] = notebook_name
     st.markdown(f"Notebook '{st.session_state['notebookName']}' created!")
-
     # Display the link to page2 for further information with large font size
     st.markdown('<a href="/page2" target="_self" class="upload-link">Upload further information</a>', unsafe_allow_html=True)
 

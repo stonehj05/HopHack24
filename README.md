@@ -69,5 +69,6 @@ TODO
 - Add a feature to ask AI questions. (In voice or text)
 - several other notes, used to test course wise stuff
 - syllabus as context.
+- flashcard topic must specify topic - subtopic
 
 

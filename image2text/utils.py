@@ -1,5 +1,7 @@
 from openai import OpenAI
+import openai
 import base64
+import matplotlib.pyplot as plt
 client = OpenAI(
     api_key = ""
 )
@@ -118,3 +120,8 @@ def gpt_api_call_with_image(prompt: str, image_path: str, temperature: float, ap
         # Handle API errors gracefully
         print(f"An error occurred: {e}")
         return {}
+def latex_rendering(latex_source_code, output_file_path):
+    fig, ax = plt.subplots()
+    ax.axis('off')
+    ax.text(0.5, 0.5, latex_source_code, fontsize=16, ha='center', va='center')
+    plt.savefig(output_file_path, bbox_inches='tight', dpi=300)

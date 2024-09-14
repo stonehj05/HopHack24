@@ -105,7 +105,7 @@ def transcribe_audio_files(file_paths):
                     file=audio_file
                 )
                 # Append the transcribed text to the results list
-                transcriptions.append(transcription["text"])
+                transcriptions.append(transcription.text)
         except Exception as e:
             print(f"Error transcribing {file_path}: {e}")
             transcriptions.append(None)

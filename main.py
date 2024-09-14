@@ -2,22 +2,8 @@ import streamlit as st
 
 from pages import page1
 
-# Initialize session state variables if they don't exist
-if 'firstCourseNotebookCount' not in st.session_state:
-    st.session_state.firstCourseNotebookCount = 0
-
-if 'secondCourseNotebookCount' not in st.session_state:
-    st.session_state.secondCourseNotebookCount = 0
-
-if 'thirdCourseNotebookCount' not in st.session_state:
-    st.session_state.thirdCourseNotebookCount = 0
-
-if 'fourthCourseNotebookCount' not in st.session_state:
-    st.session_state.fourthCourseNotebookCount = 0
-
-if 'fifthCourseNotebookCount' not in st.session_state:
-    st.session_state.fifthCourseNotebookCount = 0
-
+courseNoteBookNumberCount = {"first": 0, "second": 0, "third": 0, "forth": 0, "fifth": 0}
+courseList = []
 # Set page config
 st.set_page_config(page_title="AI Notetaker", page_icon="📝", layout="wide")
 
@@ -45,13 +31,22 @@ st.markdown("""
         font-family: "Times New Roman", Times, serif;
         font-size: 30px;
         text-align: left;
-        margin: 20px 0 10px 0;
+        margin: 5px 0 10px 0;
     }
     .course-link {
-        font-size: 24px;
+        font-size: 30px;
         font-weight: bold;
         color: #3498db;
         text-decoration: none;
+    }
+    .larger-text {
+        font-size: 30px;
+        font-weight: bold;
+    }
+    .input-label {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 5px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -68,25 +63,28 @@ def main_page():
     Our AI-powered note-taking application transforms the educational experience by automating the capture of lecture content, benefiting all students, especially those with ADHD, visual or hearing impairments, and mental health challenges. The platform allows students to engage more actively in lectures without the distraction of manual note-taking.
     """
     st.markdown(f'<div class="description">{description_text}</div>', unsafe_allow_html=True)
+    if (len(courseList) == 0):
+        st.markdown('<div class="larger-text">Please enter the new course syllabus to start: 📂</div>', unsafe_allow_html=True)
+    else:
+        pictureNumber = len(courseList)
 
+        
+    # Text input for notebook name with larger label
+    st.markdown('<div class="input-label">Enter Course Name</div>', unsafe_allow_html=True)
+    notebook_name = st.text_input("", value="", placeholder="Enter Course name here")
+    if notebook_name:
+        st.session_state['notebookName'] = notebook_name
     # Syllabus file uploader
-    st.markdown('<div class="description">Please enter the new course syllabus to start: 📂</div>', unsafe_allow_html=True)
     syllabus = st.file_uploader("", type=['pdf', 'docx', 'txt'])
 
     if syllabus is not None:
         st.session_state['syllabus'] = syllabus
-
-    # Text input for notebook name
-    notebook_name = st.text_input("Enter Notebook Name", value="", placeholder="Enter notebook name here")
-    if notebook_name:
-        st.session_state['notebookName'] = notebook_name
-
     # Conditionally display the button to go to Page 1 only if both the syllabus is uploaded and the notebook name is entered
     if 'syllabus' in st.session_state and 'notebookName' in st.session_state:
         st.markdown('<div class="description">Syllabus uploaded and notebook name provided!</div>', unsafe_allow_html=True)
 
         # Show button to navigate to Page 1 only after inputs are given
-        if st.button('Go to Introductory Chemistry I'):
+        if st.button('Go to ' + notebook_name):
             st.session_state.page = 'page1'
             st.rerun()  # Reload the app to switch to page 1
 

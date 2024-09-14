@@ -1,6 +1,6 @@
 import streamlit as st
 # Define the content for Page 1
-def page1():
+def page1(courseNoteBookNumberCount):
     # Set page configuration
     st.write(page_title="Course Notebook", layout="wide")
 

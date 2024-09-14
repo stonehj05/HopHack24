@@ -23,7 +23,7 @@ def page1():
     st.write(page_title="Course Notebook", layout="wide")
 
     # Ensure there is a valid course index
-    if len(st.session_state.courseIndex) == 0:
+    if st.session_state.courseIndex == 0:
         st.error("No course selected.")
         return
 
@@ -70,9 +70,7 @@ def page1():
     new_notebook_name = st.text_input("", value="", placeholder="Enter Notebook Name Here")
 
     # Handle the creation of a new notebook
-    if new_notebook_name:
-        st.markdown(f"Notebook '{new_notebook_name}' created!")
-        if st.button("Go to notebook"):
+    if st.button('Generate result'):
             st.session_state.page = 'page2'
             st.rerun()  # Reload the app to switch to page 1
 
@@ -119,11 +117,10 @@ def page2():
         st.session_state.personal_file is not None):
         
         # Generate a clickable link with large font size that says "Loading the new AI notebook"
-        if st.button("Generate Result"):
+        if st.button('Generate result'):
             st.session_state.page = 'page3'
             st.rerun()  # Reload the app to switch to page 1
 
-        
 
 def page3():
     # Set page configuration

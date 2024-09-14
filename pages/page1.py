@@ -39,8 +39,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Fetch the course name from session state
+course_name = st.session_state.get('course_name', 'Course Name')
+
 # Display the course title at the top
-st.markdown("<h2 style='text-align: center; margin-top: 0;'>Introductory Chemistry I: AS.030.101</h2>", unsafe_allow_html=True)
+st.markdown(f"<h2 style='text-align: center; margin-top: 0;'>{course_name}</h2>", unsafe_allow_html=True)
 
 # Display the course summary
 st.markdown('<div class="text-content">' + summary + '</div>', unsafe_allow_html=True)

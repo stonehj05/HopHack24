@@ -6,7 +6,6 @@ st.set_page_config(page_title="AI Notetaker", page_icon="📝")
 # Custom CSS to style the elements
 st.markdown("""
     <style>
-    /* Adjust the padding of the main block container to move content up */
     .block-container {
         padding-top: 1rem;
         padding-bottom: 1rem;
@@ -49,19 +48,26 @@ st.markdown('<div class="title">AI Notetaker</div>', unsafe_allow_html=True)
 description_text = """
 Our AI-powered note-taking application transforms the educational experience by automating the capture of lecture content, benefiting all students, especially those with ADHD, visual or hearing impairments, and mental health challenges. The platform allows students to engage more actively in lectures without the distraction of manual note-taking.
 """
-
-# Description
 st.markdown(f'<div class="description">{description_text}</div>', unsafe_allow_html=True)
 
 # Section Header
 st.markdown('<div class="section-header">Current Courses</div>', unsafe_allow_html=True)
 
 # Additional sentence and file uploader for syllabus
-st.markdown('<div class="description">Please enter the course syllabus to start: 📂</div>', unsafe_allow_html=True)
+st.markdown('<div class="description">Please enter the course name and syllabus to start: 📂</div>', unsafe_allow_html=True)
 
-# Initialize the syllabus in session state
+# Initialize session state if not set
+if 'course_name' not in st.session_state:
+    st.session_state['course_name'] = ""
 if 'syllabus' not in st.session_state:
     st.session_state['syllabus'] = None
+
+# Input for course name
+course_name = st.text_input("Course Name", value=st.session_state['course_name'])
+
+# Update session state with the course name
+if course_name:
+    st.session_state['course_name'] = course_name
 
 # Syllabus file uploader
 syllabus = st.file_uploader("", type=['pdf', 'docx', 'txt'])
@@ -76,5 +82,6 @@ if st.session_state['syllabus'] is not None:
         st.experimental_rerun()
 
 # Check if syllabus is uploaded and show the course link
-if st.session_state['syllabus'] is not None:
-    st.markdown('<a href="/page1" class="course-link">Introductory Chemistry I: AS.030.101</a>', unsafe_allow_html=True)
+if st.session_state.get('syllabus') is not None:
+    course_link = f'<a href="/page1" class="course-link">{st.session_state["course_name"]}</a>'
+    st.markdown(course_link, unsafe_allow_html=True)

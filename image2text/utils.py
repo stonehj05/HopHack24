@@ -1,7 +1,7 @@
 import base64
 import json
 import os
-
+import PyPDF2
 import dotenv
 import matplotlib.pyplot as plt
 import openai
@@ -170,3 +170,18 @@ def parse_latex(text):
     for line in parsed_data:
         ans.append(line)
     return ans
+
+def read_pdf(pdf_path):
+    with open(pdf_path, "rb"):
+        reader = PyPDF2.PdfReader(pdf_path)
+    num_pages = len(reader.pages)
+    print(num_pages)
+    # Extract text from each page
+    text = ""
+    for page_num in range(num_pages):
+        page = reader.pages[page_num]
+        text += page.extract_text()
+
+        print(text)
+if __name__ == "__main__":
+    read_pdf("110.302DiffEqSyllabus.pdf")

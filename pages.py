@@ -1,6 +1,49 @@
 import streamlit as st
 # Define the content for Page 1
 def page1():
+    st.markdown("""
+    <style>
+    .block-container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    .title {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 50px;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .description {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 20px;
+        text-align: center;
+        margin: 10px;
+    }
+    .section-header {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 30px;
+        text-align: left;
+        margin: 5px 0 10px 0;
+    }
+    .course-link {
+        font-size: 30px;
+        font-weight: bold;
+        color: #3498db;
+        text-decoration: none;
+    }
+    .larger-text {
+        font-size: 30px;
+        font-weight: bold;
+    }
+    .input-label {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+    
     # Set page configuration
     st.write(page_title="Course Notebook", layout="wide")
 
@@ -50,19 +93,7 @@ def page1():
         st.markdown('<a href="/page2" target="_self" class="upload-link">Upload further information</a>', unsafe_allow_html=True)
 
     # Adjust the layout to use only the upper part of the page
-    st.markdown(
-        """
-        <style>
-        .css-18e3th9 {
-            padding-top: 2rem;  /* Reduce the top padding */
-        }
-        .css-1d391kg { 
-            padding-top: 2rem;  /* Reduce padding for narrow pages */
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+
 
     if st.button('Go back to homepage'):
         st.session_state.page = 'main'

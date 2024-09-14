@@ -65,5 +65,9 @@ A syllabus that summarize the information we have
 A comprehensive notebook based on previous lecture recording
 
 TODO
+- Save all the analysis into a file/database. Not just note, but also meta-data and analysis.
+- Add a feature to ask AI questions. (In voice or text)
+- several other notes, used to test course wise stuff
+- syllabus as context.
 
 

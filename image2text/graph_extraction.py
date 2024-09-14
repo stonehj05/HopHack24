@@ -1,12 +1,10 @@
-# Usage Example:
 import json
 
 from image2text.utils import prepare_image_message, gpt_api_call, prepare_followup_user_messages, \
     append_assistant_message, get_openai_api_key, get_default_chat_response
 
 api_key = get_openai_api_key()
-image_path = "../img/test_graph.jpeg"
-temperature = 0.7
+
 
 # Step 1: Initial analysis
 prompt = '''
@@ -52,7 +50,8 @@ JSON Format:
   ]
 }'''
 
-def extract_information_from_image(image_path: str, context: str) -> dict:
+
+def extract_information_from_graph(image_path: str, context: str) -> dict:
     messages = prepare_image_message(prompt + context, image_path)
     output = get_default_chat_response(messages, followup_prompt, temperature=0.7, api_key=api_key)
 
@@ -64,7 +63,9 @@ def extract_information_from_image(image_path: str, context: str) -> dict:
         return {}
     return json_output
 
+
 if __name__ == '__main__':
+    image_path = "../img/test_graph.jpeg"
     context = ""
-    extracted_info = extract_information_from_image(image_path, context)
+    extracted_info = extract_information_from_graph(image_path, context)
     print(extracted_info)

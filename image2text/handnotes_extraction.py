@@ -3,7 +3,8 @@ import ast
 import re
 import json
 import os
-api_key = os.environ.get('OPENAI_API_KEY')
+
+api_key = get_openai_api_key()
 prompt = """
         You are an AI assistant designed to help students by analyzing images of classroom blackboards or whiteboards taken during lectures. The images may contain handwritten text, diagrams, graphs, equations, and other visual elements related to the lecture content.
 
@@ -28,8 +29,9 @@ prompt = """
         - **Summarization**: At the end of the notes, provide a brief summary of the main points covered in the image.
 
     """
-followup_prompt = '''
-Now, output the extracted information in the following JSON format, and include only the JSON data without any additional text, your output should be able to be directly parsed as JSON using a JSON parser in Python or any other programming language.
+followup_prompt = r'''Now, output the extracted information in the following JSON format, and include only the JSON 
+data without any additional text, start with an open bracket "{",your output should be able to be directly parsed as 
+JSON using a JSON parser in Python or any other programming language. Please escape any special characters in the output, like the blackslash "\" should be output as "\\".
 
 JSON Format:
 {
@@ -52,9 +54,27 @@ JSON Format:
 }
 '''
 
-def handnotes_extraction(image_path):
-    response = gpt_api_call(prompt, 0.0, api_key, image_path)
-    note = ast.literal_eval(response)
-    json.dump(note, "note.json", indent=4)
-    
-    
+
+def extract_information_from_handnotes(image_path: str, context: str) -> dict:
+    messages = prepare_image_message(prompt + context, image_path)
+    output = get_default_chat_response(messages, followup_prompt, temperature=0.7, api_key=api_key)
+    print(output)
+    # parsing
+    try:
+        json_output = json.loads(output)
+    except json.JSONDecodeError as e:
+        print(f"An JSONDecodeError occurred: {e}")
+        return {}
+    return json_output
+
+
+# def handnotes_extraction(image_path):
+#     response = gpt_api_call(prompt, 0.0, api_key, image_path)
+#     note = ast.literal_eval(response)
+#     json.dump(note, "note.json", indent=4)
+
+if __name__ == '__main__':
+    context = ""
+    image_path = './test_images/first_order_linear_ode.jpg'
+    output = extract_information_from_handnotes(image_path, context)
+    print(output)

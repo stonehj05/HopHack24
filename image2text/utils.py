@@ -5,15 +5,18 @@ import os
 import dotenv
 import matplotlib.pyplot as plt
 import openai
+import requests
+
 
 def get_openai_api_key():
     dotenv.load_dotenv()
     return os.getenv("OPENAI_API_KEY")
 
-import requests
+
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
+
 
 def get_openai_client(api_key: str) -> openai.OpenAI:
     """
@@ -26,6 +29,7 @@ def get_openai_client(api_key: str) -> openai.OpenAI:
         openai.OpenAI: An instance of the OpenAI client.
     """
     return openai.OpenAI(api_key=api_key)
+
 
 def prepare_messages(prompt: str) -> list:
     """
@@ -42,6 +46,7 @@ def prepare_messages(prompt: str) -> list:
         {"role": "user", "content": "Please provide your input here."}
     ]
 
+
 def prepare_image_message(prompt: str, image_path: str) -> dict:
     """
     Prepares the image message payload for the OpenAI Chat Completion API.
@@ -57,12 +62,13 @@ def prepare_image_message(prompt: str, image_path: str) -> dict:
 
     # Prepare the image message payload
     return [
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": [
-                {"type": "text", "text": "Input image"},
-                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_data}"}}
-            ]}
-        ]
+        {"role": "system", "content": prompt},
+        {"role": "user", "content": [
+            {"type": "text", "text": "Input image"},
+            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_data}"}}
+        ]}
+    ]
+
 
 def gpt_api_call(messages: list, temperature: float, api_key: str) -> str:
     """
@@ -75,7 +81,7 @@ def gpt_api_call(messages: list, temperature: float, api_key: str) -> str:
     try:
         # Make the API call to OpenAI's Chat Completion endpoint
         response = client.chat.completions.create(
-            model="gpt-4o",          # Ensure the model name is correct
+            model="gpt-4o",  # Ensure the model name is correct
             messages=messages,
             temperature=temperature
         )
@@ -85,33 +91,36 @@ def gpt_api_call(messages: list, temperature: float, api_key: str) -> str:
         print(f"An error occurred: {e}")
         return {}
 
+
 def latex_rendering(latex_source_code, output_file_path):
     fig, ax = plt.subplots()
     ax.axis('off')
     ax.text(0.5, 0.5, latex_source_code, fontsize=16, ha='center', va='center')
     plt.savefig(output_file_path, bbox_inches='tight', dpi=300)
 
+
 def append_assistant_message(messages: list, assistant_msg: str) -> list:
     messages.append({"role": "assistant", "content": assistant_msg})
     return messages
+
 
 def prepare_followup_user_messages(messages: list, followup_user_msg: str) -> list:
     messages.append({"role": "user", "content": followup_user_msg})
     return messages
 
-def get_default_chat_response(initial_message:dict, follow_up_prompt:str, temperature=0.7, api_key="") -> dict:
+
+def get_default_chat_response(initial_message: dict, follow_up_prompt: str, temperature=0.7, api_key="") -> dict:
     # Process the assistant's initial analysis (response)
     messages = initial_message
     response = gpt_api_call(messages, temperature, api_key)
     messages = append_assistant_message(messages, response)
 
-
     # Step 2: Request for JSON output or any other followup
     messages = prepare_followup_user_messages(messages, follow_up_prompt)
     output = gpt_api_call(messages, temperature, api_key)
 
-
     return output
+
 
 def check_url(url):
     try:

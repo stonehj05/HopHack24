@@ -3,7 +3,6 @@ import streamlit as st
 def page1(courseList, courseIndex, courseDictionary, syllabusList):
     # Set page configuration
     st.write(page_title="Course Notebook", layout="wide")
-
     # Ensure there is a valid course index
     if len(courseIndex) == 0:
         st.error("No course selected.")

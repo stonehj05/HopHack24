@@ -1,10 +1,6 @@
-from openai import OpenAI
-import openai
 import base64
 import matplotlib.pyplot as plt
-client = OpenAI(
-    api_key = ""
-)
+import openai
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
@@ -126,6 +122,9 @@ def latex_rendering(latex_source_code, output_file_path):
     ax.text(0.5, 0.5, latex_source_code, fontsize=16, ha='center', va='center')
     plt.savefig(output_file_path, bbox_inches='tight', dpi=300)
 
+def append_assistant_message(messages: list, assistant_msg: str) -> list:
+    messages.append({"role": "assistant", "content": assistant_msg})
+    return messages
 
 def prepare_followup_user_messages(messages: list, followup_user_msg: str) -> list:
     messages.append({"role": "user", "content": followup_user_msg})

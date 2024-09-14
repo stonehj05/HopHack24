@@ -1,9 +1,9 @@
 import streamlit as st
 
-# Set the page configuration
-st.set_page_config(page_title="AI Notetaker", page_icon="📝")
+# Set page config
+st.set_page_config(page_title="AI Notetaker", page_icon="📝", layout="wide")
 
-# Custom CSS to style the elements
+# Custom CSS
 st.markdown("""
     <style>
     .block-container {
@@ -15,13 +15,13 @@ st.markdown("""
         font-size: 50px;
         font-weight: bold;
         text-align: center;
-        margin-top: 10px;  /* Reduced margin */
+        margin-top: 10px;
     }
     .description {
         font-family: "Times New Roman", Times, serif;
         font-size: 20px;
         text-align: center;
-        margin: 10px;  /* Reduced margin */
+        margin: 10px;
     }
     .section-header {
         font-family: "Times New Roman", Times, serif;
@@ -30,58 +30,64 @@ st.markdown("""
         margin: 20px 0 10px 0;
     }
     .course-link {
-        font-family: "Times New Roman", Times, serif;
-        font-size: 20px;
-        color: #1a73e8; /* Link color */
-        cursor: pointer;
-    }
-    .course-link:hover {
-        text-decoration: underline;
+        font-size: 24px;
+        font-weight: bold;
+        color: #3498db;
+        text-decoration: none;
     }
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
-# Title
-st.markdown('<div class="title">AI Notetaker</div>', unsafe_allow_html=True)
+# Initialize session state to keep track of pages
+if 'page' not in st.session_state:
+    st.session_state.page = 'main'
 
-# Updated description
-description_text = """
-Our AI-powered note-taking application transforms the educational experience by automating the capture of lecture content, benefiting all students, especially those with ADHD, visual or hearing impairments, and mental health challenges. The platform allows students to engage more actively in lectures without the distraction of manual note-taking.
-"""
-st.markdown(f'<div class="description">{description_text}</div>', unsafe_allow_html=True)
+# Define the main page content (this will be the default landing page)
+def main_page():
+    st.markdown('<div class="title">AI Notetaker</div>', unsafe_allow_html=True)
 
-# Section Header
-st.markdown('<div class="section-header">Current Courses</div>', unsafe_allow_html=True)
+    description_text = """
+    Our AI-powered note-taking application transforms the educational experience by automating the capture of lecture content, benefiting all students, especially those with ADHD, visual or hearing impairments, and mental health challenges. The platform allows students to engage more actively in lectures without the distraction of manual note-taking.
+    """
+    st.markdown(f'<div class="description">{description_text}</div>', unsafe_allow_html=True)
 
-# Additional sentence and file uploader for syllabus
-st.markdown('<div class="description">Please enter the course name and syllabus to start: 📂</div>', unsafe_allow_html=True)
+    # Syllabus file uploader
+    st.markdown('<div class="description">Please enter the new course syllabus to start: 📂</div>', unsafe_allow_html=True)
+    syllabus = st.file_uploader("", type=['pdf', 'docx', 'txt'])
 
-# Initialize session state if not set
-if 'course_name' not in st.session_state:
-    st.session_state['course_name'] = ""
-if 'syllabus' not in st.session_state:
-    st.session_state['syllabus'] = None
+    if syllabus is not None:
+        st.session_state['syllabus'] = syllabus
 
-# Input for course name
-course_name = st.text_input("Course Name", value=st.session_state['course_name'])
+    # Text input for notebook name
+    notebook_name = st.text_input("Enter Notebook Name", value="", placeholder="Enter notebook name here")
+    if notebook_name:
+        st.session_state['notebookName'] = notebook_name
 
-# Update session state with the course name
-if course_name:
-    st.session_state['course_name'] = course_name
+    # Conditionally display the button to go to Page 1 only if both the syllabus is uploaded and the notebook name is entered
+    if 'syllabus' in st.session_state and 'notebookName' in st.session_state:
+        st.markdown('<div class="description">Syllabus uploaded and notebook name provided!</div>', unsafe_allow_html=True)
 
-# Syllabus file uploader
-syllabus = st.file_uploader("", type=['pdf', 'docx', 'txt'])
+        # Show button to navigate to Page 1 only after inputs are given
+        if st.button('Go to Introductory Chemistry I'):
+            st.session_state.page = 'page1'
+            st.rerun()  # Reload the app to switch to page 1
 
-# Store the uploaded syllabus in session state
-if syllabus is not None:
-    st.session_state['syllabus'] = syllabus
+# Define the content for Page 1
+def page1():
+    st.markdown("<h2 style='text-align: center; margin-top: 0;'>Introductory Chemistry I: AS.030.101</h2>", unsafe_allow_html=True)
+    
+    summary = "This course introduces students to the fundamentals of chemistry, including atomic structure, periodic trends, and chemical reactions."
+    st.markdown('<div class="text-content">' + summary + '</div>', unsafe_allow_html=True)
 
-# Generate the course link after syllabus upload
-if st.session_state['syllabus'] is not None:
-    if st.button('Upload File'):
-        st.experimental_rerun()
+    # Create a new notebook text input with a large font
+    notebook_name = st.text_input("Create a new notebook by entering its name:", value="", placeholder="Enter notebook name here")
 
-# Check if syllabus is uploaded and show the course link
-if st.session_state.get('syllabus') is not None:
-    course_link = f'<a href="/page1" class="course-link">{st.session_state["course_name"]}</a>'
-    st.markdown(course_link, unsafe_allow_html=True)
+    if st.button('Go to Introductory Chemistry I'):
+            st.session_state.page = 'main'
+            st.rerun()  # Reload the app to switch to page 1
+
+# Dynamically show content based on the current page
+if st.session_state.page == 'main':
+    main_page()
+elif st.session_state.page == 'page1':
+    page1()

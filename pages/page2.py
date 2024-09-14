@@ -7,8 +7,6 @@ if 'blackboard_file' not in st.session_state:
     st.session_state.blackboard_file = None
 if 'personal_file' not in st.session_state:
     st.session_state.personal_file = None
-if 'notebookName' not in st.session_state:
-    st.session_state.notebookName = "AI Notebook"  # Default name
 
 # Set the title for the page
 st.title("Upload further information")

@@ -46,14 +46,23 @@ st.markdown("<h2 style='text-align: center; margin-top: 0;'>Introductory Chemist
 st.markdown('<div class="text-content">' + summary + '</div>', unsafe_allow_html=True)
 
 # Create a two-column layout for the images and links, aligned horizontally to the left
-col_left, col_right = st.columns([1, 6])  # Adjust the column proportions (1:6) for left alignment
+col_left, col_mid, col_right = st.columns([1 ,1, 6])  # Adjust the column proportions (1:6) for left alignment
 
 with col_left:
     # First image and link
     st.image("Notebook.png", width=150)  # Make the image small
     st.markdown("""
     <div style="display: flex; justify-content: space-between;">
-        <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 1</a></span>
+        <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 1</a></span>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col_mid:
+    # Second image and link
+    st.image("Notebook.png", width=150)  # Make the image small
+    st.markdown("""
+    <div style="display: flex; justify-content: space-between;">
+        <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 2</a></span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -62,7 +71,7 @@ with col_right:
     st.image("Notebook.png", width=150)  # Make the image small
     st.markdown("""
     <div style="display: flex; justify-content: space-between;">
-        <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 2</a></span>
+        <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 3</a></span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -95,4 +104,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-

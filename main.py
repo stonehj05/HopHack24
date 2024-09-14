@@ -4,6 +4,9 @@ from pages import page1
 
 courseNoteBookNumberCount = {"first": 0, "second": 0, "third": 0, "forth": 0, "fifth": 0}
 courseList = []
+courseIndex = []
+courseDictionary = {}
+syllabusList = {}
 # Set page config
 st.set_page_config(page_title="AI Notetaker", page_icon="📝", layout="wide")
 
@@ -56,7 +59,9 @@ if 'page' not in st.session_state:
     st.session_state.page = 'main'
 
 # Define the main page content (this will be the default landing page)
-def main_page():
+def main_page(courseList, courseIndex, courseDictionary, syllabusList):
+    syllabus = None
+    Course_name = None
     st.markdown('<div class="title">AI Notetaker</div>', unsafe_allow_html=True)
 
     description_text = """
@@ -68,28 +73,30 @@ def main_page():
     else:
         pictureNumber = len(courseList)
 
-        
+
     # Text input for notebook name with larger label
     st.markdown('<div class="input-label">Enter Course Name</div>', unsafe_allow_html=True)
-    notebook_name = st.text_input("", value="", placeholder="Enter Course name here")
-    if notebook_name:
-        st.session_state['notebookName'] = notebook_name
+    Course_name = st.text_input("", value="", placeholder="Enter Course name here")
+    if Course_name:
+        courseIndex.append(1)
+        courseDictionary[Course_name] = len(courseIndex)
+        st.write("Course Name Entered Successfully")
     # Syllabus file uploader
     syllabus = st.file_uploader("", type=['pdf', 'docx', 'txt'])
 
     if syllabus is not None:
-        st.session_state['syllabus'] = syllabus
+        syllabusList[len(courseIndex)] = syllabus
     # Conditionally display the button to go to Page 1 only if both the syllabus is uploaded and the notebook name is entered
-    if 'syllabus' in st.session_state and 'notebookName' in st.session_state:
+    if syllabus is not None and Course_name is not None:
         st.markdown('<div class="description">Syllabus uploaded and notebook name provided!</div>', unsafe_allow_html=True)
 
         # Show button to navigate to Page 1 only after inputs are given
-        if st.button('Go to ' + notebook_name):
-            st.session_state.page = 'page1'
+        if st.button('Go to ' + Course_name):
+            st.session_state.page = 'page' + str(len(courseIndex))
             st.rerun()  # Reload the app to switch to page 1
 
 # Dynamically show content based on the current page
 if st.session_state.page == 'main':
-    main_page()
+    main_page(courseList, courseIndex, courseDictionary, syllabusList)
 elif st.session_state.page == 'page1':
     page1()

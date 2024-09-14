@@ -4,12 +4,18 @@ import numpy as np
 from scipy.io import wavfile
 
 # MP3 to WAV conversion using moviepy
-mp3_file_path = r'/home/yru2/HopHack24/voice2text/Health Recovery Voiceover.mp3'
+mp3_file_path = r'/home/yru2/HopHack24/voice2text/Harry.mp3'
 wav_output_path = r'/home/yru2/HopHack24/voice2text/WAV_AUDIO_FILE.wav'
 
-# Record the current time (start time of recording)
-start_time_real = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-print(f"Recording Start Time: {start_time_real}")
+import os
+import time
+
+def get_file_creation_time(file_path):
+    creation_time = os.path.getctime(file_path)
+    return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(creation_time))
+
+creation_time = get_file_creation_time(mp3_file_path)
+print(f"File Creation Time: {creation_time}")
 
 def get_audio_duration(wav_file_path):
     # Load the WAV file

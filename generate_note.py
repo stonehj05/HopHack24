@@ -24,8 +24,8 @@ def generate_note(board_notes, audio_transcript, hand_notes, context):
     With all the information, reorganize and process them into a high quality learning note. You should respect the 
     materials in the original notes and make sure the final note is clear and easy to understand. Your output should be in markdown format. 
     
-    First start with an outline and outline only for the note that includes all the topics and subtopics, 
-    without fine-grained details. You will be asked about the details in the next steps with further instructions."""
+    First start with an Summary paragraph of this lecture. Then generate an outline for the note that includes all the topics and subtopics.
+    without fine-grained details. Afterwards start generating"""
     prompt += f"""
         Inputs:
         Context: {context}

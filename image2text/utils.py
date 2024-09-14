@@ -10,6 +10,7 @@ def get_openai_api_key():
     dotenv.load_dotenv()
     return os.getenv("OPENAI_API_KEY")
 
+import requests
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
@@ -111,3 +112,13 @@ def get_default_chat_response(initial_message:dict, follow_up_prompt:str, temper
 
 
     return output
+
+def check_url(url):
+    try:
+        response = requests.head(url, timeout=5)
+        if response.status_code == 200:
+            return True
+        else:
+            return False
+    except requests.exceptions.RequestException as e:
+        return False

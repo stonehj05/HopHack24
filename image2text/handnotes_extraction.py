@@ -2,10 +2,10 @@ from utils import *
 import ast
 import re
 import json
-api_key = ""
-# Step 1: Initial analysis
+import os
+api_key = os.environ.get('OPENAI_API_KEY')
 prompt = """
-        You are an AI assistant designed to help students by analyzing images of their hand-written note taken during lectures. The images may contain handwritten text, diagrams, graphs, equations, and other visual elements related to the lecture content.
+        You are an AI assistant designed to help students by analyzing images of classroom blackboards or whiteboards taken during lectures. The images may contain handwritten text, diagrams, graphs, equations, and other visual elements related to the lecture content.
 
         **Your tasks are as follows:**
 

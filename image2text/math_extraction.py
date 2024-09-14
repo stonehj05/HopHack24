@@ -1,7 +1,8 @@
 from utils import *
 import ast
 import re
-api_key = ""
+import os
+api_key = os.environ.get('GPT_API_KEY')
 def math_extraction(image_path) -> dict:
     prompt = """
         You are a helpful assistant helping a person understanding some hand-write mathematical formulas. You will read an image containing some handwriting on a board or on papers. From the image, identify if there is any mathematical formulas in the written symbols. If there is any, convert them to some latex codes, keep the order of hand-writing when converting, and only include converted latex code in your response. When you are converting, you may identify the context of the formulas and modify latex codes based on the relevant topics. If there is no mathematical formula, response with "No mathematical formula". Do not give any extra information.

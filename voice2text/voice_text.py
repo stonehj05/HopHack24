@@ -2,8 +2,8 @@ from moviepy.editor import AudioFileClip
 import speech_recognition as sr
 
 # MP3 to WAV conversion using moviepy
-mp3_file_path = r'/Users/ruyutong/Desktop/Harry.mp3'
-wav_output_path = r'/Users/ruyutong/Desktop/file1.wav'
+mp3_file_path = r'/home/yru2/HopHack24/voice2text/Harry.mp3'
+wav_output_path = r'/home/yru2/HopHack24/voice2text/file1.wav'
 
 # Load the MP3 file
 audio_clip = AudioFileClip(mp3_file_path)

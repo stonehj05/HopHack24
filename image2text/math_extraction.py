@@ -3,6 +3,7 @@ import ast
 import re
 import os
 api_key = get_openai_api_key()
+
 def extract_information_from_math(image_paths:list[str]) -> dict:
     """
     Extracts mathematical formulas from an image containing handwritten text.
@@ -23,14 +24,13 @@ def extract_information_from_math(image_paths:list[str]) -> dict:
         return []
     prompt = f""" You are a helpful assistant helping people organize a piece of latex code. You will read some piece 
     of latex source code. Identify different lines of latex code with each line representing a single formula or 
-    equation. Make sure each line can compile by themselves. Organize the latex code in the following way: Codes: [
+    equation. Make sure each line can compile by themselves. Organize the latex code in the following way: [
     "line1", "line2", ...]. Do not give any extra outputs. Latex codes: {response}
     """
-    response = gpt_api_call(prepare_messages(prompt), 0.0, api_key)
-    latex_code_match = re.search(r'Codes:\s*(\[[^\]]*\])', response)
-    raw_response = latex_code_match.group(1)
-    latex_codes = ast.literal_eval(raw_response)
-
+    raw_latex = gpt_api_call(prepare_messages(prompt), 0.0, api_key)
+    raw_response = raw_latex.replace("\\", "\\\\")
+    print(raw_response)
+    latex_codes = parse_latex(raw_response)
     prompt = f""" You are a helpful assistant helping people understanding latex codes. You will read a list of latex 
     source codes. Each line of code represent a complete formula, equation or theorem. Based on the content and the 
     context, summarize what each line of code is trying to show. Organize your answer in the form Interpretations: [

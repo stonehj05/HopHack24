@@ -6,7 +6,7 @@ from image2text import handnotes_extraction
 from voice2text.voice_text import transcribe_audio_files
 
 api_key = get_openai_api_key()
-def generate_note(board_notes, audio_transcript, hand_notes, context):
+def generate_note(board_notes, audio_transcript, hand_notes, context = ""):
     formulas = math_extraction.extract_information_from_math(board_notes)
     print(f"Formulas: {formulas}")
     diagrams = graph_extraction.extract_information_from_graph(board_notes)
@@ -35,13 +35,12 @@ def generate_note(board_notes, audio_transcript, hand_notes, context):
         Transcription: {transcription}
     """
     response = gpt_api_call(prepare_messages(prompt), 0.0, api_key)
-    result = json.loads(response)
     print("\n\n\n===Final Note===\n\n\n")
-    print(result)
+    print(response)
 
 if __name__ == '__main__':
     board_notes = ['./img/test_graph.jpeg']
-    hand_notes = ['./test_images/first_order_linear_ode.jpg', './test_images/exact_equation_theorem.jpg']
+    hand_notes = ['./image2text/test_images/first_order_linear_ode.jpg', './image2text/test_images/exact_equation_theorem.jpg']
     transcription = ['./voice2text/Harry.mp3']
     context = "This is a lecture on calculus and linear algebra"
     generate_note(board_notes, transcription, hand_notes, context)

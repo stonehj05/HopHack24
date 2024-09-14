@@ -162,3 +162,10 @@ def check_url(url):
             return False
     except requests.exceptions.RequestException as e:
         return False
+
+def parse_latex(text):
+    ans = []
+    parsed_data = json.loads(text)
+    for line in parsed_data:
+        ans.append(line)
+    return ans

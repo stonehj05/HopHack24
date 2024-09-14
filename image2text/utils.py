@@ -125,3 +125,8 @@ def latex_rendering(latex_source_code, output_file_path):
     ax.axis('off')
     ax.text(0.5, 0.5, latex_source_code, fontsize=16, ha='center', va='center')
     plt.savefig(output_file_path, bbox_inches='tight', dpi=300)
+
+
+def prepare_followup_user_messages(messages: list, followup_user_msg: str) -> list:
+    messages.append({"role": "user", "content": followup_user_msg})
+    return messages

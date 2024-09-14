@@ -1,4 +1,4 @@
-from utils import *
+from image2text.utils import *
 import ast
 import re
 import os
@@ -17,7 +17,7 @@ def extract_information_from_math(image_paths:list[str]) -> dict:
     mathematical formulas in the written symbols. If there is any, convert them to some latex codes, keep the order 
     of hand-writing when converting, and only include converted latex code in your response. When you are converting, 
     you may identify the context of the formulas and modify latex codes based on the relevant topics. If there is no 
-    mathematical formula, response with "No mathematical formula". Do not give any extra information."""
+    mathematical formula, response with "No mathematical formula". Do not give any extra information. """
     response = gpt_api_call(prepare_multiple_image_message(prompt,image_paths), 0.0, api_key)
     if response[0:2] == "No":
         return []

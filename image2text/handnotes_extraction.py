@@ -1,4 +1,4 @@
-from utils import *
+from image2text.utils import *
 import ast
 import re
 import json

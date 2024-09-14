@@ -2,7 +2,8 @@ from utils import *
 import ast
 import re
 import json
-api_key = ""
+import os
+api_key = os.environ.get('GPT_API_KEY')
 def handnotes_extraction(image_path):
     prompt = """
         You are an AI assistant designed to help students by analyzing images of classroom blackboards or whiteboards taken during lectures. The images may contain handwritten text, diagrams, graphs, equations, and other visual elements related to the lecture content.
@@ -54,5 +55,5 @@ def handnotes_extraction(image_path):
     response = gpt_api_call(prompt, 0.0, api_key, image_path)
     note = ast.literal_eval(response)
     json.dump(note, "note.json", indent=4)
-    
+
     

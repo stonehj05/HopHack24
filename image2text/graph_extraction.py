@@ -1,10 +1,10 @@
 # Usage Example:
 import json
-
+import os
 from image2text.utils import prepare_image_message, gpt_api_call, prepare_followup_user_messages, \
     append_assistant_message
 
-api_key = "YOUR_API_KEY"
+api_key = os.environ.get('GPT_API_KEY')
 image_path = "path_to_your_image.jpg"
 temperature = 0.7
 

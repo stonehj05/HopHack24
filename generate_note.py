@@ -14,18 +14,19 @@ def generate_note(board_notes, audio_transcript, hand_notes, context = ""):
     hand_writings = handnotes_extraction.extract_information_from_handnotes(hand_notes)
     print(f"Handwriting: {hand_writings}")
     transcription = transcribe_audio_files(audio_transcript)
+    with open("script.txt", "r") as file: #temporary
+        transcription = file.read()
     print(f"Transcription: {transcription}")
     prompt = r"""You are a adept note taker, and your task is to help a student organizing the notes in a lecture. 
     You will read several things: 
     Context: the context of the course material and the topics for the lecture 
     Formulas: mathematical formulas professor written on the board with explaination of their purposes 
-    Diagram:describing the graphs professor draw on the board Handwriting: the original notes taken by the students. 
+    Diagram: describing the graphs professor draw on the board 
+    Handwriting: the original notes taken by the students. 
+    Transcription: the lecture transcription given by the professor
     
-    With all the information, reorganize and process them into a high quality learning note. You should respect the 
-    materials in the original notes and make sure the final note is clear and easy to understand. Your output should be in markdown format. 
-    
-    First start with an outline and outline only for the note that includes all the topics and subtopics, 
-    without fine-grained details. You will be asked about the details in the next steps with further instructions."""
+    With all the information, your goal is to generate a complete note of the lecture integrating each part of information. You should provide a brief summary of the lecture's contents at the beginning, then provide an outline for the lecture at the beginning of the note. Finally, you should generate a detailed note following the outline, with detailed explaination based on lecture transcript, formulas and diagrams. Your output should be in markdown format. 
+    """
     prompt += f"""  
         Inputs:
         Context: {context}
@@ -39,8 +40,8 @@ def generate_note(board_notes, audio_transcript, hand_notes, context = ""):
     print(response)
 
 if __name__ == '__main__':
-    board_notes = ['./img/test_graph.jpeg']
-    hand_notes = ['./image2text/test_images/first_order_linear_ode.jpg', './image2text/test_images/exact_equation_theorem.jpg']
+    board_notes = ['./img/board_1.jpg', './img/board_2.jpg', './img/board_3.jpg']
+    hand_notes = ['./img/handnote.jpg']
     transcription = ['./voice2text/Harry.mp3']
-    context = "This is a lecture on calculus and linear algebra"
+    context = "This is a lecture about binary search tree in a data structure class."
     generate_note(board_notes, transcription, hand_notes, context)

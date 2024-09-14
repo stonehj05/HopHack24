@@ -55,10 +55,9 @@ JSON Format:
 '''
 
 
-def extract_information_from_handnotes(image_paths: list[str], context: str) -> dict:
+def extract_information_from_handnotes(image_paths: list[str], context: str = "") -> dict:
     messages = prepare_multiple_image_message(prompt + context, image_paths)
     output = get_default_chat_response(messages, followup_prompt, temperature=0.7, api_key=api_key)
-    print(output)
     # parsing
     try:
         json_output = json.loads(output)

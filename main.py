@@ -1,5 +1,5 @@
 import streamlit as st
-from pages import page1
+from pages import *
 
 if 'courseNoteBookNumberCount' not in st.session_state:
     st.session_state.courseNoteBookNumberCount = {"first": 0, "second": 0, "third": 0, "forth": 0, "fifth": 0}
@@ -109,3 +109,11 @@ if st.session_state.page == 'main':
     main_page()
 elif st.session_state.page == 'page1':
     page1()
+elif st.session_state.page == 'page2':
+    page2()
+elif st.session_state.page == 'page3':
+    page3()
+elif st.session_state.page == 'page4':
+    page4()
+elif st.session_state.page == 'page5':
+    page5()

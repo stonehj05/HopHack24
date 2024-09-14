@@ -72,7 +72,9 @@ def page1():
     # Handle the creation of a new notebook
     if new_notebook_name:
         st.markdown(f"Notebook '{new_notebook_name}' created!")
-        st.markdown('<a href="/page2" target="_self" class="upload-link">Upload further information</a>', unsafe_allow_html=True)
+        if st.button("Go to notebook"):
+            st.session_state.page = 'page2'
+            st.rerun()  # Reload the app to switch to page 1
 
     # Button to return to the homepage
     if st.button('Go back to homepage'):
@@ -117,9 +119,11 @@ def page2():
         st.session_state.personal_file is not None):
         
         # Generate a clickable link with large font size that says "Loading the new AI notebook"
-        page_link = f"<a href='/page3' style='font-size:36px;'>Loading the new AI notebook</a>"
-        st.markdown(page_link, unsafe_allow_html=True)
+        if st.button("Generate Result"):
+            st.session_state.page = 'page3'
+            st.rerun()  # Reload the app to switch to page 1
 
+        
 
 def page3():
     # Set page configuration
@@ -156,10 +160,22 @@ def page3():
     #st.session_state.audio_file
     #st.session_state.blackboard_file
     #st.session_state.personal_file
-    syllabus_file = st.session_state.syllabusList[st.session_state.courseList[1]]
-    os.makedirs()
-    with open(os.path.join(os.getcwd("data", syllabus_file.name), "wb")) as file:
-        file.write(syllabus_file.get_buffer())
+    blackboard_file = st.session_state.blackboard_file
+    course_name = st.session_state.courseDictionary[1]
+    syllabus_file = st.session_state.syllabusList[course_name]
+    audio_file = st.session_state.audio_file
+    personal_file = st.session_state.personal_file
+    os.makedirs("data", exist_ok=True)
+    os.makedirs(f"data/{course_name}", exist_ok=True)
+    os.makedirs(f"data/{course_name}/1", exist_ok=True)
+    with open(os.path.join(os.getcwd(), "data", course_name, syllabus_file.name), "wb") as file:
+        file.write(syllabus_file.getbuffer())
+    with open(os.path.join(os.getcwd(), "data", course_name, "1", blackboard_file.name), "wb") as file: #1 is a placeholder now
+        file.write(blackboard_file.getbuffer())
+    with open(os.path.join(os.getcwd(), "data", course_name, "1", audio_file.name), "wb") as file: #1 is a placeholder now
+        file.write(audio_file.getbuffer())
+    with open(os.path.join(os.getcwd(), "data", course_name, "1", personal_file.name), "wb") as file: #1 is a placeholder now
+        file.write(personal_file.getbuffer())
 
     
 

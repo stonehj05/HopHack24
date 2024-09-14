@@ -1,12 +1,15 @@
 import streamlit as st
 # Define the content for Page 1
-def page1(courseList, courseIndex, courseDictionary, syllabusList):
+def page1():
     # Set page configuration
     st.write(page_title="Course Notebook", layout="wide")
 
     # Ensure there is a valid course index
-    if len(courseIndex) == 0:
+    if len(st.session_state.courseIndex) == 0:
         st.error("No course selected.")
+        return
+    else:
+        st.write("good")
         return
 
     # Get the most recent course that was selected

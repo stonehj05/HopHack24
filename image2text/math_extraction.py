@@ -3,7 +3,7 @@ import ast
 import re
 import os
 api_key = get_openai_api_key()
-def math_extraction(image_path) -> dict:
+def extract_information_from_math(image_path) -> dict:
     """
     Extracts mathematical formulas from an image containing handwritten text.
     Args:

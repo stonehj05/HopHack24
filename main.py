@@ -88,13 +88,13 @@ def main_page():
     Course_name = st.text_input("", value="", placeholder="Enter Course name here")
     if Course_name:
         st.session_state.courseIndex.append('1')
-        st.session_state.courseDictionary[Course_name] = len(st.session_state.courseIndex)//2
+        st.session_state.courseDictionary[len(st.session_state.courseIndex)//2] = Course_name
         st.write("Course Name Entered Successfully")
     # Syllabus file uploader
     syllabus = st.file_uploader("", type=['pdf', 'docx', 'txt'])
 
     if syllabus is not None:
-        st.session_state.syllabusList[len(st.session_state.courseIndex)//2] = syllabus
+        st.session_state.syllabusList[Course_name] = syllabus
     # Conditionally display the button to go to Page 1 only if both the syllabus is uploaded and the notebook name is entered
     if syllabus is not None and Course_name is not None:
         st.markdown('<div class="description">Syllabus uploaded and notebook name provided!</div>', unsafe_allow_html=True)

@@ -1,49 +1,22 @@
 import streamlit as st
 # Define the content for Page 1
+
 def page1():
-    st.markdown("""
-    <style>
-    .block-container {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
-    .title {
-        font-family: "Times New Roman", Times, serif;
-        font-size: 50px;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 10px;
-    }
-    .description {
-        font-family: "Times New Roman", Times, serif;
-        font-size: 20px;
-        text-align: center;
-        margin: 10px;
-    }
-    .section-header {
-        font-family: "Times New Roman", Times, serif;
-        font-size: 30px;
-        text-align: left;
-        margin: 5px 0 10px 0;
-    }
-    .course-link {
-        font-size: 30px;
-        font-weight: bold;
-        color: #3498db;
-        text-decoration: none;
-    }
-    .larger-text {
-        font-size: 30px;
-        font-weight: bold;
-    }
-    .input-label {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-    </style>
-""", unsafe_allow_html=True)
-    
+    # Adjust the layout to use only the upper part of the page
+    st.markdown(
+        """
+        <style>
+        .css-18e3th9 {
+            padding-top: 2rem;  /* Reduce the top padding */
+        }
+        .css-1d391kg { 
+            padding-top: 2rem;  /* Reduce padding for narrow pages */
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
     # Set page configuration
     st.write(page_title="Course Notebook", layout="wide")
 
@@ -51,14 +24,19 @@ def page1():
     if len(st.session_state.courseIndex) == 0:
         st.error("No course selected.")
         return
-    else:
-        st.write("good")
-        return
 
-    # Get the most recent course that was selected
-    current_index = courseIndex[-1]  # Get the latest course index
-    course_name = courseList[current_index] if len(courseList) > current_index else "Course Name"
-    syllabus = syllabusList.get(current_index, "No syllabus available")
+    # Get the most recent course index and course name
+    # current_index = st.session_state.courseDictionary # Get the most recent course index (0-based)
+    
+    # if current_index < len(st.session_state.courseList):
+    #     course_name = st.session_state.courseList[current_index]  # Get the course name based on the index
+    # else:
+    #     st.error("Invalid course selection.")
+    #     return
+
+    course_name = st.session_state.courseDictionary[1]  # Get the course name based on the index
+
+    syllabus = st.session_state.syllabusList.get(1, "No syllabus available")
 
     # Display the course name
     st.markdown(f"<h2 style='text-align: center; margin-top: 0;'>{course_name}</h2>", unsafe_allow_html=True)
@@ -83,6 +61,8 @@ def page1():
 
         st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
 
+    st.markdown('<a href="/page4" target="_self" class="upload-link">Access Existing Notes</a>', unsafe_allow_html=True)
+
     # Create a new notebook text input with a large font
     st.markdown('<p class="input-title">Create a new notebook by entering its name:</p>', unsafe_allow_html=True)
     new_notebook_name = st.text_input("", value="", placeholder="Enter Notebook Name Here")
@@ -92,13 +72,10 @@ def page1():
         st.markdown(f"Notebook '{new_notebook_name}' created!")
         st.markdown('<a href="/page2" target="_self" class="upload-link">Upload further information</a>', unsafe_allow_html=True)
 
-    # Adjust the layout to use only the upper part of the page
-
-
+    # Button to return to the homepage
     if st.button('Go back to homepage'):
         st.session_state.page = 'main'
         st.rerun()  # Reload the app to switch to the main page
-
 
 def page2():
     # Initialize session state for the files if not already present

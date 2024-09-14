@@ -1,5 +1,6 @@
 import streamlit as st
 from pages import *
+from pages import *
 
 if 'courseNoteBookNumberCount' not in st.session_state:
     st.session_state.courseNoteBookNumberCount = {"first": 0, "second": 0, "third": 0, "forth": 0, "fifth": 0}

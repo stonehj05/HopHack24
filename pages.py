@@ -1,4 +1,6 @@
 import streamlit as st
+from generate_note import generate_note
+import os
 # Define the content for Page 1
 
 def page1():
@@ -174,6 +176,28 @@ def page3():
 
     # Example content in the notebook page
     st.write("This is the content of your notebook.")
+
+    #st.session_state.audio_file
+    #st.session_state.blackboard_file
+    #st.session_state.personal_file
+    blackboard_file = st.session_state.blackboard_file
+    course_name = st.session_state.courseDictionary[1]
+    syllabus_file = st.session_state.syllabusList[course_name]
+    audio_file = st.session_state.audio_file
+    personal_file = st.session_state.personal_file
+    os.makedirs("data", exist_ok=True)
+    os.makedirs(f"data/{course_name}", exist_ok=True)
+    os.makedirs(f"data/{course_name}/1", exist_ok=True)
+    with open(os.path.join(os.getcwd(), "data", course_name, syllabus_file.name), "wb") as file:
+        file.write(syllabus_file.getbuffer())
+    with open(os.path.join(os.getcwd(), "data", course_name, "1", blackboard_file.name), "wb") as file: #1 is a placeholder now
+        file.write(blackboard_file.getbuffer())
+    with open(os.path.join(os.getcwd(), "data", course_name, "1", audio_file.name), "wb") as file: #1 is a placeholder now
+        file.write(audio_file.getbuffer())
+    with open(os.path.join(os.getcwd(), "data", course_name, "1", personal_file.name), "wb") as file: #1 is a placeholder now
+        file.write(personal_file.getbuffer())
+
+    
 
 def page4():
     # Set page configuration

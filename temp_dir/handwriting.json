@@ -3,29 +3,43 @@
     "Content": [
         {
             "SectionTitle": "Binary Tree",
-            "Text": "A binary tree is a data structure where each node has 0, 1, or 2 children. Example:",
+            "Text": "A tree data structure where each node has at most 2 children.\nChildren: 0, 1, 2 children are allowed.",
             "Equations": [],
             "Diagrams": [
                 {
-                    "Description": "Diagram showing a valid binary tree and an invalid binary tree",
-                    "Interpretation": "The left diagram represents a valid binary tree structure, while the right diagram represents an invalid structure."
+                    "Description": "Valid binary tree with two children",
+                    "Interpretation": "A binary tree where each node has at most 2 children."
+                },
+                {
+                    "Description": "Valid binary tree with one child",
+                    "Interpretation": "A binary tree where each node has at most 2 children."
+                },
+                {
+                    "Description": "Invalid binary tree with more than two children",
+                    "Interpretation": "A tree structure where a node has more than 2 children, which is invalid for a binary tree."
                 }
             ]
         },
         {
             "SectionTitle": "Insert Operation",
-            "Text": "To insert a value in a binary search tree:\n1. Compare the value with the root.\n2. If the value is less than the root, move to the left child; if greater, move to the right child.\n3. Repeat the process until you find a suitable position.",
-            "Equations": [],
+            "Text": "Example:\n9 < 10 (comparison)\n10\n/\n4\n/ \\\nO   O\n\n9 > 4 (comparison)\n10\n/\n4\n/ \\\n9   O\nThe value 9 is inserted here.\nHeight of the Tree: The height of the tree affects the time complexity.",
+            "Equations": [
+                "O(\\text{?})"
+            ],
             "Diagrams": [
                 {
-                    "Description": "Example of inserting 9 into the tree",
-                    "Interpretation": "9 is less than 10, so we move left. 9 is greater than 4, so we move right. 9 is inserted as the right child of 4."
+                    "Description": "Initial binary tree with root 10 and left child 4",
+                    "Interpretation": "Illustrates the comparison of 9 with 10 and 4, leading to the insertion of 9."
+                },
+                {
+                    "Description": "Binary tree after insertion",
+                    "Interpretation": "Shows the binary tree structure after inserting the value 9."
                 }
             ]
         },
         {
             "SectionTitle": "Big O Notation",
-            "Text": "Used to describe the upper bound of the time complexity.",
+            "Text": "Describes the upper bound of the time complexity of an algorithm.",
             "Equations": [
                 "|f(n)| \\leq C \\cdot g(n)"
             ],
@@ -33,10 +47,19 @@
         },
         {
             "SectionTitle": "Delete Operation",
-            "Text": "To delete a node from a binary search tree:\n1. STEP 1: Start from the root and find the node to delete.\n2. STEP 2: Handle different cases for node deletion:\n- If the node has no children, simply remove it.\n- If the node has one child, reconnect the child to the parent of the node.\n- If the node has two children, find the in-order successor (smallest node in the right subtree) and replace the node's value with it, then delete the in-order successor.",
+            "Text": "Step 1:\nStart from the root.\nFind the node to delete.\nO (root)\n/\nO\n/ \\\nO   O (node to delete)\n\nStep 2:\nReconnect the right child to the parent.\nO\n/\nO\n/ \\\nO   O (right child)\nNote: The exact steps for reconnecting are unclear.",
             "Equations": [],
-            "Diagrams": []
+            "Diagrams": [
+                {
+                    "Description": "Binary tree before deletion",
+                    "Interpretation": "Shows the initial state of the binary tree before deletion."
+                },
+                {
+                    "Description": "Binary tree after deletion",
+                    "Interpretation": "Illustrates the state of the binary tree after reconnecting the right child to the parent."
+                }
+            ]
         }
     ],
-    "Summary": "Binary Search Trees (BST) allow insertion, deletion, and lookup operations in O(height) time complexity. The structure and operations of BSTs ensure efficient data management, but understanding the nuances of each operation is crucial for effective implementation."
+    "Summary": "The document covers the basics of binary search trees, including the definition and structure of a binary tree, the insert operation with an example, the concept of Big O notation, and the delete operation with steps and diagrams."
 }

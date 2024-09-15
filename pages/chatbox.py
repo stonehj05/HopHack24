@@ -27,7 +27,7 @@ def build_vector_db(data_folder):
                 
                 # Add each document to the vector database
                 for chunk in loader.load_chunks():
-                vector_db.add(chunk['text'], chunk['meta'])  # Store text and metadata (if any)
+                    vector_db.add(chunk['text'], chunk['meta'])  # Store text and metadata (if any)
            
     
     return vector_db

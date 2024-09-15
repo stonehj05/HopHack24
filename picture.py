@@ -10,6 +10,7 @@ def course_image_display(fileName, n):
                 st.session_state.currentCourse  = st.session_state.courseDictionary[i+1]
                 st.switch_page("pages/course_page.py")
 
+
 def note_image_display(fileName, n, noteDictionary):
     # Create columns for each image
     cols = st.columns(n)

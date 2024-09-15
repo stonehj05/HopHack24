@@ -116,15 +116,22 @@ if not st.session_state.courseDictionary:
             for subfolder, subpath in subfolders_with_paths:
                 Course_name = str(subfolder)
                 if Course_name not in st.session_state.courseDictionary.values():
+                    st.session_state.syllabusList[Course_name] = subpath / "user_upload/syllabus.pdf"
+                    notebookFolder = [(fn.name, fn) for fn in subpath .iterdir() if fn.is_dir()]
                     st.session_state.courseIndex += 1
                     st.session_state.courseDictionary[st.session_state.courseIndex] = Course_name
-                
-                # Automatically set the first course as the current course
+                    st.session_state.menu[Course_name] = {}
+                    noteIndex = 1
+                    for subnotepage, subnotepath in notebookFolder:
+                        notepage = str(subnotepage)
+                        # if notepage == "syllabus.pdf":
+                        #     st.session_state.syllabusList[Course_name] = str(subnotepath)
+                        if notepage not in st.session_state.menu[Course_name].values() and notepage != "user_upload":
+                            st.session_state.menu[Course_name][noteIndex] = notepage
+                            noteIndex += 1
+                            
                 if not st.session_state.currentCourse:
                     st.session_state.currentCourse = Course_name
-
-            st.write(f"Automatically loaded courses: {', '.join(st.session_state.courseDictionary.values())}")
-            
             # Display the folder image and the first course if available
             course_image_display("folder.PNG", st.session_state.courseIndex)
         else:

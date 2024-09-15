@@ -3,13 +3,15 @@ import os
 from file_handle import *
 import json
 from generate_note import generate_note
-
+# Set page configuration
+st.set_page_config(page_title="Notebook Page", layout="wide")
 ### LOAD DATA ###
 course_name = st.session_state.currentCourse
 note_name = st.session_state.menu[st.session_state.currentCourse][st.session_state.currentNoteIndex]
 
-note_path = f"../data/{course_name}/{note_name}"
-if not os.path.exists(os.path.join(note_path, "note.md")):
+note_path = f"./data/{course_name}/{note_name}"
+st.write(note_path)
+if not os.path.exists(f"./data/{course_name}/{note_name}/note.md"):
     syllabus_file = st.session_state.syllabusList[course_name]
     audio_file = st.session_state.audio_file
     personal_file = st.session_state.personal_file
@@ -42,11 +44,6 @@ def blur_match(topic,section,subsection):
     subsection = subsection.replace("_", " ").replace("(", "").replace(")", "").replace("[", "").replace("]", "").replace("{", "").replace("}", "")
     return section.lower() in topic.lower() and subsection.lower() in topic.lower()
 
-
-# Set page configuration
-st.set_page_config(page_title="Notebook Page", layout="wide")
-
-
 st.session_state.note_partition_dict = note2dict(st.session_state.note_text_raw, course_name, note_name)
 
 # Title stored in session state
@@ -78,9 +75,14 @@ for section, subsections in st.session_state.note_partition_dict.items():
             with col1:
                 st.markdown(content)
                 # check if the subsection has any graphs
-                related_graphs = [
-                    graph for graph in graph_data['Diagrams'] if blur_match(graph['topic'], f"{section}", f"{subsection}")
-                ]
+                try:
+                    related_graphs = [
+                        graph for graph in graph_data['Diagrams'] if blur_match(graph['Topic'], f"{section}", f"{subsection}")
+                    ]
+                except KeyError:
+                    related_graphs = [
+                        graph for graph in graph_data['Diagrams'] if blur_match(graph['topic'], f"{section}", f"{subsection}")
+                    ]
                 if related_graphs:
                     for graph in related_graphs:
                         st.write(f"**Graph**: {graph['Summary']}")
@@ -91,10 +93,16 @@ for section, subsections in st.session_state.note_partition_dict.items():
                 continue
             with col2:
                 print("st.session_state.question_list",st.session_state.question_list)
-                related_questions = [
-                    q for q in st.session_state.question_list['questions']
-                    if blur_match(q['topic'], f"{section}",f"{subsection}")
-                ]
+                try:
+                    related_questions = [
+                        q for q in st.session_state.question_list['questions']
+                        if blur_match(q['topic'], f"{section}",f"{subsection}")
+                    ]
+                except KeyError:
+                    related_questions = [
+                        q for q in st.session_state.question_list['questions']
+                        if blur_match(q['Topic'], f"{section}",f"{subsection}")
+                    ]
                 # print("related_questions",related_questions)
                 if related_questions:
                     for question_data in related_questions:
@@ -124,7 +132,7 @@ for section, subsections in st.session_state.note_partition_dict.items():
                                         with st.expander("💡Hint (Click to expand)"):
                                             st.write(question['hint'])
                                     with st.expander("📝Answer (Click to expand)"):
-                                        st.write(que    stion['answer'])
+                                        st.write(question['answer'])
                         
                         # Challenging questions
                         with tab3:
@@ -142,11 +150,11 @@ for section, subsections in st.session_state.note_partition_dict.items():
                     st.write("No questions available for this section.")
 
 # Footer with progress metric
-st.markdown("---")
-st.metric(label="Progress", value="50%", delta="5%")
+# st.markdown("---")
+# st.metric(label="Progress", value="50%", delta="5%")
 
-# Add a button to stop execution
-if st.button("Stop the process"):
-    st.stop()
+# # Add a button to stop execution
+# if st.button("Stop the process"):
+#     st.stop()
 
-st.success('Page Loaded Successfully!')
+# st.success('Page Loaded Successfully!')

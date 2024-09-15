@@ -17,12 +17,22 @@ def generate_note(board_notes, audio_transcript, hand_notes, context="", course_
 
     # if note exist skip the process and read value off the file
     if os.path.exists(os.path.join(lecture_dir, note_name)) and os.path.exists(os.path.join(lecture_dir, "transcription.txt")):
-        print("Note and transcription already exist, reading from file")
-        with open(os.path.join(lecture_dir, note_name), "r") as file:
-            note = file.read()
-        with open(os.path.join(lecture_dir, "transcription.txt"), "r") as file:
-            transcription = file.read()
-        return transcription, note
+        print("Note and transcription already exist, skipping generation note")
+        # with open(os.path.join(lecture_dir, note_name), "r") as file:
+        #     note = file.read()
+        # with open(os.path.join(lecture_dir, "transcription.txt"), "r") as file:
+        #     transcription = file.read()
+        # with open(os.path.join(lecture_dir, "diagrams.json"), "r") as file:
+        #     diagrams = json.load(file)
+        
+        # post_process_transcription_data(transcription, note, diagrams, course_name, lecture_name)
+        return
+
+
+    transcription = transcribe_audio_files(audio_transcript)
+    # loop over the transcription and join them
+    transcription = " ".join(transcription)
+    print(f"Transcription: {transcription}")
 
     formulas = math_extraction.extract_information_from_math(board_notes)
     print(f"Formulas: {formulas}")
@@ -30,15 +40,11 @@ def generate_note(board_notes, audio_transcript, hand_notes, context="", course_
     print(f"Diagrams: {diagrams}")
     hand_writings = handnotes_extraction.extract_information_from_handnotes(hand_notes)
     print(f"Handwriting: {hand_writings}")
-    transcription = transcribe_audio_files(audio_transcript)
-    # loop over the transcription and join them
-    transcription = " ".join(transcription)
-    print(f"Transcription: {transcription}")
 
 
     # Save the extracted information into the appropriate files within the lecture directory
-    with open(os.path.join(lecture_dir, "formulas.json"), "w") as file:
-        json.dump(formulas, file, indent=4)
+    # with open(os.path.join(lecture_dir, "formulas.json"), "w") as file:
+    #     json.dump(formulas, file, indent=4)
     with open(os.path.join(lecture_dir, "diagrams.json"), "w") as file:
         json.dump(diagrams, file, indent=4)
     with open(os.path.join(lecture_dir, "handwriting.json"), "w") as file:
@@ -86,7 +92,7 @@ def generate_note(board_notes, audio_transcript, hand_notes, context="", course_
     """
     response = gpt_api_call(prepare_messages(prompt), 0.0, api_key)
     print("\n\n\n===Final Note===\n\n\n")
-    with open(os.path.join(lecture_dir, note_name), "w") as file:
+    with open(os.path.join(lecture_dir, note_name), "w", encoding="utf-8") as file:
         file.write(response)
     # return transcription, response, diagrams
     print("Post processing transcription data")

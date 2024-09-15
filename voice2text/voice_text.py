@@ -86,32 +86,92 @@
 from openai import OpenAI
 import dotenv
 import os
-import openai
+from openai import OpenAI
+
+client = OpenAI()
 
 dotenv.load_dotenv()
 client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
 
+from pydub import AudioSegment
+import os
 
 def transcribe_audio_files(file_paths):
     transcriptions = []
 
     for file_path in file_paths:
         try:
-            # Open the audio file
-            with open(file_path, "rb") as audio_file:
-                # Create a transcription using the Whisper model
-                transcription = client.audio.transcriptions.create(
-                    model="whisper-1",
-                    file=audio_file
-                )
-                # Append the transcribed text to the results list
-                transcriptions.append(transcription.text)
+            # Check file size and split if larger than 25 MB
+            if os.path.getsize(file_path) > 15 * 1024 * 1024:  # 25 MB in bytes
+                print(f"Splitting {file_path} as it exceeds 25MB...")
+                transcriptions.append(split_and_transcribe(file_path))
+            else:
+                # If smaller than 25MB, transcribe directly
+                with open(file_path, "rb") as audio_file:
+                    transcription = client.audio.transcriptions.create(
+                        model="whisper-1",
+                        file=audio_file
+                    )
+                    transcriptions.append(transcription.text)
         except Exception as e:
             print(f"Error transcribing {file_path}: {e}")
             transcriptions.append(None)
 
     return transcriptions
 
+
+def split_and_transcribe(file_path, chunk_duration_ms= 5 * 60 * 1000):
+    """
+    Split the audio into chunks of chunk_duration_ms and transcribe each chunk.
+    chunk_duration_ms is in milliseconds (default 10 minutes).
+    """
+    transcription_chunks = []
+
+    # Load the audio file
+    audio = AudioSegment.from_file(file_path)
+
+    # Determine how many chunks we need
+    total_duration_ms = len(audio)
+    num_chunks = (total_duration_ms // chunk_duration_ms) + 1
+
+    # Loop over each chunk
+    for i in range(num_chunks):
+        # Get the start and end times for this chunk
+        start_time = i * chunk_duration_ms
+        end_time = min((i + 1) * chunk_duration_ms, total_duration_ms)
+
+        # Extract the chunk
+        chunk = audio[start_time:end_time]
+
+        # Export the chunk to a temporary file
+        chunk_file_name = f"chunk_{i}.mp3"
+        chunk.export(chunk_file_name, format="mp3")
+
+        # Open the chunk file and transcribe it
+        with open(chunk_file_name, "rb") as chunk_file:
+            transcription = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=chunk_file
+            )
+            transcription_chunks.append(summary(transcription.text))
+
+        # Remove the temporary chunk file
+        os.remove(chunk_file_name)
+
+    # Combine the transcription from all chunks
+    return " ".join(transcription_chunks)
+
+def summary(text):
+    sys_prompt = "You are an world-class instructor,and you are given a script for a lecture. Paraphrase the text so that it will be concise and straight to the point. Keep all the main point and stick to the material given."
+    messages = [
+        {"role": "system", "content": sys_prompt},
+        {"role": "user", "content": text},
+    ]
+    response = client.chat.completions.create(model="gpt-4o",
+    messages=messages,
+    temperature=0.7)
+    print("000summary", response.choices[0].message.content.strip())
+    return response.choices[0].message.content.strip()
 
 if __name__ == '__main__':
     audio_file = open("/home/yru2/HopHack24/voice2text/Matrix multiplication.mp3", "rb")

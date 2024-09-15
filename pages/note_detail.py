@@ -5,24 +5,24 @@ import json
 from generate_note import generate_note
 
 ### LOAD DATA ###
-blackboard_file = st.session_state.blackboard_file
-course_name = st.session_state.currentCourse
-note_name = st.session_state.menu[st.session_state.currentCourse][st.session_state.currentNodeIndex]
-syllabus_file = st.session_state.syllabusList[course_name]
-audio_file = st.session_state.audio_file
-personal_file = st.session_state.personal_file
-note_name = "1" #for test purposes
-note_path = f"../data/{course_name}/{note_name}"
-if not os.path.exists(os.path.join(note_path, "note.md")):
-    syllabus_content = read_syllabus(syllabus_file.name, course_name)
-    blackboard_images = read_blackboard(blackboard_file.name, course_name, note_name)
-    handnote_images = read_handnote(personal_file.name, course_name, note_name)
-    audio_file_path = os.path.join(os.getcwd(), "data", course_name, note_name, audio_file.name)
-    generate_note(blackboard_images, audio_file_path, handnote_images, context=syllabus_content, course_name=course_name, lecture_name=note_name)
-with open(f"./data/{course_name}/{note_name}/questions.json", "r") as file:
-    questions = json.load(file)
-with open(f"./data/{course_name}/{note_name}/note.md", "r") as file:
-    note = file.read()
+# blackboard_file = st.session_state.blackboard_file
+# course_name = st.session_state.currentCourse
+# note_name = st.session_state.menu[st.session_state.currentCourse][st.session_state.currentNodeIndex]
+# syllabus_file = st.session_state.syllabusList[course_name]
+# audio_file = st.session_state.audio_file
+# personal_file = st.session_state.personal_file
+# note_name = "1" #for test purposes
+# note_path = f"../data/{course_name}/{note_name}"
+# if not os.path.exists(os.path.join(note_path, "note.md")):
+#     syllabus_content = read_syllabus(syllabus_file.name, course_name)
+#     blackboard_images = read_blackboard(blackboard_file.name, course_name, note_name)
+#     handnote_images = read_handnote(personal_file.name, course_name, note_name)
+#     audio_file_path = os.path.join(os.getcwd(), "data", course_name, note_name, audio_file.name)
+#     generate_note(blackboard_images, audio_file_path, handnote_images, context=syllabus_content, course_name=course_name, lecture_name=note_name)
+# with open(f"./data/{course_name}/{note_name}/questions.json", "r") as file:
+#     questions = json.load(file)
+# with open(f"./data/{course_name}/{note_name}/note.md", "r") as file:
+#     note = file.read()
 
 # st.session_state.note_text_raw=note
 
@@ -354,30 +354,40 @@ if 'lecture_name' not in st.session_state:
     st.session_state.lecture_name = "POWER NOTES"
 st.title(st.session_state.lecture_name)
 
+
+# Add a checkbox trigger at the top right corner
+show_questions = st.checkbox("Show AI-Gen Questions", value=False)
+
 # Iterate through sections and subsections in the note_partition_dict
 for section, subsections in st.session_state.note_partition_dict.items():
     st.header(section)
-    print("section",section)
-    print("subsections",subsections)
+    # print("section",section)
+    # print("subsections",subsections)
     for subsection, content in subsections.items():
         st.subheader(subsection)
         
         # Create a container for each subsection with columns inside
         with st.container():
-            col1, col2 = st.columns([2, 1])
-            
+            if show_questions:
+                # When questions are shown, use a 2-column layout
+                col1, col2 = st.columns([2, 1])
+            else:
+                # When questions are hidden, use only one column
+                col1 = st.container()
             # LEFT COLUMN: Display the subsection content (text)
             with col1:
                 st.markdown(content)
             
             # RIGHT COLUMN: Display related questions (if any) from question_list
+            if not show_questions:
+                continue
             with col2:
-                print("st.session_state.question_list",st.session_state.question_list)
+                # print("st.session_state.question_list",st.session_state.question_list)
                 related_questions = [
                     q for q in st.session_state.question_list 
                     if blur_match(q['topic'], f"{section}",f"{subsection}")
                 ]
-                print("related_questions",related_questions)
+                # print("related_questions",related_questions)
                 if related_questions:
                     for question_data in related_questions:
                         st.write(f"Questions for **{section} : {subsection}**")
@@ -389,30 +399,37 @@ for section, subsections in st.session_state.note_partition_dict.items():
                             for question in question_data['levels']:
                                 if question['tag'] == "Conceptual":
                                     st.write(f"**Question**: {question['question']}")
-                                    st.text_input("Your answer:", key=f"{section}_{subsection}_conceptual")
+                                    # st.text_input("Your answer:", key=f"{section}_{subsection}_conceptual")
                                     if 'hint' in question:
-                                        with st.expander("Hint (Click to expand)"):
+                                        with st.expander("💡Hint (Click to expand)"):
                                             st.write(question['hint'])
+                                    with st.expander("📝Answer (Click to expand)"):
+                                        st.write(question['answer'])
                         
                         # Easy questions
                         with tab2:
                             for question in question_data['levels']:
                                 if question['tag'] == "Easy":
                                     st.write(f"**Question**: {question['question']}")
-                                    st.text_input("Your answer:", key=f"{section}_{subsection}_easy")
+                                    # st.text_input("Your answer:", key=f"{section}_{subsection}_easy")
                                     if 'hint' in question:
-                                        with st.expander("Hint (Click to expand)"):
+                                        with st.expander("💡Hint (Click to expand)"):
                                             st.write(question['hint'])
+                                    with st.expander("📝Answer (Click to expand)"):
+                                        st.write(question['answer'])
                         
                         # Challenging questions
                         with tab3:
                             for question in question_data['levels']:
                                 if question['tag'] == "Challenging":
                                     st.write(f"**Question**: {question['question']}")
-                                    st.text_input("Your answer:", key=f"{section}_{subsection}_challenging")
+                                    # st.text_input("Your answer:", key=f"{section}_{subsection}_challenging")
                                     if 'hint' in question:
-                                        with st.expander("Hint (Click to expand)"):
+                                        with st.expander("💡Hint (Click to expand)"):
                                             st.write(question['hint'])
+
+                                    with st.expander("📝Answer (Click to expand)"):
+                                        st.write(question['answer'])
                 else:
                     st.write("No questions available for this section.")
 

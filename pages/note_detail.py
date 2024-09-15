@@ -82,19 +82,18 @@ This lecture covers the fundamental concepts of binary search trees (BSTs) in da
 
 ### 4. Time Complexity
 - **Height of the Tree**: The time complexity of insertion and deletion operations is proportional to the height of the tree.
-- **Best Case**: When the tree is balanced, the height is logarithmic with respect to the number of nodes, i.e., \( O(\log n) \).
-- **Worst Case**: When the tree is unbalanced (e.g., a linked list structure), the height is equal to the number of nodes, i.e., \( O(n) \).
+- **Best Case**: When the tree is balanced, the height is logarithmic with respect to the number of nodes, i.e., $\( O(\log n) \)$.
+- **Worst Case**: When the tree is unbalanced (e.g., a linked list structure), the height is equal to the number of nodes, i.e., $\( O(n) \)$.
 
 ### 5. Big-O Notation
 - **Definition**: Big-O notation describes the upper bound of an algorithm's time complexity, indicating the worst-case scenario for how long an operation will take as the input set grows.
-- **Mathematical Formulation**:
-  \[
-  f(n) = O(g(n)) \iff \exists C, N_0 \in \mathbb{R}, \text{ s.t. } \forall N \geq N_0, |f(N)| \leq C \cdot g(N)
-  \]
-- **Application to BST Operations**: For a balanced BST, the time complexity for insert or delete operations is \( O(\log n) \), as the number of operations needed is proportional to the height of the tree.
+- **Mathematical Formulation**: $\iff 1+1=2$
+  $[ f(n) = O(g(n)) \iff \exists C, N_0 \in \mathbb{R}, \text{ s.t. } \forall N \geq N_0, |f(N)| \leq C \cdot g(N) ]$
+  
+- **Application to BST Operations**: For a balanced BST, the time complexity for insert or delete operations is $\( O(\log n) \)$, as the number of operations needed is proportional to the height of the tree.
 
 **Diagram**: [Big-O Notation Diagram](https://en.wikipedia.org/wiki/Big_O_notation)
-- **Description**: Provides a formal definition of Big-O notation, stating that a function \( f(n) \) is \( O(g(n)) \) if there exist constants \( C \) and \( N_0 \) such that for all \( N \geq N_0 \), the absolute value of \( f(N) \) is at most \( C \) times \( g(N) \).
+- **Description**: Provides a formal definition of Big-O notation, stating that a function $( f(n) )$ is $( O(g(n)) )$ if there exist constants $\( C \)$ and $\( N_0 \)$ such that for all $\( N \geq N_0 \)$, the absolute value of $\( f(N) \)$ is at most $\( C \)$ times $\( g(N) \)$.
 - **Interpretation**: Big-O notation is used to describe the upper bound of an algorithm's runtime or space requirements. The definition provides the mathematical formulation for this concept.
 
 ## Diagrams & Related Resources

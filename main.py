@@ -1,16 +1,19 @@
 import streamlit as st
 from pages import *
-from pages import *
 
+#A dictionary that correspond the courseIndex to the number notebooks it has right now {int : int}
 if 'courseNoteBookNumberCount' not in st.session_state:
-    st.session_state.courseNoteBookNumberCount = {"first": 0, "second": 0, "third": 0, "forth": 0, "fifth": 0}
+     st.session_state.courseNoteBookNumberCount = {}
 
+#A int that keep track the current index of course, which correspond to the order that they are added
 if 'courseIndex' not in st.session_state:
     st.session_state.courseIndex = 0
 
+#A dictionary that link index to courseName {int : string}
 if 'courseDictionary' not in st.session_state:
     st.session_state.courseDictionary = {}
 
+#A dictionary that link course name to its syllabus {string : file}
 if 'syllabusList' not in st.session_state:
     st.session_state.syllabusList = {}
 
@@ -109,19 +112,15 @@ def main_page():
         st.write('page' + str(st.session_state.courseIndex))
         # Show button to navigate to Page 1 only after inputs are given
         if st.button('Go to ' + Course_name):
-            st.session_state.page = 'page1'
+            st.session_state.page = 'page' + str(st.session_state.courseIndex)
             st.rerun()  # Reload the app to switch to page 1
 
 # Dynamically show content based on the current page
 if st.session_state.page == 'main':
     main_page()
 elif st.session_state.page == 'page1':
-    page1()
+    CourseSumamryPage()
 elif st.session_state.page == 'page2':
-    page2()
+    NoteInformationUploader()
 elif st.session_state.page == 'page3':
-    page3()
-elif st.session_state.page == 'page4':
-    page4()
-elif st.session_state.page == 'page5':
-    page5()
+    NotePage()

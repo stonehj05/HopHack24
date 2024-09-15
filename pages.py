@@ -3,7 +3,7 @@ from generate_note import generate_note
 import os
 # Define the content for Page 1
 
-def page1():
+def CourseSumamryPage():
     # Adjust the layout to use only the upper part of the page
     st.markdown(
         """
@@ -102,7 +102,7 @@ def page1():
         st.rerun()  # Reload the app to switch to the main page
 
         
-def page2():
+def NoteInformationUploader():
     # Initialize session state for the files if not already present
     if 'audio_file' not in st.session_state:
         st.session_state.audio_file = None
@@ -145,7 +145,7 @@ def page2():
             st.rerun()  # Reload the app to switch to page 1
 
 
-def page3():
+def NotePage():
     # Set page configuration
     st.write(page_title="Notebook Page", layout="wide")
 

@@ -5,8 +5,8 @@ def course_image_display(fileName, n):
     # Iterate over images and display each one with its corresponding button
     for i, col in enumerate(cols):
         with col:
-            st.image(fileName, width=100)
-            if st.button(st.session_state.courseDictionary[i+1], key=f"button_{i}" + str(st.session_state.courseIndex)):
+            st.image(fileName, width=150)
+            if st.button("  " + st.session_state.courseDictionary[i+1], key=f"button_{i}" + str(st.session_state.courseIndex)):
                 st.session_state.currentCourse  = st.session_state.courseDictionary[i+1]
                 # st.session_state.courseIndex = list(st.session_state.courseDictionary.keys.index)[list(st.session_state.courseDictionary.values).index((st.session_state.currentCourse))]
                 st.switch_page("pages/course_page.py")

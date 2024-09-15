@@ -1,7 +1,7 @@
 import sys
-sys.insert(0, "..")
+# sys.insert(0, "..")
 from image2text.utils import *
-sys.remove("..")
+# sys.remove("..")
 def read_syllabus(syllabus_file_name, course_name): #should return text
     syllabus_path = f"../data/{course_name}/{syllabus_file_name}"
     if ".txt" in syllabus_file_name:

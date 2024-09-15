@@ -2,6 +2,9 @@ import streamlit as st
 from pages import *
 from picture import *
 
+if 'noteupdateCheck' not in st.session_state:
+    st.session_state.noteupdateCheck = True
+
 #A dictionary that correspond the courseIndex to the number notebooks it has right now {int : int}
 if 'courseNoteBookNumberCount' not in st.session_state:
     st.session_state.courseNoteBookNumberCount = {}
@@ -13,6 +16,9 @@ if 'courseNoteBookNumberCount' not in st.session_state:
 #A dictionary that correspond the courseName to inner dictionary from noteindex to notename {string : {int : string}}
 if 'menu' not in st.session_state:
     st.session_state.menu = {}
+
+if 'currentNoteIndex' not in st.session_state:
+    st.session_state.currentNoteIndex = 0
 
 #A int that keep track the current index of course, which correspond to the order that they are added
 if 'courseIndex' not in st.session_state:
@@ -116,4 +122,5 @@ if syllabus is not None and Course_name is not None:
     st.markdown('<div class="description">Syllabus uploaded and notebook name provided!</div>', unsafe_allow_html=True)
     # Show button to navigate to Page 1 only after inputs are given
     if st.button('Go to ' + Course_name):
+        st.session_state.noteupdateCheck = True
         st.switch_page("pages/course_page.py")

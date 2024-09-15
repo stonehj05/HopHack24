@@ -1,22 +1,17 @@
 import streamlit as st
 
-# Set page configuration
-st.set_page_config(page_title="Course Notebook", layout="wide")
-
-# Initialize session state for the notebook name
-if 'notebookName' not in st.session_state:
-    st.session_state['notebookName'] = None  # Default value if not set
-
-# Retrieve the syllabus from session_state (optional, if needed)
-syllabus = st.session_state.get('syllabus', None)
-summary = "This course introduces students to the fundamentals of chemistry, including atomic structure, periodic trends, and chemical reactions."
-
-# Apply CSS to add margin and increase font size for the summary and text input
+# Adjust the layout to use only the upper part of the page
 st.markdown(
     """
     <style>
+    .css-18e3th9 {
+        padding-top: 2rem;  /* Reduce the top padding */
+    }
+    .css-1d391kg { 
+        padding-top: 2rem;  /* Reduce padding for narrow pages */
+    }
     .text-content {
-        margin-left: 20px;  /* Push text two spaces (adjustable) */
+        margin-left: 20px;  /* Push text two spaces */
         font-size: 1.2rem;  /* Increase font size for summary */
         margin-bottom: 30px;  /* Add margin below the summary */
     }
@@ -39,14 +34,24 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Display the course title at the top
-st.markdown("<h2 style='text-align: center; margin-top: 0;'>Introductory Chemistry I: AS.030.101</h2>", unsafe_allow_html=True)
+# Ensure there is a valid course index
+if st.session_state.courseIndex == 0:
+    st.error("No course selected.")
+    return
 
-# Display the course summary
+# Get the most recent course index and course name
+course_name = st.session_state.courseDictionary[1]  # Get the course name based on the index
+syllabus = st.session_state.syllabusList.get(1, "No syllabus available")
+
+# Display the course title at the top
+st.markdown(f"<h2 style='text-align: center; margin-top: 0;'>{course_name}</h2>", unsafe_allow_html=True)
+
+# Display the course summary or syllabus
+summary = "This course introduces students to the fundamentals of chemistry, including atomic structure, periodic trends, and chemical reactions."
 st.markdown('<div class="text-content">' + summary + '</div>', unsafe_allow_html=True)
 
 # Create a two-column layout for the images and links, aligned horizontally to the left
-col_left, col_mid, col_right = st.columns([1 ,1, 6])  # Adjust the column proportions (1:6) for left alignment
+col_left, col_mid, col_right = st.columns([1, 1, 6])  # Adjust the column proportions (1:6) for left alignment
 
 with col_left:
     # First image and link
@@ -67,7 +72,7 @@ with col_mid:
     """, unsafe_allow_html=True)
 
 with col_right:
-    # Second image and link
+    # Third image and link
     st.image("Notebook.png", width=150)  # Make the image small
     st.markdown("""
     <div style="display: flex; justify-content: space-between;">
@@ -78,29 +83,16 @@ with col_right:
 # Add a blank space before the text input field
 st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
 
-# Create a new notebook text input with a large font
+# Create a new notebook text input with a large font (integrating page4 functionality)
 st.markdown('<p class="input-title">Create a new notebook by entering its name:</p>', unsafe_allow_html=True)
-notebook_name = st.text_input("", value="", placeholder="Enter notebook name here")
+new_notebook_name = st.text_input("", value="", placeholder="Enter Notebook Name Here")
 
-# If a notebook name is entered, store it in session state and display the link
-if notebook_name:
-    st.session_state['notebookName'] = notebook_name
-    st.markdown(f"Notebook '{st.session_state['notebookName']}' created!")
+# Handle the creation of a new notebook
+if st.button('Generate result'):
+        st.session_state.page = 'page2'
+        st.rerun()  # Reload the app to switch to page 1
 
-    # Display the link to page2 for further information with large font size
-    st.markdown('<a href="/page2" target="_self" class="upload-link">Upload further information</a>', unsafe_allow_html=True)
-
-# Adjust the layout to use only the upper part of the page
-st.markdown(
-    """
-    <style>
-    .css-18e3th9 {
-        padding-top: 2rem;  /* Reduce the top padding */
-    }
-    .css-1d391kg { 
-        padding-top: 2rem;  /* Reduce padding for narrow pages */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# Button to return to the homepage
+if st.button('Go back to homepage'):
+    st.session_state.page = 'main'
+    st.rerun()  # Reload the app to switch to the main page

@@ -88,25 +88,3 @@ if noteName:
         st.write("Notebook Created Successfully")
         if st.button('Upload More Information'):
             st.switch_page('./pages/upload_new_note.py')
-
-# Load previous notebooks for the current course
-def load_previous_notebooks(course_name):
-    data_folder_path = Path(f'data/{course_name}')
-    if data_folder_path.exists():
-        subfolders_with_paths = [(f.name, f) for f in data_folder_path.iterdir() if f.is_dir()]
-        if subfolders_with_paths:
-            note_dict = {}
-            for subfolder, subpath in subfolders_with_paths:
-                note_name = str(subfolder)
-                note_index = len(note_dict) + 1
-                note_dict[note_index] = note_name
-            return note_dict
-    return {}
-
-# Load notebooks for the current course
-if st.session_state.currentCourse in st.session_state.menu:
-    existing_notebooks = load_previous_notebooks(st.session_state.currentCourse)
-    if existing_notebooks:
-        st.session_state.menu[st.session_state.currentCourse].update(existing_notebooks)
-        st.write(f"Loaded existing notebooks: {', '.join(existing_notebooks.values())}")
-        note_image_display('notebook.PNG', len(existing_notebooks), existing_notebooks)

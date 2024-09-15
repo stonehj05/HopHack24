@@ -101,7 +101,7 @@ if (st.session_state.courseIndex == 0):
     st.markdown('<div class="larger-text">Please enter the new course syllabus to start: 📂</div>', unsafe_allow_html=True)
 else:
     num_images = st.session_state.courseIndex
-    course_image_display("folder.png", num_images)
+    course_image_display("Folder.png", num_images)
 
 
 # Text input for notebook name with larger label

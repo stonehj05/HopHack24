@@ -64,7 +64,6 @@ def main(directory, query, chunk_size=100, k=5):
 
     # Convert chunks into vectors
     chunk_vectors = convert_chunks_to_vectors(chunked_corpus, model)
-    print(chunk_vectors)
     # Build the FAISS index
     index = build_faiss_index(np.array(chunk_vectors))
     
@@ -86,7 +85,7 @@ def respond(user_query, context=""):
         1. The content of course syllabus
         2. The lecture summary for the lecture
         
-        Based on this information and your own knowledge, answer students' questions. If you have to generate LaTeX codes for mathematical formulas, make sure they can get compiled. Include an answer and detailed explanations for students' questions. Make sure your answer is not in Do not include any extra content.
+        Based on this information and your own knowledge, answer students' questions. If you have to generate LaTeX codes for mathematical formulas, make sure they can get compiled. Include an answer and detailed explanations for students' questions. Answer the question in the language that user used. Make sure your answer is mostly consist of plain text. Only use markdown & latex when necessary. If you are using something from the context, add "as you have learnt in the course". Do not include any extra content.
         Question: {user_query}
         Context: {context}
     """

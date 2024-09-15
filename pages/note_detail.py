@@ -61,8 +61,8 @@ show_questions = st.checkbox("Show AI-Gen Questions", value=False)
 # Iterate through sections and subsections in the note_partition_dict
 for section, subsections in st.session_state.note_partition_dict.items():
     st.header(section)
-    # print("section",section)
-    # print("subsections",subsections)
+    print("section",section)
+    print("subsections",subsections)
     for subsection, content in subsections.items():
         st.subheader(subsection)
         

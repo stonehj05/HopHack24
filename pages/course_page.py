@@ -42,6 +42,8 @@ with col1:
 with col2:
     if st.button('Go back to homepage'):
         st.switch_page('main.py')
+    if st.button('Go back to HelpBot'):
+        st.switch_page('pages/chatbox.py')
 
 # Ensure there is a valid course index
 if st.session_state.courseIndex == 0:
@@ -80,6 +82,7 @@ if noteName:
         st.write("Notebook Created Successfully")
         # Handle the creation of a new notebook
         if st.button('Upload More Information'):
+            st.session_state.currentNoteIndex += 1
             st.switch_page('./pages/upload_new_note.py')
     else:
         st.write("Notebook Created Successfully")

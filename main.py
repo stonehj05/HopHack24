@@ -89,11 +89,13 @@ if 'page' not in st.session_state:
 syllabus = None
 Course_name = None
 st.markdown('<div class="title">AI Notetaker</div>', unsafe_allow_html=True)
+col1, col2, col3 = st.columns([1, 4, 1])  # Adjust the proportions (4:1) for spacing
 
-description_text = """
-Our AI-powered note-taking application transforms the educational experience by automating the capture of lecture content, benefiting all students, especially those with ADHD, visual or hearing impairments, and mental health challenges. The platform allows students to engage more actively in lectures without the distraction of manual note-taking.
-"""
-st.markdown(f'<div class="description">{description_text}</div>', unsafe_allow_html=True)
+with col2:
+    description_text = """
+    Our AI-powered note-taking application transforms the educational experience by automating the capture of lecture content, benefiting all students, especially those with ADHD, visual or hearing impairments, and mental health challenges. The platform allows students to engage more actively in lectures without the distraction of manual note-taking.
+    """
+    st.markdown(f'<div class="description">{description_text}</div>', unsafe_allow_html=True)
 
 if (st.session_state.courseIndex == 0):
     st.markdown('<div class="larger-text">Please enter the new course syllabus to start: 📂</div>', unsafe_allow_html=True)

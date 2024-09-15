@@ -39,12 +39,14 @@ def extract_information_from_math(image_paths:list[str]) -> dict:
     """
     response = gpt_api_call(prepare_messages(prompt), 0.0, api_key)
     interpretation_match = re.search(r'Interpretations:\s*(\[[^\]]*\])', response)
-    raw_response = interpretation_match.group(1)
-    interpretations = ast.literal_eval(raw_response)
-    mathematical_formulas = {}
-    for index, interpretation in enumerate(interpretations):
-        mathematical_formulas[interpretation] = latex_codes[index]
-    return mathematical_formulas
+    return interpretation_match
+
+    # raw_response = interpretation_match.group(1)
+    # interpretations = ast.literal_eval(raw_response)
+    # mathematical_formulas = {}
+    # for index, interpretation in enumerate(interpretations):
+    #     mathematical_formulas[interpretation] = latex_codes[index]
+    # return mathematical_formulas
 
 
 if __name__ == '__main__':

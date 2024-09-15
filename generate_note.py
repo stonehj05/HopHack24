@@ -37,8 +37,8 @@ def generate_note(board_notes, audio_transcript, hand_notes, context="", course_
 
 
     # Save the extracted information into the appropriate files within the lecture directory
-    with open(os.path.join(lecture_dir, "formulas.json"), "w") as file:
-        json.dump(formulas, file, indent=4)
+    # with open(os.path.join(lecture_dir, "formulas.json"), "w") as file:
+    #     json.dump(formulas, file, indent=4)
     with open(os.path.join(lecture_dir, "diagrams.json"), "w") as file:
         json.dump(diagrams, file, indent=4)
     with open(os.path.join(lecture_dir, "handwriting.json"), "w") as file:

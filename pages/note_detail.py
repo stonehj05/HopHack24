@@ -124,7 +124,7 @@ for section, subsections in st.session_state.note_partition_dict.items():
                                         with st.expander("💡Hint (Click to expand)"):
                                             st.write(question['hint'])
                                     with st.expander("📝Answer (Click to expand)"):
-                                        st.write(que    stion['answer'])
+                                        st.write(question['answer'])
                         
                         # Challenging questions
                         with tab3:

@@ -30,8 +30,14 @@ def read_handnote(handnote_file_name, course_name, note_name):
         return read_pdf_images(handnote_file_path, f"../data/{course_name}/{note_name}")
     else:
         raise Exception("Please upload a pdf file")
-    
+
+import streamlit as st
+# @st.cache_data
 def note2dict(note, course_name, note_name):
+    # if file exists, return the content of the file
+    if os.path.exists(f"data/{course_name}/{note_name}/detailed_note_partition.json"):
+        with open(f"data/{course_name}/{note_name}/detailed_note_partition.json", "r") as file:
+            return json.load(file)
     prompt = r"""
         You are a helpful AI assistant helping people processing information in a markdown format. In the markdown format, there will be sections and subsection titles. Your job is to convert the mark down into a JSON format like the following:
         {

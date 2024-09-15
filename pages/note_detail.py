@@ -337,6 +337,4 @@ with open(f"./data/{course_name}/{note_name}/questions.json", "r") as file:
     questions = json.load(file)
 with open(f"./data/{course_name}/{note_name}/note.md", "r") as file:
     note = file.read()
-st.session_state.questions = questions
-st.session_state.note = note
 

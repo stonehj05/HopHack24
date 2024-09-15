@@ -48,7 +48,7 @@ def prepare_messages(prompt: str) -> list:
     """
     return [
         {"role": "system", "content": prompt},
-        {"role": "user", "content": "Please provide your input here."}
+        {"role": "user", "content": "Please provide your input here."} #TODO: confirm if we need this
     ]
 
 

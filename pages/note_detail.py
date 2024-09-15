@@ -78,9 +78,14 @@ for section, subsections in st.session_state.note_partition_dict.items():
             with col1:
                 st.markdown(content)
                 # check if the subsection has any graphs
-                related_graphs = [
-                    graph for graph in graph_data['Diagrams'] if blur_match(graph['Topic'], f"{section}", f"{subsection}")
-                ]
+                try:
+                    related_graphs = [
+                        graph for graph in graph_data['Diagrams'] if blur_match(graph['Topic'], f"{section}", f"{subsection}")
+                    ]
+                except KeyError:
+                    related_graphs = [
+                        graph for graph in graph_data['Diagrams'] if blur_match(graph['topic'], f"{section}", f"{subsection}")
+                    ]
                 if related_graphs:
                     for graph in related_graphs:
                         st.write(f"**Graph**: {graph['Summary']}")
@@ -91,10 +96,16 @@ for section, subsections in st.session_state.note_partition_dict.items():
                 continue
             with col2:
                 print("st.session_state.question_list",st.session_state.question_list)
-                related_questions = [
-                    q for q in st.session_state.question_list['questions']
-                    if blur_match(q['topic'], f"{section}",f"{subsection}")
-                ]
+                try:
+                    related_questions = [
+                        q for q in st.session_state.question_list['questions']
+                        if blur_match(q['topic'], f"{section}",f"{subsection}")
+                    ]
+                except KeyError:
+                    related_questions = [
+                        q for q in st.session_state.question_list['questions']
+                        if blur_match(q['Topic'], f"{section}",f"{subsection}")
+                    ]
                 # print("related_questions",related_questions)
                 if related_questions:
                     for question_data in related_questions:

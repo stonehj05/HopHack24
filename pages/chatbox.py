@@ -12,41 +12,81 @@ import speech_recognition as sr
 r = sr.Recognizer()
 
 import os
-from dsp import VectorDB, FileLoader, SimpleEncoder
+import faiss
+import numpy as np
+from sentence_transformers import SentenceTransformer
 
-def build_vector_db(data_folder):
-    # Create a VectorDB instance (simple vector storage)
-    vector_db = VectorDB(encoder=SimpleEncoder())  # SimpleEncoder can be customized for better results
+# Step 1: Load Text Files from a Directory
+def load_texts_from_directory(directory):
+    texts = []
+    for root, dirs, files in os.walk(directory):
+        for filename in files:
+            if filename.endswith((".txt",".md")):
+                with open(os.path.join(root, filename), 'r', encoding='utf-8') as file:
+                    texts.append(file.read())
+    return texts
+
+# Step 2: Split Text into Chunks
+def split_text_into_chunks(text, chunk_size=100):
+    words = text.split()
+    chunks = [' '.join(words[i:i+chunk_size]) for i in range(0, len(words), chunk_size)]
+    return chunks
+
+# Step 3: Convert Text Chunks to Vectors Using a Pre-trained Model
+def convert_chunks_to_vectors(chunks, model):
+    return model.encode(chunks)
+
+# Step 4: Build a FAISS Index
+def build_faiss_index(vectors):
+    d = vectors.shape[1]  # dimension of the vectors
+    index = faiss.IndexFlatL2(d)  # L2 distance index
+    index.add(np.array(vectors))  # Add vectors to the index
+    return index
+
+# Step 5: Perform Similarity Search
+def search_similar_chunks(query, model, index, chunked_corpus, k=5):
+    query_vector = model.encode([query])  # Convert the query to a vector
+    distances, indices = index.search(query_vector, k)  # Search for the top k nearest neighbors
+    return [chunked_corpus[i] for i in indices[0]]  # Return the most relevant chunks
+
+# Main function to load data, build the index, and search
+def main(directory, query, chunk_size=100, k=5):
+    # Load the text files
+    texts = load_texts_from_directory(directory)
     
-    #  Recursively Load all text files from the given data folder
-    for root, dirs, files in os.walk(data_folder):
-        for file in files:
-            if file.endswith(".txt",".md"):
-                file_path = os.path.join(data_folder, file_name)
-                loader = FileLoader(file_path)
-                
-                # Add each document to the vector database
-                for chunk in loader.load_chunks():
-                vector_db.add(chunk['text'], chunk['meta'])  # Store text and metadata (if any)
-           
+    # Split the texts into chunks
+    chunked_corpus = []
+    for text in texts:
+        chunked_corpus.extend(split_text_into_chunks(text, chunk_size))
     
-    return vector_db
+    # Load a pre-trained model
+    model = SentenceTransformer('all-MiniLM-L6-v2')
+
+    # Convert chunks into vectors
+    chunk_vectors = convert_chunks_to_vectors(chunked_corpus, model)
+    print(chunk_vectors)
+    # Build the FAISS index
+    index = build_faiss_index(np.array(chunk_vectors))
+    
+    # Perform the search
+    relevant_chunks = search_similar_chunks(query, model, index, chunked_corpus, k)
+
+    return relevant_chunks
 
 
 
-def respond(user_query, context="", vector_db=None):
+def respond(user_query, context=""):
     # Perform vector search using the query to get relevant context chunks
-    if vector_db is not None:
         # Search the vector database for relevant context
-        relevant_contexts = vector_db.search(user_query, top_k=5)  # Get top 5 most relevant chunks
-        context = "\n".join([chunk['text'] for chunk in relevant_contexts])  # Combine the chunks
+    relevant_contexts = main(f"./data/{st.session_state.currentCourse}", user_query) # Get top 5 most relevant chunks
+    context = "\n".join([chunk for chunk in relevant_contexts])  # Combine the chunks
     
     prompt = f"""
         You are a helpful AI assistant helping students to answer their questions on a specfic course. You will read context about the course the student is taking and the recent lecture in the course. The context includes two parts:
         1. The content of course syllabus
         2. The lecture summary for the lecture
         
-        Based on this information and your own knowledge, answer students' questions. If you have to generate LaTeX codes for mathematical formulas, make sure they can get compiled. Include an answer and detailed explanations for students' questions. Do not include any extra content.
+        Based on this information and your own knowledge, answer students' questions. If you have to generate LaTeX codes for mathematical formulas, make sure they can get compiled. Include an answer and detailed explanations for students' questions. Make sure your answer is not in Do not include any extra content.
         Question: {user_query}
         Context: {context}
     """
@@ -72,17 +112,12 @@ def recognize_speech_from_mic():
         try:
             # Use Google Web Speech API to recognize speech
             text = transcribe_audio_files(["test.wav"])
-            st.write(text)
-            return text
+            st.write(text[0])
+            return text[0]
         except sr.RequestError:
             return "API unavailable"
         except sr.UnknownValueError:
             return "Unable to recognize speech"
-
-# Load the vector database
-course_name = st.session_state.currentCourse
-data_folder = f"./data/{course_name}"
-vector_db = build_vector_db(data_folder)
 
 
 # Streamlit UI
@@ -99,7 +134,7 @@ if st.button("Click and Speak"):
     if speech_text:
         st.session_state.chat_history.append(f"You: {speech_text}")
         # Generate response based on speech input
-        response,ctx = respond(speech_text,vector_db=vector_db)
+        response,ctx = respond(speech_text)
         st.session_state.chat_history.append(f"Bot: {response} \nContext: {ctx}")
         
 # Display chat history
@@ -113,5 +148,5 @@ user_input = st.text_input("Type your message:")
 if user_input:
     st.session_state.chat_history.append(f"You: {user_input}")
     # Generate response based on typed input
-    response,ctx = respond(user_input,vector_db=vector_db)
+    response,ctx = respond(user_input)
     st.session_state.chat_history.append(f"Bot: {response} \nContext: {ctx}")

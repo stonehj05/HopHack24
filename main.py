@@ -156,7 +156,7 @@ if Course_name:
         #course_image_display("folder.PNG", st.session_state.courseIndex)
 # Syllabus file uploader
 syllabus = st.file_uploader("", type=['pdf', 'docx', 'txt'])
-
+st.write("here")
 if syllabus is not None:
     st.session_state.syllabusList[Course_name] = syllabus
 # Conditionally display the button to go to Page 1 only if both the syllabus is uploaded and the notebook name is entered

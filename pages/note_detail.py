@@ -10,7 +10,6 @@ course_name = st.session_state.currentCourse
 note_name = st.session_state.menu[st.session_state.currentCourse][st.session_state.currentNoteIndex]
 
 note_path = f"./data/{course_name}/{note_name}"
-st.write(note_path)
 if not os.path.exists(f"./data/{course_name}/{note_name}/note.md"):
     syllabus_file = st.session_state.syllabusList[course_name]
     audio_file = st.session_state.audio_file

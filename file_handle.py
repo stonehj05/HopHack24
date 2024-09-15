@@ -38,6 +38,10 @@ def note2dict(note, course_name, note_name):
     if os.path.exists(f"data/{course_name}/{note_name}/detailed_note_partition.json"):
         with open(f"data/{course_name}/{note_name}/detailed_note_partition.json", "r") as file:
             return json.load(file)
+    # create the path
+    if not os.path.exists(f"data/{course_name}/{note_name}"):
+        os.makedirs(f"data/{course_name}/{note_name}")
+
     prompt = r"""
         You are a helpful AI assistant helping people processing information in a markdown format. In the markdown format, there will be sections and subsection titles. Your job is to convert the mark down into a JSON format like the following:
         {

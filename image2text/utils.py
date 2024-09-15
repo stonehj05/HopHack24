@@ -200,13 +200,15 @@ def read_docx(file_path):
 def read_zip_images(zip_file_path, image_path): #export all zipped images to data directory, and return a list of link pointing to those images
     output_list = []
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+        cnt = 1
         for file_name in zip_ref.namelist():
             if file_name.endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
                 with zip_ref.open(file_name) as img_file:
                     image = Image.open(BytesIO(img_file.read()))
-                    image_output_path = os.path.join(image_path, os.path.basename(file_name))  # Save using base file name
+                    image_output_path = os.path.join(image_path, os.path.basename(f"image{cnt}.png"))  # Save using base file name
                     image.save(image_output_path)
                     output_list.append(image_output_path)
+                    cnt+=1
     return output_list
 
 def read_pdf_images(pdf_path, output_dir, image_format='png'):

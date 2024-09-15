@@ -70,5 +70,8 @@ TODO
 - several other notes, used to test course wise stuff
 - syllabus as context.
 - flashcard topic must specify topic - subtopic
+- Reprompt the note generation to encourage full equation.
+
+
 
 

@@ -37,7 +37,7 @@ st.markdown("""
 col1, col2 = st.columns([4, 1])  # Adjust the proportions (4:1) for spacing
 
 with col1:
-    st.markdown(f'<div class="title">{st.session_state.currentCourse}r</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="title">{st.session_state.currentCourse}</div>', unsafe_allow_html=True)
 
 with col2:
     if st.button('Go back to homepage'):

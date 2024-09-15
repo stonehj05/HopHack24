@@ -37,7 +37,6 @@ st.markdown(
 # Ensure there is a valid course index
 if st.session_state.courseIndex == 0:
     st.error("No course selected.")
-    return
 
 # Get the most recent course index and course name
 course_name = st.session_state.courseDictionary[1]  # Get the course name based on the index

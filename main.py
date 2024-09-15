@@ -17,6 +17,9 @@ if 'courseDictionary' not in st.session_state:
 if 'syllabusList' not in st.session_state:
     st.session_state.syllabusList = {}
 
+if 'currentCourse' not in st.session_state:
+    st.session_state.currentCourse = ""
+
 
 # Set page config
 st.set_page_config(page_title="AI Notetaker", page_icon="📝", layout="wide")
@@ -97,6 +100,7 @@ if Course_name:
     if Course_name not in st.session_state.courseDictionary.values(): 
         st.session_state.courseIndex += 1
         st.session_state.courseDictionary[st.session_state.courseIndex] = Course_name
+        st.session_state.currentCourse = Course_name
     st.write("Course Name Entered Successfully")
 # Syllabus file uploader
 syllabus = st.file_uploader("", type=['pdf', 'docx', 'txt'])

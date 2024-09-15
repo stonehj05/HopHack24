@@ -105,7 +105,7 @@ with col2:
 #     course_image_display("folder.PNG", st.session_state.courseIndex)
 
 # First read courses from previous paths and initialize automatically if not already done
-data_folder_path = Path('data2')
+data_folder_path = Path('data')
 
 if not st.session_state.courseDictionary:
     if data_folder_path.exists():
@@ -140,7 +140,7 @@ else:
 st.markdown('<div class="input-label">Enter Course Name</div>', unsafe_allow_html=True)
 Course_name = st.text_input("", value="", placeholder="Enter Course name here")
 if Course_name:
-    if Course_name not in st.session_state.courseDictionary.values(): 
+    if Course_name not in st.session_state.courseDictionary.values():
         st.session_state.courseIndex += 1
         # st.session_state.currentIndex = st.session_state.courseIndex
         st.session_state.courseDictionary[st.session_state.courseIndex] = Course_name
@@ -159,3 +159,27 @@ if syllabus is not None and Course_name is not None:
     if st.button('Go to ' + Course_name):
         st.session_state.noteupdateCheck = True
         st.switch_page("pages/course_page.py")
+
+
+# Load previous notebooks for the current course
+def load_previous_notebooks(course_name):
+    data_folder_path = Path(f'data/{course_name}')
+    if data_folder_path.exists():
+        subfolders_with_paths = [(f.name, f) for f in data_folder_path.iterdir() if f.is_dir()]
+        if subfolders_with_paths:
+            note_dict = {}
+            for subfolder, subpath in subfolders_with_paths:
+                st.write(str(subpath)+'\n')
+                note_name = str(subfolder)
+                note_index = len(note_dict) + 1
+                note_dict[note_index] = note_name
+            return note_dict
+    return {}
+
+# Load notebooks for the current course
+if st.session_state.currentCourse in st.session_state.menu:
+    existing_notebooks = load_previous_notebooks(st.session_state.currentCourse)
+    if existing_notebooks:
+        st.session_state.menu[st.session_state.currentCourse].update(existing_notebooks)
+        st.write(f"Loaded existing notebooks: {', '.join(existing_notebooks.values())}")
+        note_image_display('notebook.PNG', len(existing_notebooks), existing_notebooks)

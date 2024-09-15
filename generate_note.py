@@ -17,15 +17,15 @@ def generate_note(board_notes, audio_transcript, hand_notes, context="", course_
 
     # if note exist skip the process and read value off the file
     if os.path.exists(os.path.join(lecture_dir, note_name)) and os.path.exists(os.path.join(lecture_dir, "transcription.txt")):
-        print("Note and transcription already exist, reading from file")
-        with open(os.path.join(lecture_dir, note_name), "r") as file:
-            note = file.read()
-        with open(os.path.join(lecture_dir, "transcription.txt"), "r") as file:
-            transcription = file.read()
-        with open(os.path.join(lecture_dir, "diagrams.json"), "r") as file:
-            diagrams = json.load(file)
+        print("Note and transcription already exist, skipping generation note")
+        # with open(os.path.join(lecture_dir, note_name), "r") as file:
+        #     note = file.read()
+        # with open(os.path.join(lecture_dir, "transcription.txt"), "r") as file:
+        #     transcription = file.read()
+        # with open(os.path.join(lecture_dir, "diagrams.json"), "r") as file:
+        #     diagrams = json.load(file)
         
-        post_process_transcription_data(transcription, note, diagrams, course_name, lecture_name)
+        # post_process_transcription_data(transcription, note, diagrams, course_name, lecture_name)
         return
 
 

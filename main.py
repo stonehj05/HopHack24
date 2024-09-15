@@ -105,7 +105,7 @@ with col2:
 #     course_image_display("folder.PNG", st.session_state.courseIndex)
 
 # First read courses from previous paths and initialize automatically if not already done
-data_folder_path = Path('data')
+data_folder_path = Path('data2')
 
 if not st.session_state.courseDictionary:
     if data_folder_path.exists():
@@ -146,7 +146,7 @@ if Course_name:
         st.session_state.courseDictionary[st.session_state.courseIndex] = Course_name
         st.session_state.currentCourse = Course_name
         st.write("Course Name Entered Successfully")
-        course_image_display("folder.PNG", st.session_state.courseIndex)
+        #course_image_display("folder.PNG", st.session_state.courseIndex)
 # Syllabus file uploader
 syllabus = st.file_uploader("", type=['pdf', 'docx', 'txt'])
 

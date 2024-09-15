@@ -18,9 +18,9 @@ if not os.path.exists(os.path.join(note_path, "note.md")):
     handnote_images = read_handnote(personal_file.name, course_name, note_name)
     audio_file_path = os.path.join(os.getcwd(), "data", course_name, note_name, "user_upload", audio_file.name)
     generate_note(blackboard_images, [audio_file_path], handnote_images, context=syllabus_content, course_name=course_name, lecture_name=note_name)
-with open(f"./data/{course_name}/{note_name}/questions.json", "r") as file:
+with open(f"../data/{course_name}/{note_name}/questions.json", "r") as file:
     questions = json.load(file)
-with open(f"./data/{course_name}/{note_name}/note.md", "r") as file:
+with open(f"../data/{course_name}/{note_name}/note.md", "r") as file:
     note = file.read()
 with open(f"../data/{course_name}/{note_name}/graph_data_with_topic.json", "r") as file:
     graph_data = json.load(file)

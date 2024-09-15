@@ -90,7 +90,7 @@ if (st.session_state.courseIndex == 0):
 else:
     for course in st.session_state.courseDictionary.values():
         num_images = st.session_state.courseIndex
-        image_display("folder.PNG", num_images)
+        course_image_display("folder.PNG", num_images)
 
 
 # Text input for notebook name with larger label

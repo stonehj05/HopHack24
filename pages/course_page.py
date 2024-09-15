@@ -1,4 +1,5 @@
 import streamlit as st
+from picture import *
 
 #A dictionary that link noteIndex to noteName {int : string}
 if 'noteDictionary' not in st.session_state:
@@ -91,45 +92,36 @@ st.markdown('<div class="text-content">' + summary + '</div>', unsafe_allow_html
 #     # </div>
 #     # """, unsafe_allow_html=True)
 
-if (st.session_state.noteIndex == 0):
-    st.markdown('<p class="input-title">Please create a new notebook to start</p>', unsafe_allow_html=True)
-else:
-    num_images = st.session_state.noteIndex
 
-    # Display images in a left-aligned format
-    cols = st.columns(10)  # Creates 10 columns for better left alignment
-    st.write(num_images)
-    for i in range(num_images):
-        with cols[0]:  # Use the first column (leftmost)
-            st.image('Folder.png', use_column_width=True)
-            if st.button(f"{noteName}", key=f"button_{i}"):
-                st.session_state.page = f"notepage{i+1}"
+# Display images of folders with note names underneath
+if st.session_state.noteIndex > 0:
+    note_image_display("Notebook.png", st.session_state.noteIndex)
+else:
+    st.markdown('<p class="input-title">Please create a new notebook to start</p>', unsafe_allow_html=True)
 
 # Add a blank space before the text input field
 st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
 
-# Create a new notebook text input with a large font (integrating page4 functionality)
+# Create a new notebook text input with a large font
 st.markdown('<div class="larger-text">Create a new notebook by entering its name:</div>', unsafe_allow_html=True)
 noteName = st.text_input("", value="", placeholder="Enter Notebook Name Here")
 
-
 if noteName:
-    if noteName in st.session_state.noteDictionary.values():
-        st.error("A notebook with the same name already exists")
-    else: 
-        st.session_state.noteIndex += 1
-        st.session_state.menu[st.session_state.noteDictionary[st.session_state.noteIndex]] = noteName
-        st.session_state.currentNote = noteName
+    # Safely add the note to noteDictionary
+    st.session_state.noteDictionary[st.session_state.noteIndex] = noteName
+    
+    # Add the note to the menu
+    st.session_state.menu[noteName] = noteName
+
+    # Increment the noteIndex for the next note
+    st.session_state.noteIndex += 1
+
     st.write("Notebook Created Successfully")
 
 # Handle the creation of a new notebook
 if st.button('Generate result'):
-        st.switch_page('./pages/upload_new_note.py')
-        # st.session_state.page = 'page2'
-        # st.rerun()  # Reload the app to switch to page 1
+    st.switch_page('./pages/upload_new_note.py')
 
 # Button to return to the homepage
 if st.button('Go back to homepage'):
     st.switch_page('main.py')
-    # st.session_state.page = 'main'
-    # st.rerun()  # Reload the app to switch to the main page

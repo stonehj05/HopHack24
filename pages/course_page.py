@@ -1,47 +1,46 @@
 import streamlit as st
 from picture import *
 
-#A dictionary that link noteIndex to noteName {int : string}
-if 'noteDictionary' not in st.session_state:
-    st.session_state.noteDictionary = {}
-
 #A int that keep track the current index of note, which correspond to the order that they are added in their course
-if 'noteIndex' not in st.session_state:
-    st.session_state.noteIndex = 0
+# if 'noteIndex' not in st.session_state:
+#     st.session_state.noteIndex = 0
+if st.session_state.courseIndex in st.session_state.menu:
+    noteDictionary = st.session_state.menu[st.session_state.courseIndex]
+    noteIndex = len(noteDictionary)
+else:
+    noteDictionary = {}
+    noteIndex = 0
 
-# Adjust the layout to use only the upper part of the page
-st.markdown(
-    """
+# Custom CSS to position the title and button on the same line
+st.markdown("""
     <style>
-    .css-18e3th9 {
-        padding-top: 2rem;  /* Reduce the top padding */
+    .title-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
     }
-    .css-1d391kg { 
-        padding-top: 2rem;  /* Reduce padding for narrow pages */
-    }
-    .text-content {
-        margin-left: 20px;  /* Push text two spaces */
-        font-size: 1.2rem;  /* Increase font size for summary */
-        margin-bottom: 30px;  /* Add margin below the summary */
-    }
-    .input-title {
-        font-size: 1.5rem;
+    .title {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 50px;
         font-weight: bold;
-        margin-bottom: 10px;
+        align-items: center;
     }
-    .spacer {
-        margin-top: 40px;  /* Add space above the notebook input */
-    }
-    .upload-link {
-        font-size: 2rem;  /* Make the "Upload further information" text as large as the title */
-        text-align: center;
-        display: block;
-        margin-top: 20px;
+    .button-container {
+        margin-left: auto;
     }
     </style>
-    """,
-    unsafe_allow_html=True
-)
+    """, unsafe_allow_html=True)
+
+# Display the title and the button on the same line
+col1, col2 = st.columns([4, 1])  # Adjust the proportions (4:1) for spacing
+
+with col1:
+    st.markdown(f'<div class="title">{st.session_state.currentCourse}r</div>', unsafe_allow_html=True)
+
+with col2:
+    if st.button('Go back to homepage'):
+        st.switch_page('main.py')
 
 # Ensure there is a valid course index
 if st.session_state.courseIndex == 0:
@@ -49,53 +48,16 @@ if st.session_state.courseIndex == 0:
     st.switch_page('main.py')
 
 # Get the most recent course index and course name
-course_name = st.session_state.courseDictionary[1]  # Get the course name based on the index
+course_name = st.session_state.currentCourse  # Get the course name based on the index
 syllabus = st.session_state.syllabusList.get(1, "No syllabus available")
 
-# Display the course title at the top
-st.markdown(f"<h2 style='text-align: center; margin-top: 0;'>{course_name}</h2>", unsafe_allow_html=True)
-
-# Display the course summary or syllabus
-summary = "This course introduces students to the fundamentals of chemistry, including atomic structure, periodic trends, and chemical reactions."
-st.markdown('<div class="text-content">' + summary + '</div>', unsafe_allow_html=True)
-
-# # Create a two-column layout for the images and links, aligned horizontally to the left
-# col_left, col_mid, col_right = st.columns([1, 1, 6])  # Adjust the column proportions (1:6) for left alignment
-
-# with col_left:
-#     # First image and link
-#     st.image("Notebook.png", width=150)  # Make the image small
-#     st.page_link("./pages/upload_new_note.py", label="Notebook 1", icon="🏠")
-#     # st.markdown("""
-#     # <div style="display: flex; justify-content: space-between;">
-#     #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 1</a></span>
-#     # </div>
-#     # """, unsafe_allow_html=True)
-
-# with col_mid:
-#     # Second image and link
-#     st.image("Notebook.png", width=150)  # Make the image small
-#     st.page_link("./pages/upload_new_note.py", label="Notebook 2", icon="🏠")
-#     # st.markdown("""
-#     # <div style="display: flex; justify-content: space-between;">
-#     #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 2</a></span>
-#     # </div>
-#     # """, unsafe_allow_html=True)
-
-# with col_right:
-#     # Third image and link
-#     st.image("Notebook.png", width=150)  # Make the image small
-#     st.page_link("./pages/upload_new_note.py", label="Notebook 3", icon="🏠")
-#     # st.markdown("""
-#     # <div style="display: flex; justify-content: space-between;">
-#     #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 3</a></span>
-#     # </div>
-#     # """, unsafe_allow_html=True)
-
+# # Display the course summary or syllabus
+# summary = "This course introduces students to the fundamentals of chemistry, including atomic structure, periodic trends, and chemical reactions."
+# st.markdown('<div class="text-content">' + summary + '</div>', unsafe_allow_html=True)
 
 # Display images of folders with note names underneath
-if st.session_state.noteIndex > 0:
-    note_image_display("Notebook.png", st.session_state.noteIndex)
+if noteIndex > 0:
+    note_image_display("Notebook.png", noteIndex)
 else:
     st.markdown('<p class="input-title">Please create a new notebook to start</p>', unsafe_allow_html=True)
 
@@ -108,20 +70,14 @@ noteName = st.text_input("", value="", placeholder="Enter Notebook Name Here")
 
 if noteName:
     # Safely add the note to noteDictionary
-    st.session_state.noteDictionary[st.session_state.noteIndex] = noteName
-    
+    noteDictionary[noteIndex] = noteName
     # Add the note to the menu
-    st.session_state.menu[noteName] = noteName
+    st.session_state.menu[st.session_state.currentCourse] = noteDictionary
 
     # Increment the noteIndex for the next note
-    st.session_state.noteIndex += 1
-
+    noteIndex += 1
+    noteDictionary[noteIndex] = noteName
     st.write("Notebook Created Successfully")
-
-# Handle the creation of a new notebook
-if st.button('Generate result'):
-    st.switch_page('./pages/upload_new_note.py')
-
-# Button to return to the homepage
-if st.button('Go back to homepage'):
-    st.switch_page('main.py')
+    # Handle the creation of a new notebook
+    if st.button('Upload More Information'):
+        st.switch_page('./pages/upload_new_note.py')

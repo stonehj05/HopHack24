@@ -4,11 +4,15 @@ from picture import *
 
 #A dictionary that correspond the courseIndex to the number notebooks it has right now {int : int}
 if 'courseNoteBookNumberCount' not in st.session_state:
-     st.session_state.courseNoteBookNumberCount = {}
+    st.session_state.courseNoteBookNumberCount = {}
 
 #A dictionary that correspond the courseIndex to the number notebooks it has right now {int : int}
+# if 'currentIndex' not in st.session_state:
+#     st.session_state.currentIndex = {}
+
+#A dictionary that correspond the courseName to inner dictionary from noteindex to notename {string : {int : string}}
 if 'menu' not in st.session_state:
-     st.session_state.menu = {}
+    st.session_state.menu = {}
 
 #A int that keep track the current index of course, which correspond to the order that they are added
 if 'courseIndex' not in st.session_state:
@@ -89,7 +93,7 @@ if (st.session_state.courseIndex == 0):
     st.markdown('<div class="larger-text">Please enter the new course syllabus to start: 📂</div>', unsafe_allow_html=True)
 else:
     num_images = st.session_state.courseIndex
-    image_display("folder.PNG", num_images)
+    course_image_display("folder.PNG", num_images)
 
 
 # Text input for notebook name with larger label
@@ -98,6 +102,7 @@ Course_name = st.text_input("", value="", placeholder="Enter Course name here")
 if Course_name:
     if Course_name not in st.session_state.courseDictionary.values(): 
         st.session_state.courseIndex += 1
+        # st.session_state.currentIndex = st.session_state.courseIndex
         st.session_state.courseDictionary[st.session_state.courseIndex] = Course_name
         st.session_state.currentCourse = Course_name
     st.write("Course Name Entered Successfully")

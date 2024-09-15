@@ -69,6 +69,11 @@ def generate_note(board_notes, audio_transcript, hand_notes, context="", course_
     <Detailed notes for each topic, with explanations, formulas, and diagrams, matching the structure of the outline>
     ## Diagrams & Related Resources
     <For each diagram, generate a hyperlink with description, using the reillustration field for each diagram>
+    
+    Please notice the following:
+    - The note should be well-organized, with clear headings and subheadings as listed in the outline.$[ f(n) = O(g(n)) \iff \exists C, N_0 \in \mathbb{R}, \text{ s.t. } \forall N \geq N_0, |f(N)| \leq C \cdot g(N) ]$
+    - Whenever there is latex code, suround it with a single $ symbol. NOT the \( \) symbol. the $$ $$ math block is prohibited. Do not escape the \ symbol in the output. Never use multiple lines for a single formula. Always treat it inline. Long math formula can go on as a single line by itself.
+        - Example: For $x \in \mathbb{R}$, We know that $x=2$ is a solution to the equation $x^2 - 4 = 0$.
     """
 
     prompt += f"""  
@@ -90,7 +95,7 @@ if __name__ == '__main__':
     # TODO: automatically read it from the folder. Should encapsulate this process with a function main_process(lecture_directory)
     board_notes_paths = ['./img/board_1.jpg', './img/board_2.jpg', './img/board_3.jpg']
     hand_notes_paths = ['./img/handnote.jpg']
-    transcription_paths = ['./example_audio.mp3']
+    transcription_paths = ['./lecture_audio.mp3']
     context = "This is a lecture about binary search tree in a data structure class."
     transcription, note_text = generate_note(board_notes_paths, transcription_paths, hand_notes_paths, context)
 

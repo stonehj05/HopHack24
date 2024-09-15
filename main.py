@@ -99,15 +99,10 @@ with col2:
     """
     st.markdown(f'<div class="description">{description_text}</div>', unsafe_allow_html=True)
 
-# if (st.session_state.courseIndex == 0):
-#     st.markdown('<div class="larger-text">Please enter the new course syllabus to start: 📂</div>', unsafe_allow_html=True)
-# else:
-#     course_image_display("folder.PNG", st.session_state.courseIndex)
-
 # First read courses from previous paths and initialize automatically if not already done
 data_folder_path = Path('data')
 
-if not st.session_state.courseDictionary:
+if len(st.session_state.courseDictionary) == 0:
     if data_folder_path.exists():
         # Get the subfolders with their paths
         subfolders_with_paths = [(f.name, f) for f in data_folder_path.iterdir() if f.is_dir()]
@@ -116,26 +111,28 @@ if not st.session_state.courseDictionary:
             for subfolder, subpath in subfolders_with_paths:
                 Course_name = str(subfolder)
                 if Course_name not in st.session_state.courseDictionary.values():
-                    st.session_state.courseIndex += 1
+                    # Automatically set the first course as the current course
+                    if not st.session_state.currentCourse:
+                        st.session_state.courseIndex = 1
                     st.session_state.courseDictionary[st.session_state.courseIndex] = Course_name
-                
-                # Automatically set the first course as the current course
-                if not st.session_state.currentCourse:
-                    st.session_state.currentCourse = Course_name
+                    st.session_state.courseIndex += 1
 
             st.write(f"Automatically loaded courses: {', '.join(st.session_state.courseDictionary.values())}")
-            
-            # Display the folder image and the first course if available
-            course_image_display("folder.PNG", st.session_state.courseIndex)
+            st.write(str(st.session_state.courseIndex))
+            # # Display the folder image and the first course if available
+            # course_image_display("folder.PNG", st.session_state.courseIndex)
         else:
-            st.markdown('<div class="larger-text">No existing courses found. Please enter a new course syllabus to start: 📂</div>', unsafe_allow_html=True)
+            pass
     else:
         st.error(f"The specified folder '{data_folder_path}' does not exist. Please create it and add courses.")
 else:
     # If courses are already loaded in the session, display the current course
     st.write(f"Current course: {st.session_state.currentCourse}")
+    # course_image_display("folder.PNG", st.session_state.courseIndex)
+if (st.session_state.courseIndex == 0):
+    st.markdown('<div class="larger-text">Please enter the new course syllabus to start: 📂</div>', unsafe_allow_html=True)
+else:
     course_image_display("folder.PNG", st.session_state.courseIndex)
-
 # Text input for notebook name with larger label
 st.markdown('<div class="input-label">Enter Course Name</div>', unsafe_allow_html=True)
 Course_name = st.text_input("", value="", placeholder="Enter Course name here")
@@ -146,7 +143,7 @@ if Course_name:
         st.session_state.courseDictionary[st.session_state.courseIndex] = Course_name
         st.session_state.currentCourse = Course_name
         st.write("Course Name Entered Successfully")
-        course_image_display("folder.PNG", st.session_state.courseIndex)
+        # course_image_display("folder.PNG", st.session_state.courseIndex)
 # Syllabus file uploader
 syllabus = st.file_uploader("", type=['pdf', 'docx', 'txt'])
 

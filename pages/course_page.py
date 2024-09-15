@@ -1,13 +1,14 @@
 import streamlit as st
 from picture import *
+import copy
 
 #A int that keep track the current index of note, which correspond to the order that they are added in their course
 # if 'noteIndex' not in st.session_state:
 #     st.session_state.noteIndex = 0
-if st.session_state.currentCourse in st.session_state.menu:
+if st.session_state.currentCourse in st.session_state.menu and st.session_state.noteupdateCheck:
     noteDictionary = st.session_state.menu[st.session_state.currentCourse]
     noteIndex = len(noteDictionary)
-else:
+elif st.session_state.currentCourse not in st.session_state.menu and st.session_state.noteupdateCheck:
     noteDictionary = {}
     noteIndex = 0
 
@@ -56,10 +57,12 @@ syllabus = st.session_state.syllabusList.get(1, "No syllabus available")
 # st.markdown('<div class="text-content">' + summary + '</div>', unsafe_allow_html=True)
 
 # Display images of folders with note names underneath
-if noteIndex > 0:
-    note_image_display("Notebook.png", noteDictionary)
-else:
-    st.markdown('<p class="input-title">Please create a new notebook to start</p>', unsafe_allow_html=True)
+if st.session_state.noteupdateCheck:
+    if noteIndex > 0:
+        # note_image_display("Notebook.png", noteIndex, noteDictionary)
+        note_image_display('notebook.PNG', noteIndex, noteDictionary)
+    else:
+        st.markdown('<p class="input-title">Please create a new notebook to start</p>', unsafe_allow_html=True)
 
 # Add a blank space before the text input field
 st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
@@ -69,15 +72,15 @@ st.markdown('<div class="larger-text">Create a new notebook by entering its name
 noteName = st.text_input("", value="", placeholder="Enter Notebook Name Here")
 
 if noteName:
-    # Safely add the note to noteDictionary
-    noteDictionary[noteIndex] = noteName
-    # Add the note to the menu
-    st.session_state.menu[st.session_state.currentCourse] = noteDictionary
-
-    # Increment the noteIndex for the next note
-    noteIndex += 1
-    noteDictionary[noteIndex] = noteName
-    st.write("Notebook Created Successfully")
-    # Handle the creation of a new notebook
-    if st.button('Upload More Information'):
-        st.switch_page('./pages/upload_new_note.py')
+    if st.session_state.noteupdateCheck:
+        st.session_state.noteupdateCheck = False
+        noteDictionary[noteIndex + 1] = noteName
+        st.session_state.menu[st.session_state.currentCourse] = copy.deepcopy(noteDictionary)
+        st.write("Notebook Created Successfully")
+        # Handle the creation of a new notebook
+        if st.button('Upload More Information'):
+            st.switch_page('./pages/upload_new_note.py')
+    else:
+        st.write("Notebook Created Successfully")
+        if st.button('Upload More Information'):
+            st.switch_page('./pages/upload_new_note.py')

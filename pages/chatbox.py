@@ -79,7 +79,6 @@ def respond(user_query, context=""):
     # Perform vector search using the query to get relevant context chunks
         # Search the vector database for relevant context
     relevant_contexts = main(f"./data/{st.session_state.currentCourse}", user_query) # Get top 5 most relevant chunks
-    print(relevant_contexts)
     context = "\n".join([chunk for chunk in relevant_contexts])  # Combine the chunks
     
     prompt = f"""

@@ -86,7 +86,7 @@ def generate_note(board_notes, audio_transcript, hand_notes, context="", course_
     """
     response = gpt_api_call(prepare_messages(prompt), 0.0, api_key)
     print("\n\n\n===Final Note===\n\n\n")
-    with open(os.path.join(lecture_dir, note_name), "w") as file:
+    with open(os.path.join(lecture_dir, note_name), "w", encoding="utf-8") as file:
         file.write(response)
     # return transcription, response, diagrams
     print("Post processing transcription data")

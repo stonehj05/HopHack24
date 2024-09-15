@@ -205,7 +205,7 @@ def read_zip_images(zip_file_path, image_path): #export all zipped images to dat
             if file_name.endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
                 with zip_ref.open(file_name) as img_file:
                     image = Image.open(BytesIO(img_file.read()))
-                    image_output_path = os.path.join(image_path, os.path.basename(f"image{cnt}.png"))  # Save using base file name
+                    image_output_path = f"{image_path}/image{cnt}.png"  # Save using base file name
                     image.save(image_output_path)
                     output_list.append(image_output_path)
                     cnt+=1

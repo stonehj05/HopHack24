@@ -74,7 +74,8 @@ noteName = st.text_input("", value="", placeholder="Enter Notebook Name Here")
 if noteName:
     if st.session_state.noteupdateCheck:
         st.session_state.noteupdateCheck = False
-        noteDictionary[noteIndex + 1] = noteName
+        st.session_state.currentNoteIndex = noteIndex + 1
+        noteDictionary[st.session_state.currentNoteIndex] = noteName
         st.session_state.menu[st.session_state.currentCourse] = copy.deepcopy(noteDictionary)
         st.write("Notebook Created Successfully")
         # Handle the creation of a new notebook

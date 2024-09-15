@@ -33,28 +33,15 @@ if st.session_state.blackboard_file:
 if st.session_state.personal_file:
     st.write(f"Uploaded personal file: {st.session_state.personal_file.name}")
 
-# Check if all files are uploaded
-if (st.session_state.audio_file is not None and 
-    st.session_state.blackboard_file is not None and 
-    st.session_state.personal_file is not None):
-    # Generate a clickable link with large font size that says "Loading the new AI notebook"
-    if st.button('Generate result'):
-        save_files() # Save the uploaded files 
-        st.session_state.page_generation = True # Change the state to indicate that a new page need to be generated.
-        st.switch_page("./pages/note_detail.py")
-        st.session_state.page = 'page3'
-        st.rerun()  # Reload the app to switch to page 1
-
-
 def save_files():
     import os
     #st.session_state.audio_file
     #st.session_state.blackboard_file
     #st.session_state.personal_file
     blackboard_file = st.session_state.blackboard_file
-    course_name = st.session_state.course_name
-    lecture_name = st.session_state.lecture_name
-    # syllabus_file = st.session_state.syllabusList[course_name] # Syllabus should be saved in the main page. TODO: CHECK
+    course_name = st.session_state.currentCourse
+    lecture_name = st.session_state.menu[st.session_state.currentCourse][st.session_state.currentNoteIndex]
+    syllabus_file = st.session_state.syllabusList[course_name]
     audio_file = st.session_state.audio_file
     personal_file = st.session_state.personal_file
     os.makedirs("data", exist_ok=True)
@@ -70,3 +57,16 @@ def save_files():
         file.write(audio_file.getbuffer())
     with open(os.path.join(os.getcwd(), "data", course_name, lecture_name,"user_upload", personal_file.name), "wb") as file: #1 is a placeholder now
         file.write(personal_file.getbuffer())
+# Check if all files are uploaded
+if (st.session_state.audio_file is not None and 
+    st.session_state.blackboard_file is not None and 
+    st.session_state.personal_file is not None):
+    # Generate a clickable link with large font size that says "Loading the new AI notebook"
+    if st.button('Generate result'):
+        save_files() # Save the uploaded files 
+        st.session_state.page_generation = True # Change the state to indicate that a new page need to be generated.
+        st.switch_page("./pages/note_detail.py")
+        st.session_state.page = 'page3'
+        st.rerun()  # Reload the app to switch to page 1
+
+

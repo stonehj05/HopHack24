@@ -3,13 +3,15 @@ import os
 from file_handle import *
 import json
 from generate_note import generate_note
-
+# Set page configuration
+st.set_page_config(page_title="Notebook Page", layout="wide")
 ### LOAD DATA ###
 course_name = st.session_state.currentCourse
 note_name = st.session_state.menu[st.session_state.currentCourse][st.session_state.currentNoteIndex]
 
-note_path = f"../data/{course_name}/{note_name}"
-if not os.path.exists(os.path.join(note_path, "note.md")):
+note_path = f"./data/{course_name}/{note_name}"
+st.write(note_path)
+if not os.path.exists(f"./data/{course_name}/{note_name}/note.md"):
     syllabus_file = st.session_state.syllabusList[course_name]
     audio_file = st.session_state.audio_file
     personal_file = st.session_state.personal_file
@@ -41,11 +43,6 @@ def blur_match(topic,section,subsection):
     section = section.replace("_", " ").replace("(", "").replace(")", "").replace("[", "").replace("]", "").replace("{", "").replace("}", "")
     subsection = subsection.replace("_", " ").replace("(", "").replace(")", "").replace("[", "").replace("]", "").replace("{", "").replace("}", "")
     return section.lower() in topic.lower() and subsection.lower() in topic.lower()
-
-
-# Set page configuration
-st.set_page_config(page_title="Notebook Page", layout="wide")
-
 
 st.session_state.note_partition_dict = note2dict(st.session_state.note_text_raw, course_name, note_name)
 

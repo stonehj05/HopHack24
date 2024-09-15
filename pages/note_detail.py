@@ -79,7 +79,7 @@ for section, subsections in st.session_state.note_partition_dict.items():
                 st.markdown(content)
                 # check if the subsection has any graphs
                 related_graphs = [
-                    graph for graph in graph_data['Diagrams'] if blur_match(graph['topic'], f"{section}", f"{subsection}")
+                    graph for graph in graph_data['Diagrams'] if blur_match(graph['Topic'], f"{section}", f"{subsection}")
                 ]
                 if related_graphs:
                     for graph in related_graphs:
@@ -124,7 +124,7 @@ for section, subsections in st.session_state.note_partition_dict.items():
                                         with st.expander("💡Hint (Click to expand)"):
                                             st.write(question['hint'])
                                     with st.expander("📝Answer (Click to expand)"):
-                                        st.write(que    stion['answer'])
+                                        st.write(question['answer'])
                         
                         # Challenging questions
                         with tab3:

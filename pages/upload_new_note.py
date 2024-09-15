@@ -11,7 +11,15 @@ if 'page_generation' not in st.session_state:
     st.session_state.page_generation = False
 st.session_state.noteupdateCheck = True
 # Set the title for the page
-st.title("Upload further information")
+# Display the title and the button on the same line
+col1, col2 = st.columns([4, 1])  # Adjust the proportions (4:1) for spacing
+
+with col1:
+    st.markdown(f'<div class="title">{st.session_state.currentCourse}</div>', unsafe_allow_html=True)
+
+with col2:
+    if st.button('Go back to homepage'):
+        st.switch_page('main.py')
 
 # Add file upload options with instructions (styled to be large)
 st.markdown("<h2>Please upload class audio:</h2>", unsafe_allow_html=True)

@@ -11,7 +11,7 @@ note_name = st.session_state.menu[st.session_state.currentCourse][st.session_sta
 
 note_path = f"./data/{course_name}/{note_name}"
 if not os.path.exists(f"./data/{course_name}/{note_name}/note.md"):
-    if os.path.exists(f"./data/{course_name}/syllabus.pdf"):
+    if os.path.exists(f"./data/{course_name}/user_upload/syllabus.pdf"):
         syllabus_file = "syllabus.pdf"
     else:
         syllabus_file = st.session_state.syllabusList[course_name]

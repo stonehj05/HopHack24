@@ -49,7 +49,10 @@ def save_files():
     blackboard_file = st.session_state.blackboard_file
     course_name = st.session_state.currentCourse
     lecture_name = st.session_state.menu[st.session_state.currentCourse][st.session_state.currentNoteIndex]
-    syllabus_file = st.session_state.syllabusList[course_name]
+    if os.path.exists(f"./data/{course_name}/user_upload/syllabus.pdf"):
+        syllabus_file = "syllabus.pdf"
+    else:
+        syllabus_file = st.session_state.syllabusList[course_name]
     audio_file = st.session_state.audio_file
     personal_file = st.session_state.personal_file
     os.makedirs("data", exist_ok=True)
@@ -57,8 +60,12 @@ def save_files():
     os.makedirs(f"data/{course_name}/{lecture_name}", exist_ok=True)
     os.makedirs(f"data/{course_name}/user_upload", exist_ok=True)
     os.makedirs(f"data/{course_name}/{lecture_name}/user_upload", exist_ok=True)
-    with open(os.path.join(os.getcwd(), "data", course_name, "user_upload", "syllabus.pdf"), "wb") as file:
-        file.write(syllabus_file.getbuffer())
+    try:
+        syllabus_file.get_buffer()
+        with open(os.path.join(os.getcwd(), "data", course_name, "user_upload", "syllabus.pdf"), "wb") as file:
+            file.write(syllabus_file.getbuffer())
+    except Exception:
+        pass
     with open(os.path.join(os.getcwd(), "data", course_name, lecture_name,"user_upload", blackboard_file.name), "wb") as file: #1 is a placeholder now
         file.write(blackboard_file.getbuffer())
     with open(os.path.join(os.getcwd(), "data", course_name, lecture_name,"user_upload", audio_file.name), "wb") as file: #1 is a placeholder now

@@ -42,17 +42,6 @@ course_name = st.session_state.courseDictionary[1]
 syllabus_file = st.session_state.syllabusList[course_name]
 audio_file = st.session_state.audio_file
 personal_file = st.session_state.personal_file
-'''os.makedirs("data", exist_ok=True)
-os.makedirs(f"data/{course_name}", exist_ok=True)
-os.makedirs(f"data/{course_name}/1", exist_ok=True)
-with open(os.path.join(os.getcwd(), "data", course_name, syllabus_file.name), "wb") as file:
-    file.write(syllabus_file.getbuffer())
-with open(os.path.join(os.getcwd(), "data", course_name, "1", blackboard_file.name), "wb") as file: #1 is a placeholder now
-    file.write(blackboard_file.getbuffer())
-with open(os.path.join(os.getcwd(), "data", course_name, "1", audio_file.name), "wb") as file: #1 is a placeholder now
-    file.write(audio_file.getbuffer())
-with open(os.path.join(os.getcwd(), "data", course_name, "1", personal_file.name), "wb") as file: #1 is a placeholder now
-    file.write(personal_file.getbuffer())'''
 note_name = "1" #for test purposes
 note_path = f"../data/{course_name}/{note_name}"
 if not os.path.exists(os.path.join(note_path, "note.md")):

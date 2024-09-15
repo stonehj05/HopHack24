@@ -2,7 +2,7 @@ import openai
 from image2text.utils import *
 api_key = get_openai_api_key()
 
-def generate_response(question, context):
+def generate_response(question, context=""):
     prompt = """
         You are a helpful AI assistant helping students to answer there questions. You will read context about the course the student is taking and the recent lecture in the course. The context include two parts
         1. The content of course syllabus

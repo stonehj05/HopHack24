@@ -4,8 +4,8 @@ from picture import *
 #A int that keep track the current index of note, which correspond to the order that they are added in their course
 # if 'noteIndex' not in st.session_state:
 #     st.session_state.noteIndex = 0
-if st.session_state.courseIndex in st.session_state.menu:
-    noteDictionary = st.session_state.menu[st.session_state.courseIndex]
+if st.session_state.currentCourse in st.session_state.menu:
+    noteDictionary = st.session_state.menu[st.session_state.currentCourse]
     noteIndex = len(noteDictionary)
 else:
     noteDictionary = {}
@@ -57,7 +57,7 @@ syllabus = st.session_state.syllabusList.get(1, "No syllabus available")
 
 # Display images of folders with note names underneath
 if noteIndex > 0:
-    note_image_display("Notebook.png", noteIndex)
+    note_image_display("Notebook.png", noteDictionary)
 else:
     st.markdown('<p class="input-title">Please create a new notebook to start</p>', unsafe_allow_html=True)
 

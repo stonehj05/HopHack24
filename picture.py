@@ -6,9 +6,8 @@ def course_image_display(fileName, n):
     for i, col in enumerate(cols):
         with col:
             st.image(fileName, width=100)
-            if st.button(st.session_state.courseDictionary[i+1], key=f"button_{i}" + str(st.session_state.courseIndex)):
+            if st.button(st.session_state.courseDictionary[i+1]):
                 st.session_state.currentCourse  = st.session_state.courseDictionary[i+1]
-                # st.session_state.courseIndex = list(st.session_state.courseDictionary.keys.index)[list(st.session_state.courseDictionary.values).index((st.session_state.currentCourse))]
                 st.switch_page("pages/course_page.py")
 
 def note_image_display(fileName, n):
@@ -33,10 +32,11 @@ def note_image_display(fileName, n):
             if note_name:
                 if st.button(note_name):
                     st.session_state.currentNote = note_name
-                    #st.switch_page('./pages/upload_new_note.py')
-
+                    st.switch_page('./pages/upload_new_note.py')
+                    # Uncomment the line below if you want to switch pages
+                    # st.switch_page("pages/course_page.py")
             else:
-                st.error(f"Note index {i} is missing in noteDictionary.")
+                st.error(f"Note index {i + 1} is missing in noteDictionary.")
 
 # if __name__ == '__main__':
 #     image_display("folder.PNG",6)

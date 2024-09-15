@@ -9,6 +9,7 @@ if 'personal_file' not in st.session_state:
     st.session_state.personal_file = None
 if 'page_generation' not in st.session_state:
     st.session_state.page_generation = False
+st.session_state.noteupdateCheck = True
 # Set the title for the page
 st.title("Upload further information")
 
@@ -36,7 +37,6 @@ if st.session_state.personal_file:
 if (st.session_state.audio_file is not None and 
     st.session_state.blackboard_file is not None and 
     st.session_state.personal_file is not None):
-    
     # Generate a clickable link with large font size that says "Loading the new AI notebook"
     if st.button('Generate result'):
         save_files() # Save the uploaded files 

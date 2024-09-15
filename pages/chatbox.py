@@ -21,7 +21,6 @@ def recognize_speech_from_mic():
         with open(wav_output, 'wb') as f:
             f.write(audio.get_wav_data())
 
-        # Convert the WAV file to MP3
         
         try:
             # Use Google Web Speech API to recognize speech

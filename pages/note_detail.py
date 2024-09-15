@@ -7,7 +7,7 @@ from generate_note import generate_note
 ### LOAD DATA ###
 blackboard_file = st.session_state.blackboard_file
 course_name = st.session_state.currentCourse
-note_name = st.session_state.menu[st.session_state.menu[st.session_state.currentNodeIndex]]
+note_name = st.session_state.menu[st.session_state.currentCourse][st.session_state.currentNodeIndex]
 syllabus_file = st.session_state.syllabusList[course_name]
 audio_file = st.session_state.audio_file
 personal_file = st.session_state.personal_file

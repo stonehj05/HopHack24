@@ -4,6 +4,30 @@ from file_handle import *
 import json
 from generate_note import generate_note
 
+### LOAD DATA ###
+blackboard_file = st.session_state.blackboard_file
+course_name = st.session_state.currentCourse
+note_name = st.session_state.menu[st.session_state.menu[st.session_state.currentNodeIndex]]
+syllabus_file = st.session_state.syllabusList[course_name]
+audio_file = st.session_state.audio_file
+personal_file = st.session_state.personal_file
+note_name = "1" #for test purposes
+note_path = f"../data/{course_name}/{note_name}"
+if not os.path.exists(os.path.join(note_path, "note.md")):
+    syllabus_content = read_syllabus(syllabus_file.name, course_name)
+    blackboard_images = read_blackboard(blackboard_file.name, course_name, note_name)
+    handnote_images = read_handnote(personal_file.name, course_name, note_name)
+    audio_file_path = os.path.join(os.getcwd(), "data", course_name, note_name, audio_file.name)
+    generate_note(blackboard_images, audio_file_path, handnote_images, context=syllabus_content, course_name=course_name, lecture_name=note_name)
+with open(f"./data/{course_name}/{note_name}/questions.json", "r") as file:
+    questions = json.load(file)
+with open(f"./data/{course_name}/{note_name}/note.md", "r") as file:
+    note = file.read()
+
+st.session_state.note_text_raw=note
+
+st.session_state.question_list=questions
+
 ### Example data###
 st.session_state.note_text_raw=r"""
 # Binary Search Tree
@@ -251,10 +275,7 @@ st.session_state.question_list=[
 # Set page configuration
 st.set_page_config(page_title="Notebook Page", layout="wide")
 
-# Title stored in session state
-if 'lecture_name' not in st.session_state:
-    st.session_state.lecture_name = "STUB NAME"
-st.title(st.session_state.lecture_name)
+st.title(note_name)
 
 # Create columns for diagrams and questions
 col1, col2 = st.columns([2, 1])
@@ -328,29 +349,5 @@ if st.button("Stop the process"):
 
 st.success('Page Loaded Successfully!')
 
-# Function to process notes and get variables into session state
-def generate_new_notes():
-    pass  # Replace with logic for loading new notes
 
-### LOAD DATA ###
-#st.session_state.audio_file
-#st.session_state.blackboard_file
-#st.session_state.personal_file
-blackboard_file = st.session_state.blackboard_file
-course_name = st.session_state.courseDictionary[1]
-syllabus_file = st.session_state.syllabusList[course_name]
-audio_file = st.session_state.audio_file
-personal_file = st.session_state.personal_file
-note_name = "1" #for test purposes
-note_path = f"../data/{course_name}/{note_name}"
-if not os.path.exists(os.path.join(note_path, "note.md")):
-    syllabus_content = read_syllabus(syllabus_file.name, course_name)
-    blackboard_images = read_blackboard(blackboard_file.name, course_name, note_name)
-    handnote_images = read_handnote(personal_file.name, course_name, note_name)
-    audio_file_path = os.path.join(os.getcwd(), "data", course_name, "1", audio_file.name)
-    generate_note(blackboard_images, audio_file_path, handnote_images, context=syllabus_content, course_name=course_name, lecture_name=note_name)
-with open(f"./data/{course_name}/{note_name}/questions.json", "r") as file:
-    questions = json.load(file)
-with open(f"./data/{course_name}/{note_name}/note.md", "r") as file:
-    note = file.read()
 

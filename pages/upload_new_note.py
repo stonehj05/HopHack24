@@ -57,7 +57,7 @@ def save_files():
     os.makedirs(f"data/{course_name}/{lecture_name}", exist_ok=True)
     os.makedirs(f"data/{course_name}/user_upload", exist_ok=True)
     os.makedirs(f"data/{course_name}/{lecture_name}/user_upload", exist_ok=True)
-    with open(os.path.join(os.getcwd(), "data", course_name, "user_upload",syllabus_file.name), "wb") as file:
+    with open(os.path.join(os.getcwd(), "data", course_name, "user_upload", "syllabus.pdf"), "wb") as file:
         file.write(syllabus_file.getbuffer())
     with open(os.path.join(os.getcwd(), "data", course_name, lecture_name,"user_upload", blackboard_file.name), "wb") as file: #1 is a placeholder now
         file.write(blackboard_file.getbuffer())

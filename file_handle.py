@@ -50,11 +50,10 @@ def note2dict(note, course_name, note_name):
     """
     prompt += f"Input note: {note}"
     messages = prepare_messages(prompt)
-    response = gpt_api_call(messages, 0.0, api_key)
+    response = gpt_api_call(messages, 0.0, api_key,json_mode=True)
+    temp = json.loads(response)
     with open(f"data/{course_name}/{note_name}/note_partition.json", "w") as file:
-        json.dump(response, file, indent=4)
-    with open(f"data/{course_name}/{note_name}/note_partition.json", "r") as file:
-        temp = json.load(file)
+        json.dump(temp, file, indent=4)
     detailed_note = temp["Detailed Notes"]
     prompt = r"""
         You are a helpful AI assistant helping people processing information in a markdown format. In the markdown format, there will be sections and subsection titles. You will also read summary of the note content and an outline for the nodtes. Based on these information, your job is to convert the markdown following the outline into a JSON format like the following:
@@ -69,7 +68,7 @@ def note2dict(note, course_name, note_name):
             },
             ...
         }
-        Make sure you do not modify any of the original contents in the notes but just reorganizing them strictly following the style guide. Do not give any extra inforamtion.
+        Remove the sequence number if there is any in section or subsection titles and just keep the raw contents. Make sure you do not modify any of the original contents in the notes but just reorganizing them strictly following the style guide. Do not give any extra inforamtion.
     """
     prompt += f"""
         Input note: {detailed_note}
@@ -77,10 +76,11 @@ def note2dict(note, course_name, note_name):
         Outline: {temp["Outline"]}
     """
     messages = prepare_messages(prompt)
-    response = gpt_api_call(messages, 0.0, api_key)
+    response = gpt_api_call(messages, 0.0, api_key, json_mode=True)
+    temp = json.loads(response)
     with open(f"data/{course_name}/{note_name}/detailed_note_partition.json", "w") as file:
-        json.dump(response, file, indent=4)
-    return response
+        json.dump(temp, file, indent=4)
+    return temp
 
 if __name__ == "__main__":
     note = r"""

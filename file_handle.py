@@ -4,7 +4,7 @@ from image2text.utils import *
 # sys.remove("..")
 api_key = get_openai_api_key()
 def read_syllabus(syllabus_file_name, course_name): #should return text
-    syllabus_path = f"../data/{course_name}/{syllabus_file_name}"
+    syllabus_path = f"data/{course_name}/user_upload/{syllabus_file_name}"
     if ".txt" in syllabus_file_name:
         with open(syllabus_path, "r") as file:
             return file.read()
@@ -16,18 +16,18 @@ def read_syllabus(syllabus_file_name, course_name): #should return text
         raise Exception("Unsupported file format for syllabus. Please upload .txt, .docx or .pdf")
 
 def read_blackboard(blackboard_file_name, course_name, note_name):
-    blackboard_file_path = f"../data/{course_name}/{note_name}/{blackboard_file_name}"
+    blackboard_file_path = f"data/{course_name}/{note_name}/user_upload/{blackboard_file_name}"
     if ".zip" in blackboard_file_name:
-        return read_zip_images(blackboard_file_path, f"../data/{course_name}/{note_name}")
+        return read_zip_images(blackboard_file_path, f"data/{course_name}/{note_name}")
     elif (blackboard_file_name.endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))):
         return [blackboard_file_path]
     else:
         raise Exception("Please upload images files or zipped image files")
     
 def read_handnote(handnote_file_name, course_name, note_name):
-    handnote_file_path = f"../data/{course_name}/{note_name}/{handnote_file_name}"
+    handnote_file_path = f"data/{course_name}/{note_name}/user_upload/{handnote_file_name}"
     if "pdf" in handnote_file_name:
-        return read_pdf_images(handnote_file_path, f"../data/{course_name}/{note_name}")
+        return read_pdf_images(handnote_file_path, f"data/{course_name}/{note_name}")
     else:
         raise Exception("Please upload a pdf file")
 
@@ -38,6 +38,10 @@ def note2dict(note, course_name, note_name):
     if os.path.exists(f"data/{course_name}/{note_name}/detailed_note_partition.json"):
         with open(f"data/{course_name}/{note_name}/detailed_note_partition.json", "r") as file:
             return json.load(file)
+    # create the path
+    if not os.path.exists(f"data/{course_name}/{note_name}"):
+        os.makedirs(f"data/{course_name}/{note_name}")
+
     prompt = r"""
         You are a helpful AI assistant helping people processing information in a markdown format. In the markdown format, there will be sections and subsection titles. Your job is to convert the mark down into a JSON format like the following:
         {

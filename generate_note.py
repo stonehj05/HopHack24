@@ -88,7 +88,9 @@ def generate_note(board_notes, audio_transcript, hand_notes, context="", course_
     print("\n\n\n===Final Note===\n\n\n")
     with open(os.path.join(lecture_dir, note_name), "w") as file:
         file.write(response)
-    return transcription, response
+    # return transcription, response, diagrams
+    print("Post processing transcription data")
+    post_process_transcription_data(transcription, response, diagrams)
 
 if __name__ == '__main__':
 
@@ -97,8 +99,8 @@ if __name__ == '__main__':
     hand_notes_paths = ['./img/handnote.jpg']
     transcription_paths = ['./lecture_audio.mp3']
     context = "This is a lecture about binary search tree in a data structure class."
-    transcription, note_text = generate_note(board_notes_paths, transcription_paths, hand_notes_paths, context)
+    generate_note(board_notes_paths, transcription_paths, hand_notes_paths, context)
 
-    # Optional: Gnerate and store segmentation, flashcard, and questions.
-    print("Post processing transcription data")
-    post_process_transcription_data(transcription,note_text=note_text)
+    # # Optional: Gnerate and store segmentation, flashcard, and questions.
+    # print("Post processing transcription data")
+    # post_process_transcription_data(transcription,note_text=note_text,graph_data=graph_data)

@@ -37,7 +37,7 @@ st.markdown("""
 col1, col2 = st.columns([4, 1])  # Adjust the proportions (4:1) for spacing
 
 with col1:
-    st.markdown(f'<div class="title">{st.session_state.currentCourse}r</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="title">{st.session_state.currentCourse}</div>', unsafe_allow_html=True)
 
 with col2:
     if st.button('Go back to homepage'):
@@ -76,7 +76,8 @@ noteName = st.text_input("", value="", placeholder="Enter Notebook Name Here")
 if noteName:
     if st.session_state.noteupdateCheck:
         st.session_state.noteupdateCheck = False
-        noteDictionary[noteIndex + 1] = noteName
+        st.session_state.currentNoteIndex = noteIndex + 1
+        noteDictionary[st.session_state.currentNoteIndex] = noteName
         st.session_state.menu[st.session_state.currentCourse] = copy.deepcopy(noteDictionary)
         st.write("Notebook Created Successfully")
         # Handle the creation of a new notebook

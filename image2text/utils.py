@@ -5,7 +5,12 @@ import PyPDF2
 import dotenv
 import matplotlib.pyplot as plt
 import openai
+import docx
 import requests
+import zipfile
+import fitz
+from PIL import Image
+from io import BytesIO
 
 
 def get_openai_api_key():
@@ -183,5 +188,50 @@ def read_pdf(pdf_path):
         text += page.extract_text()
 
         print(text)
+
+def read_docx(file_path):
+    doc = docx.Document(file_path)
+    doc_text = []
+    for paragraph in doc.paragraphs:
+        doc_text.append(paragraph.text)
+
+    return '\n'.join(doc_text)
+
+def read_zip_images(zip_file_path, image_path): #export all zipped images to data directory, and return a list of link pointing to those images
+    output_list = []
+    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+        for file_name in zip_ref.namelist():
+            if file_name.endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
+                with zip_ref.open(file_name) as img_file:
+                    image = Image.open(BytesIO(img_file.read()))
+                    image_output_path = os.path.join(image_path, os.path.basename(file_name))  # Save using base file name
+                    image.save(image_output_path)
+                    output_list.append(image_output_path)
+    return output_list
+
+def read_pdf_images(pdf_path, output_dir, image_format='png'):
+    # Open the PDF file
+    pdf_document = fitz.open(pdf_path)
+    
+    # Create output directory if it doesn't exist
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    output_list = []
+    # Loop through each page in the PDF
+    for page_num in range(len(pdf_document)):
+        # Get the page
+        page = pdf_document.load_page(page_num)
+        
+        # Render page to an image (use a zoom factor for higher resolution)
+        pix = page.get_pixmap()
+        
+        # Save image to output directory
+        output_file_path = os.path.join(output_dir, f"page_{page_num + 1}.png")
+        pix.save(output_file_path)
+        output_list.append(output_file_path)
+    
+    pdf_document.close()
+    return output_list
+    
 if __name__ == "__main__":
-    read_pdf("110.302DiffEqSyllabus.pdf")
+    read_pdf_images("110.302DiffEqSyllabus.pdf", ".")

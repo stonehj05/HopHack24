@@ -88,9 +88,8 @@ st.markdown(f'<div class="description">{description_text}</div>', unsafe_allow_h
 if (st.session_state.courseIndex == 0):
     st.markdown('<div class="larger-text">Please enter the new course syllabus to start: 📂</div>', unsafe_allow_html=True)
 else:
-    for course in st.session_state.courseDictionary.values():
-        num_images = st.session_state.courseIndex
-        image_display("folder.PNG", num_images)
+    num_images = st.session_state.courseIndex
+    image_display("folder.PNG", num_images)
 
 
 # Text input for notebook name with larger label

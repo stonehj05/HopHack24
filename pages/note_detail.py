@@ -22,6 +22,8 @@ with open(f"./data/{course_name}/{note_name}/questions.json", "r") as file:
     questions = json.load(file)
 with open(f"./data/{course_name}/{note_name}/note.md", "r") as file:
     note = file.read()
+with open(f"../data/{course_name}/{note_name}/graph_data_with_topic.json", "r") as file:
+    graph_data = json.load(file)
 
 st.session_state.note_text_raw=note
 
@@ -69,6 +71,14 @@ for section, subsections in st.session_state.note_partition_dict.items():
             # LEFT COLUMN: Display the subsection content (text)
             with col1:
                 st.markdown(content)
+                # check if the subsection has any graphs
+                related_graphs = [
+                    graph for graph in graph_data['Diagrams'] if blur_match(graph['Topic'], f"{section}", f"{subsection}")
+                ]
+                if related_graphs:
+                    for graph in related_graphs:
+                        st.write(f"**Graph**: {graph['Summary']}")
+                        st.image(f"../data/{course_name}/{note_name}/user_upload/image{graph['Index']}.png")
             
             # RIGHT COLUMN: Display related questions (if any) from question_list
             if not show_questions:

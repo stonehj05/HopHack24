@@ -90,14 +90,14 @@ def generate_note(board_notes, audio_transcript, hand_notes, context="", course_
         file.write(response)
     # return transcription, response, diagrams
     print("Post processing transcription data")
-    post_process_transcription_data(transcription, response, diagrams)
+    post_process_transcription_data(transcription, response, diagrams, course_name, lecture_name)
 
 if __name__ == '__main__':
 
     # TODO: automatically read it from the folder. Should encapsulate this process with a function main_process(lecture_directory)
     board_notes_paths = ['./img/board_1.jpg', './img/board_2.jpg', './img/board_3.jpg']
     hand_notes_paths = ['./img/handnote.jpg']
-    transcription_paths = ['./lecture_audio.mp3']
+    transcription_paths = ['./test_data/data_structure/lecture_audio.mp3']
     context = "This is a lecture about binary search tree in a data structure class."
     generate_note(board_notes_paths, transcription_paths, hand_notes_paths, context)
 

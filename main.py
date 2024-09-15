@@ -120,7 +120,7 @@ if st.session_state.page == 'main':
     main_page()
 elif st.session_state.page == 'page1':
    st.switch_page("course_page.py") 
-()elif st.session_state.page == 'page2':
+elif st.session_state.page == 'page2':
    st.switch_page("upload_new_note.py") 
 elif st.session_state.page == 'page3':
    st.switch_page("note_detail.py") 

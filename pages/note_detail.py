@@ -11,20 +11,26 @@ note_name = st.session_state.menu[st.session_state.currentCourse][st.session_sta
 
 note_path = f"./data/{course_name}/{note_name}"
 if not os.path.exists(f"./data/{course_name}/{note_name}/note.md"):
-    syllabus_file = st.session_state.syllabusList[course_name]
+    if os.path.exists(f"./data/{course_name}/syllabus.pdf"):
+        syllabus_file = "syllabus.pdf"
+    else:
+        syllabus_file = st.session_state.syllabusList[course_name]
     audio_file = st.session_state.audio_file
     personal_file = st.session_state.personal_file
     blackboard_file = st.session_state.blackboard_file
-    syllabus_content = read_syllabus(syllabus_file.name, course_name)
+    try:
+        syllabus_content = read_syllabus(syllabus_file.name, course_name)
+    except:
+        syllabus_content = read_syllabus(syllabus_file, course_name)
     blackboard_images = read_blackboard(blackboard_file.name, course_name, note_name)
     handnote_images = read_handnote(personal_file.name, course_name, note_name)
     audio_file_path = os.path.join(os.getcwd(), "data", course_name, note_name, "user_upload", audio_file.name)
     generate_note(blackboard_images, [audio_file_path], handnote_images, context=syllabus_content, course_name=course_name, lecture_name=note_name)
-with open(f"./data/{course_name}/{note_name}/questions.json", "r") as file:
+with open(f"./data/{course_name}/{note_name}/questions.json", "r", encoding="utf-8") as file:
     questions = json.load(file)
-with open(f"./data/{course_name}/{note_name}/note.md", "r") as file:
+with open(f"./data/{course_name}/{note_name}/note.md", "r", encoding="utf-8") as file:
     note = file.read()
-with open(f"./data/{course_name}/{note_name}/graph_data_with_topic.json", "r") as file:
+with open(f"./data/{course_name}/{note_name}/graph_data_with_topic.json", "r", encoding="utf-8") as file:
     graph_data = json.load(file)
 
 st.session_state.note_text_raw=note

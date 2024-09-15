@@ -109,5 +109,4 @@ if syllabus is not None and Course_name is not None:
     st.write('page' + str(st.session_state.courseIndex))
     # Show button to navigate to Page 1 only after inputs are given
     if st.button('Go to ' + Course_name):
-        st.session_state.page = 'page' + str(st.session_state.courseIndex) # TODO: Need to change to storing session state.course_name
-        st.rerun()  # Reload the app to switch to page 1
+        st.switch_page("pages/course_page.py")

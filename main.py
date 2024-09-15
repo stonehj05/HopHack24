@@ -65,9 +65,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Initialize session state to keep track of pages
-if 'page' not in st.session_state:
-    st.session_state.page = 'main'
+# # Initialize session state to keep track of pages
+# if 'page' not in st.session_state:
+#     st.session_state.page = 'main'
 
 # Define the main page content (this will be the default landing page)
 def main_page():
@@ -89,7 +89,7 @@ def main_page():
         st.write(num_images)
         for i in range(num_images):
             with cols[0]:  # Use the first column (leftmost)
-                st.image('Folder.PNG', use_column_width=True)
+                st.image('Folder.png', use_column_width=True)
                 if st.button(f"Go to Note Page {i+1}", key=f"button_{i}"):
                     st.session_state.page = f"notepage{i+1}"
 
@@ -112,15 +112,15 @@ def main_page():
         st.write('page' + str(st.session_state.courseIndex))
         # Show button to navigate to Page 1 only after inputs are given
         if st.button('Go to ' + Course_name):
-            st.session_state.page = 'page' + str(st.session_state.courseIndex)
+            st.session_state.page = 'page' + str(st.session_state.courseIndex) # TODO: Need to change to storing session state.course_name
             st.rerun()  # Reload the app to switch to page 1
 
 # Dynamically show content based on the current page
 if st.session_state.page == 'main':
     main_page()
 elif st.session_state.page == 'page1':
-    CourseSumamryPage()
-elif st.session_state.page == 'page2':
-    NoteInformationUploader()
+   st.switch_page("course_page.py") 
+()elif st.session_state.page == 'page2':
+   st.switch_page("upload_new_note.py") 
 elif st.session_state.page == 'page3':
-    NotePage()
+   st.switch_page("note_detail.py") 

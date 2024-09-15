@@ -56,29 +56,32 @@ col_left, col_mid, col_right = st.columns([1, 1, 6])  # Adjust the column propor
 with col_left:
     # First image and link
     st.image("Notebook.png", width=150)  # Make the image small
-    st.markdown("""
-    <div style="display: flex; justify-content: space-between;">
-        <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 1</a></span>
-    </div>
-    """, unsafe_allow_html=True)
+    st.page_link("upload_new_note.py", label="Notebook 1", icon="🏠")
+    # st.markdown("""
+    # <div style="display: flex; justify-content: space-between;">
+    #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 1</a></span>
+    # </div>
+    # """, unsafe_allow_html=True)
 
 with col_mid:
     # Second image and link
     st.image("Notebook.png", width=150)  # Make the image small
-    st.markdown("""
-    <div style="display: flex; justify-content: space-between;">
-        <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 2</a></span>
-    </div>
-    """, unsafe_allow_html=True)
+    st.page_link("upload_new_note.py", label="Notebook 2", icon="🏠")
+    # st.markdown("""
+    # <div style="display: flex; justify-content: space-between;">
+    #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 2</a></span>
+    # </div>
+    # """, unsafe_allow_html=True)
 
 with col_right:
     # Third image and link
     st.image("Notebook.png", width=150)  # Make the image small
-    st.markdown("""
-    <div style="display: flex; justify-content: space-between;">
-        <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 3</a></span>
-    </div>
-    """, unsafe_allow_html=True)
+    st.page_link("upload_new_note.py", label="Notebook 3", icon="🏠")
+    # st.markdown("""
+    # <div style="display: flex; justify-content: space-between;">
+    #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 3</a></span>
+    # </div>
+    # """, unsafe_allow_html=True)
 
 # Add a blank space before the text input field
 st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)

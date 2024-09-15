@@ -26,7 +26,8 @@ import streamlit as st
     )
 
     # Add a button that links back to page 1
-    st.markdown('<a href="/page1" class="return-button">Return to Page 1</a>', unsafe_allow_html=True)
+    st.page_link("course_page.py", label="Return to Course Page", icon="🏠")
+    # st.markdown('<a href="/page1" class="return-button">Return to Page 1</a>', unsafe_allow_html=True)
 
     # Example content in the notebook page
     st.write("This is the content of your notebook.")

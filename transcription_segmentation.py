@@ -17,7 +17,7 @@ def align_transcription_with_outline(transcription_text: str, outline_text: str,
     2. **Output Formatting**:
        - For each segment, provide:
          - **Topic**: The title of the section from the outline that the segment corresponds to.
-         - **Text**: The corresponding text from the transcription.
+         - **Text**: The corresponding summary of text from the transcription.
 
     3. **Ensure Completeness and Accuracy**:
        - Ensure that all parts of the transcription are assigned to the most appropriate section in the outline.
@@ -29,7 +29,8 @@ def align_transcription_with_outline(transcription_text: str, outline_text: str,
     - If parts of the transcription do not match any section in the outline, include them under a topic called "Conclusion" or "Other" as appropriate.
     - Maintain the original wording and style of the transcription in the "text" fields.
     - Special Symbols should be escaped correctly. For example, the backslash "\" should be output as "\\".
-
+    - the text field should be a summarization of the transcription content, not a verbatim copy. It should capture the essence of corresponding content in a concise manner.
+    Say "Understood." and then stop to signal that you are ready to proceed.
     """
     followup_prompt = r'''Now, output the aligned segments in the following JSON format, and include only the JSON data without any additional text. Start with an open bracket "{", your output should be directly parsable as JSON using a JSON parser in Python or any other programming language. Please escape any special characters in the output, like the backslash "\" should be output as "\\".
 
@@ -37,7 +38,7 @@ def align_transcription_with_outline(transcription_text: str, outline_text: str,
         "segments": [
             {
                 "topic": "<Title from the outline in the form of section_title@subsection_title>",
-                "text": "<Corresponding transcription text>"
+                "text": "<Corresponding transcription text or a summarization of it>"
             }
             // Repeat for each segment
         ]
@@ -54,6 +55,7 @@ def align_transcription_with_outline(transcription_text: str, outline_text: str,
         json_output = json.loads(output)
     except json.JSONDecodeError as e:
         print(f"A JSONDecodeError occurred: {e}")
+        print(output)
         return {}
     return json_output
 
@@ -118,6 +120,8 @@ def add_topic_to_graph(segments: list, image_data: str) -> dict:
         json_output = json.loads(output)
     except json.JSONDecodeError as e:
         print(f"A JSONDecodeError occurred: {e}")
+
+        print(output)
         return {}
     return json_output
 
@@ -177,6 +181,8 @@ def generate_flashcards(segments: list) -> dict:
         json_output = json.loads(output)
     except json.JSONDecodeError as e:
         print(f"A JSONDecodeError occurred: {e}")
+
+        print(output)
         return {}
     return json_output
 
@@ -246,6 +252,8 @@ def generate_questions(segments: list) -> dict:
         json_output = json.loads(output)
     except json.JSONDecodeError as e:
         print(f"A JSONDecodeError occurred: {e}")
+
+        print(output)
         return {}
     return json_output
 
@@ -261,12 +269,12 @@ def post_process_transcription_data(transcription_text: str, note_text: str, gra
         json.dump(aligned_output, f, indent=4)
     segments = aligned_output.get('segments', [])
 
-    # Step 2: Generate flashcards
-    flashcards_output = generate_flashcards(segments)
-    print(json.dumps(flashcards_output, indent=4))
-    # Save the flashcards to a JSON file
-    with open(os.path.join(lecture_dir, "flashcards.json"), "w") as f:
-        json.dump(flashcards_output, f, indent=4)
+    # # Step 2: Generate flashcards
+    # flashcards_output = generate_flashcards(segments)
+    # print(json.dumps(flashcards_output, indent=4))
+    # # Save the flashcards to a JSON file
+    # with open(os.path.join(lecture_dir, "flashcards.json"), "w") as f:
+    #     json.dump(flashcards_output, f, indent=4)
 
     # Step 3: Generate questions
     questions_output = generate_questions(segments)

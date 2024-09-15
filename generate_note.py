@@ -22,7 +22,17 @@ def generate_note(board_notes, audio_transcript, hand_notes, context="", course_
             note = file.read()
         with open(os.path.join(lecture_dir, "transcription.txt"), "r") as file:
             transcription = file.read()
-        return transcription, note
+        with open(os.path.join(lecture_dir, "diagrams.json"), "r") as file:
+            diagrams = json.load(file)
+        
+        post_process_transcription_data(transcription, note, diagrams, course_name, lecture_name)
+        return
+
+
+    transcription = transcribe_audio_files(audio_transcript)
+    # loop over the transcription and join them
+    transcription = " ".join(transcription)
+    print(f"Transcription: {transcription}")
 
     formulas = math_extraction.extract_information_from_math(board_notes)
     print(f"Formulas: {formulas}")
@@ -30,10 +40,6 @@ def generate_note(board_notes, audio_transcript, hand_notes, context="", course_
     print(f"Diagrams: {diagrams}")
     hand_writings = handnotes_extraction.extract_information_from_handnotes(hand_notes)
     print(f"Handwriting: {hand_writings}")
-    transcription = transcribe_audio_files(audio_transcript)
-    # loop over the transcription and join them
-    transcription = " ".join(transcription)
-    print(f"Transcription: {transcription}")
 
 
     # Save the extracted information into the appropriate files within the lecture directory

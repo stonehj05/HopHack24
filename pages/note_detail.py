@@ -79,7 +79,7 @@ for section, subsections in st.session_state.note_partition_dict.items():
                 st.markdown(content)
                 # check if the subsection has any graphs
                 related_graphs = [
-                    graph for graph in graph_data['Diagrams'] if blur_match(graph['topic'], f"{section}", f"{subsection}")
+                    graph for graph in graph_data['Diagrams'] if blur_match(graph['Topic'], f"{section}", f"{subsection}")
                 ]
                 if related_graphs:
                     for graph in related_graphs:
@@ -142,11 +142,11 @@ for section, subsections in st.session_state.note_partition_dict.items():
                     st.write("No questions available for this section.")
 
 # Footer with progress metric
-st.markdown("---")
-st.metric(label="Progress", value="50%", delta="5%")
+# st.markdown("---")
+# st.metric(label="Progress", value="50%", delta="5%")
 
-# Add a button to stop execution
-if st.button("Stop the process"):
-    st.stop()
+# # Add a button to stop execution
+# if st.button("Stop the process"):
+#     st.stop()
 
-st.success('Page Loaded Successfully!')
+# st.success('Page Loaded Successfully!')

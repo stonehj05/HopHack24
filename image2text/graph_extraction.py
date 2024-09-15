@@ -36,7 +36,7 @@ Start your answer with the open bracket "{" without any extra character, and end
       "Summary": "<Brief summary of the diagram's content that would be helpful when listed alongside the diagram>",
       "Interpretation": "<Explanation of what it represents and its significance>",
       "Index": "<Index of the diagram in the input>",
-      "Text": "<A paragraph recording the transcribed and organized text labels and markings on this diagram>",
+      "Text": "<A paragraph recording the transcribed and organized text labels and markinPgs on this diagram>",
       "Equations": ["<List of equations involved in the equation in LaTeX format, make sure the code can be compiled by latex. Do not use unicodes>"],"
       "Related Concepts": ["<List of related concepts or topics covered in the diagram>"]
       "Reillustration": "<Search the internet and find a webpage containing similar image illustrating diagram or graph, paste the link here, it should be a well known site like wikipedia.>"

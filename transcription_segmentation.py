@@ -57,6 +57,70 @@ def align_transcription_with_outline(transcription_text: str, outline_text: str,
         return {}
     return json_output
 
+def add_topic_to_graph(segments: list, image_data: str) -> dict:
+    """Ask AI to add topic to the graph data, where the topic come from segment data"""
+    prompt = """
+    You are an AI assistant designed to match image to topics that they belong to based on lecture segments.
+
+    **Your tasks are as follows:**
+    You will be given a list of segments from a lecture and a list of images information extracted from the lecture slides. Your task is to match each image to the corresponding topic based on the content of the lecture segments.
+    The image will be a json file in the form of a dictionary with the following description format:
+    {
+        "Diagrams": [
+            {
+            "Description": "<Detailed description of the diagram or graph>",
+            "Summary": "<Brief summary of the diagram's content that would be helpful when listed alongside the diagram>",
+            "Interpretation": "<Explanation of what it represents and its significance>",
+            "Index": "<Index of the diagram in the input>",
+            "Text": "<A paragraph recording the transcribed and organized text labels and markinPgs on this diagram>",
+            "Equations": ["<List of equations involved in the equation in LaTeX format, make sure the code can be compiled by latex. Do not use unicodes>"],"
+            "Related Concepts": ["<List of related concepts or topics covered in the diagram>"]
+            "Reillustration": "<Search the internet and find a webpage containing similar image illustrating diagram or graph, paste the link here, it should be a well known site like wikipedia.>"
+            }
+            // Repeat for additional diagrams
+        ]
+    }
+    You should match each image to the corresponding topic based on the content of the lecture segments by adding a "topic" field. The topic should be in the form of section_title@subsection_title, like that was provided in the segments.
+    """
+    followup_prompt = r'''Now, output the image in the following JSON format, and include only the JSON data without any additional text. Start with an open bracket "{", your output should be directly parsable as JSON using a JSON parser in Python or any other programming language.
+    You should only added the "topic" field to the image data, do not change the other fields.
+
+    {
+        "Diagrams": [
+            {
+            "Description": "<Detailed description of the diagram or graph>",
+            "Summary": "<Brief summary of the diagram's content that would be helpful when listed alongside the diagram>",
+            "Interpretation": "<Explanation of what it represents and its significance>",
+            "Index": "<Index of the diagram in the input>",
+            "Text": "<A paragraph recording the transcribed and organized text labels and markinPgs on this diagram>",
+            "Equations": ["<List of equations involved in the equation in LaTeX format, make sure the code can be compiled by latex. Do not use unicodes>"],"
+            "Related Concepts": ["<List of related concepts or topics covered in the diagram>"]
+            "Reillustration": "<Search the internet and find a webpage containing similar image illustrating diagram or graph, paste the link here, it should be a well known site like wikipedia.>"
+            "Topic": "<The topic that the image belongs to in the form of section_title@subsection_title>"
+            }
+            // Repeat for additional diagrams
+        ]
+    }
+    '''
+
+    # Prepare the content for GPT
+    segments_text = ""
+    for segment in segments:
+        segments_text += f"### Segment Topic: {segment['topic']}\n{segment['text']}\n\n"
+
+    messages = [
+        {"role": "system", "content": prompt},
+        {"role": "user", "content": f"**Segments**:\n{segments_text}Image Data:\n{image_data}"}
+    ]
+    output = get_default_chat_response(messages, followup_prompt, temperature=0.7, api_key=api_key)
+    # Parsing the JSON output
+    try:
+        json_output = json.loads(output)
+    except json.JSONDecodeError as e:
+        print(f"A JSONDecodeError occurred: {e}")
+        return {}
+    return json_output
+
 def generate_flashcards(segments: list) -> dict:
     prompt = """
     You are an AI assistant designed to generate educational flashcards based on lecture segments.
@@ -185,7 +249,7 @@ def generate_questions(segments: list) -> dict:
         return {}
     return json_output
 
-def post_process_transcription_data(transcription_text: str, note_text: str, course_name="default_course", lecture_name="default_lecture") -> None:
+def post_process_transcription_data(transcription_text: str, note_text: str, graph_data, course_name="default_course", lecture_name="default_lecture") -> None:
     # Create the directory structure /data/<course_name>/<lecture_name> if it doesn't exist
     lecture_dir = os.path.join("data", course_name, lecture_name)
     os.makedirs(lecture_dir, exist_ok=True)
@@ -210,6 +274,15 @@ def post_process_transcription_data(transcription_text: str, note_text: str, cou
     # Save the questions to a JSON file
     with open(os.path.join(lecture_dir, "questions.json"), "w") as f:
         json.dump(questions_output, f, indent=4)
+
+    # Step 4: Add topic to graph data
+    graph_data_with_topic = add_topic_to_graph(segments, graph_data)
+    # Save the graph data with topics to a JSON file
+    with open(os.path.join(lecture_dir, "graph_data_with_topic.json"), "w") as f:
+        json.dump(graph_data_with_topic, f, indent=4)
+
+
+    
 
 if __name__ == '__main__':
     # Replace the following strings with your actual transcription and outline texts

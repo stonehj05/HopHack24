@@ -57,7 +57,7 @@ def note2dict(note, course_name, note_name):
         temp = json.load(file)
     detailed_note = temp["Detailed Notes"]
     prompt = r"""
-        You are a helpful AI assistant helping people processing information in a markdown format. In the markdown format, there will be sections and subsection titles. Your job is to convert the mark down into a JSON format like the following:
+        You are a helpful AI assistant helping people processing information in a markdown format. In the markdown format, there will be sections and subsection titles. You will also read summary of the note content and an outline for the nodtes. Based on these information, your job is to convert the markdown following the outline into a JSON format like the following:
         {
             "[secion 1 name]" : {
                "[subsection 1 name]" : "content",
@@ -71,7 +71,11 @@ def note2dict(note, course_name, note_name):
         }
         Make sure you do not modify any of the original contents in the notes but just reorganizing them strictly following the style guide. Do not give any extra inforamtion.
     """
-    prompt += f"Input note: {detailed_note}"
+    prompt += f"""
+        Input note: {detailed_note}
+        Summary: {temp["Summary"]}
+        Outline: {temp["Outline"]}
+    """
     messages = prepare_messages(prompt)
     response = gpt_api_call(messages, 0.0, api_key)
     with open(f"data/{course_name}/{note_name}/detailed_note_partition.json", "w") as file:

@@ -1,4 +1,13 @@
 import streamlit as st
+from picture import *
+
+#A dictionary that link noteIndex to noteName {int : string}
+if 'noteDictionary' not in st.session_state:
+    st.session_state.noteDictionary = {}
+
+#A int that keep track the current index of note, which correspond to the order that they are added in their course
+if 'noteIndex' not in st.session_state:
+    st.session_state.noteIndex = 0
 
 # Adjust the layout to use only the upper part of the page
 st.markdown(
@@ -50,54 +59,69 @@ st.markdown(f"<h2 style='text-align: center; margin-top: 0;'>{course_name}</h2>"
 summary = "This course introduces students to the fundamentals of chemistry, including atomic structure, periodic trends, and chemical reactions."
 st.markdown('<div class="text-content">' + summary + '</div>', unsafe_allow_html=True)
 
-# Create a two-column layout for the images and links, aligned horizontally to the left
-col_left, col_mid, col_right = st.columns([1, 1, 6])  # Adjust the column proportions (1:6) for left alignment
+# # Create a two-column layout for the images and links, aligned horizontally to the left
+# col_left, col_mid, col_right = st.columns([1, 1, 6])  # Adjust the column proportions (1:6) for left alignment
 
-with col_left:
-    # First image and link
-    st.image("Notebook.png", width=150)  # Make the image small
-    st.page_link("./pages/upload_new_note.py", label="Notebook 1", icon="🏠")
-    # st.markdown("""
-    # <div style="display: flex; justify-content: space-between;">
-    #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 1</a></span>
-    # </div>
-    # """, unsafe_allow_html=True)
+# with col_left:
+#     # First image and link
+#     st.image("Notebook.png", width=150)  # Make the image small
+#     st.page_link("./pages/upload_new_note.py", label="Notebook 1", icon="🏠")
+#     # st.markdown("""
+#     # <div style="display: flex; justify-content: space-between;">
+#     #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 1</a></span>
+#     # </div>
+#     # """, unsafe_allow_html=True)
 
-with col_mid:
-    # Second image and link
-    st.image("Notebook.png", width=150)  # Make the image small
-    st.page_link("./pages/upload_new_note.py", label="Notebook 2", icon="🏠")
-    # st.markdown("""
-    # <div style="display: flex; justify-content: space-between;">
-    #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 2</a></span>
-    # </div>
-    # """, unsafe_allow_html=True)
+# with col_mid:
+#     # Second image and link
+#     st.image("Notebook.png", width=150)  # Make the image small
+#     st.page_link("./pages/upload_new_note.py", label="Notebook 2", icon="🏠")
+#     # st.markdown("""
+#     # <div style="display: flex; justify-content: space-between;">
+#     #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 2</a></span>
+#     # </div>
+#     # """, unsafe_allow_html=True)
 
-with col_right:
-    # Third image and link
-    st.image("Notebook.png", width=150)  # Make the image small
-    st.page_link("./pages/upload_new_note.py", label="Notebook 3", icon="🏠")
-    # st.markdown("""
-    # <div style="display: flex; justify-content: space-between;">
-    #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 3</a></span>
-    # </div>
-    # """, unsafe_allow_html=True)
+# with col_right:
+#     # Third image and link
+#     st.image("Notebook.png", width=150)  # Make the image small
+#     st.page_link("./pages/upload_new_note.py", label="Notebook 3", icon="🏠")
+#     # st.markdown("""
+#     # <div style="display: flex; justify-content: space-between;">
+#     #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 3</a></span>
+#     # </div>
+#     # """, unsafe_allow_html=True)
+
+
+# Display images of folders with note names underneath
+if st.session_state.noteIndex > 0:
+    note_image_display("Notebook.png", st.session_state.noteIndex)
+else:
+    st.markdown('<p class="input-title">Please create a new notebook to start</p>', unsafe_allow_html=True)
 
 # Add a blank space before the text input field
 st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
 
-# Create a new notebook text input with a large font (integrating page4 functionality)
-st.markdown('<p class="input-title">Create a new notebook by entering its name:</p>', unsafe_allow_html=True)
-new_notebook_name = st.text_input("", value="", placeholder="Enter Notebook Name Here")
+# Create a new notebook text input with a large font
+st.markdown('<div class="larger-text">Create a new notebook by entering its name:</div>', unsafe_allow_html=True)
+noteName = st.text_input("", value="", placeholder="Enter Notebook Name Here")
+
+if noteName:
+    # Safely add the note to noteDictionary
+    st.session_state.noteDictionary[st.session_state.noteIndex] = noteName
+    
+    # Add the note to the menu
+    st.session_state.menu[noteName] = noteName
+
+    # Increment the noteIndex for the next note
+    st.session_state.noteIndex += 1
+
+    st.write("Notebook Created Successfully")
 
 # Handle the creation of a new notebook
 if st.button('Generate result'):
-        st.switch_page('./pages/upload_new_note.py')
-        # st.session_state.page = 'page2'
-        # st.rerun()  # Reload the app to switch to page 1
+    st.switch_page('./pages/upload_new_note.py')
 
 # Button to return to the homepage
 if st.button('Go back to homepage'):
     st.switch_page('main.py')
-    # st.session_state.page = 'main'
-    # st.rerun()  # Reload the app to switch to the main page

@@ -154,10 +154,13 @@ def generate_questions(segments: list) -> dict:
         "questions": [
             {
                 "topic": "<Topic of the segment>",
-                "tag": "<Conceptual/Easy/Challenging>",
-                "question": "<The question>",
-                "hint": "<Hint (optional)>",
-                "answer": "<Answer to the question>"
+                "levels": [
+                    {
+                        "tag": "<Conceptual/Easy/Challenging>",
+                        "question": "<The question>",
+                        "hint": "<Hint (optional)>",
+                        "answer": "<Answer to the question>"
+                    }
             }
             // Repeat for each question
         ]

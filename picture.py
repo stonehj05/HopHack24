@@ -26,7 +26,7 @@ def note_image_display(fileName, n, noteDictionary):
             if note_name:
                 if st.button(note_name):
                     st.session_state.currentNote = st.session_state.menu[st.session_state.currentCourse][i + 1]
-                    st.switch_page("pages/course_page.py")
+                    st.switch_page("pages/note_detail.py")
 
             else:
                 st.error(f"Note index {i + 1} is missing in noteDictionary.")

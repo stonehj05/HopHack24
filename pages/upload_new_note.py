@@ -39,7 +39,7 @@ if (st.session_state.audio_file is not None and
     
     # Generate a clickable link with large font size that says "Loading the new AI notebook"
     if st.button('Generate result'):
-        save_files() # Save the uploaded files
+        save_files() # Save the uploaded files 
         st.session_state.page_generation = True # Change the state to indicate that a new page need to be generated.
         st.switch_page("./pages/note_detail.py")
         st.session_state.page = 'page3'
@@ -59,12 +59,14 @@ def save_files():
     personal_file = st.session_state.personal_file
     os.makedirs("data", exist_ok=True)
     os.makedirs(f"data/{course_name}", exist_ok=True)
-    os.makedirs(f"data/{course_name}/1", exist_ok=True)
-    with open(os.path.join(os.getcwd(), "data", course_name, syllabus_file.name), "wb") as file:
+    os.makedirs(f"data/{course_name}/{lecture_name}", exist_ok=True)
+    os.makedirs(f"data/{course_name}/user_upload", exist_ok=True)
+    os.makedirs(f"data/{course_name}/{lecture_name}/user_upload", exist_ok=True)
+    with open(os.path.join(os.getcwd(), "data", course_name, "user_upload",syllabus_file.name), "wb") as file:
         file.write(syllabus_file.getbuffer())
-    with open(os.path.join(os.getcwd(), "data", course_name, lecture_name, blackboard_file.name), "wb") as file: #1 is a placeholder now
+    with open(os.path.join(os.getcwd(), "data", course_name, lecture_name,"user_upload", blackboard_file.name), "wb") as file: #1 is a placeholder now
         file.write(blackboard_file.getbuffer())
-    with open(os.path.join(os.getcwd(), "data", course_name, lecture_name, audio_file.name), "wb") as file: #1 is a placeholder now
+    with open(os.path.join(os.getcwd(), "data", course_name, lecture_name,"user_upload", audio_file.name), "wb") as file: #1 is a placeholder now
         file.write(audio_file.getbuffer())
-    with open(os.path.join(os.getcwd(), "data", course_name, lecture_name, personal_file.name), "wb") as file: #1 is a placeholder now
+    with open(os.path.join(os.getcwd(), "data", course_name, lecture_name,"user_upload", personal_file.name), "wb") as file: #1 is a placeholder now
         file.write(personal_file.getbuffer())

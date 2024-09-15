@@ -42,7 +42,7 @@ def respond(user_query, context="", vector_db=None):
         context = "\n".join([chunk['text'] for chunk in relevant_contexts])  # Combine the chunks
     
     prompt = f"""
-        You are a helpful AI assistant helping students to answer their questions. You will read context about the course the student is taking and the recent lecture in the course. The context includes two parts:
+        You are a helpful AI assistant helping students to answer their questions on a specfic course. You will read context about the course the student is taking and the recent lecture in the course. The context includes two parts:
         1. The content of course syllabus
         2. The lecture summary for the lecture
         

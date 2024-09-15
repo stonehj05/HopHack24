@@ -5,14 +5,15 @@ import json
 from generate_note import generate_note
 
 ### LOAD DATA ###
-blackboard_file = st.session_state.blackboard_file
 course_name = st.session_state.currentCourse
 note_name = st.session_state.menu[st.session_state.currentCourse][st.session_state.currentNoteIndex]
-syllabus_file = st.session_state.syllabusList[course_name]
-audio_file = st.session_state.audio_file
-personal_file = st.session_state.personal_file
+
 note_path = f"../data/{course_name}/{note_name}"
 if not os.path.exists(os.path.join(note_path, "note.md")):
+    syllabus_file = st.session_state.syllabusList[course_name]
+    audio_file = st.session_state.audio_file
+    personal_file = st.session_state.personal_file
+    blackboard_file = st.session_state.blackboard_file
     syllabus_content = read_syllabus(syllabus_file.name, course_name)
     blackboard_images = read_blackboard(blackboard_file.name, course_name, note_name)
     handnote_images = read_handnote(personal_file.name, course_name, note_name)
@@ -123,7 +124,7 @@ for section, subsections in st.session_state.note_partition_dict.items():
                                         with st.expander("💡Hint (Click to expand)"):
                                             st.write(question['hint'])
                                     with st.expander("📝Answer (Click to expand)"):
-                                        st.write(question['answer'])
+                                        st.write(que    stion['answer'])
                         
                         # Challenging questions
                         with tab3:

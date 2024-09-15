@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 from file_handle import *
+import json
 from generate_note import generate_note
 # Set page configuration
 st.write(page_title="Notebook Page", layout="wide")
@@ -49,5 +50,11 @@ if not os.path.exists(os.path.join(note_path, "note.md")):
     blackboard_images = read_blackboard(blackboard_file.name, course_name, note_name)
     handnote_images = read_handnote(personal_file.name, course_name, note_name)
     audio_file_path = os.path.join(os.getcwd(), "data", course_name, "1", audio_file.name)
-    generate_note(blackboard_images, audio_file_path, handnote_images, context=syllabus_content, course_name=course_name, lecture_name=note_name) 
-pass #replace this with illustration function based on markdown
+    generate_note(blackboard_images, audio_file_path, handnote_images, context=syllabus_content, course_name=course_name, lecture_name=note_name)
+with open(f"./data/{course_name}/{note_name}/questions.json", "r") as file:
+    questions = json.load(file)
+with open(f"./data/{course_name}/{note_name}/note.md", "r") as file:
+    note = file.read()
+st.session_state.questions = questions
+st.session_state.note = note
+

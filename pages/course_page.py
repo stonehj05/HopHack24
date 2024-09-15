@@ -37,6 +37,7 @@ st.markdown(
 # Ensure there is a valid course index
 if st.session_state.courseIndex == 0:
     st.error("No course selected.")
+    st.switch_page('main.py')
 
 # Get the most recent course index and course name
 course_name = st.session_state.courseDictionary[1]  # Get the course name based on the index
@@ -55,7 +56,7 @@ col_left, col_mid, col_right = st.columns([1, 1, 6])  # Adjust the column propor
 with col_left:
     # First image and link
     st.image("Notebook.png", width=150)  # Make the image small
-    st.page_link("upload_new_note.py", label="Notebook 1", icon="🏠")
+    st.page_link("./pages/upload_new_note.py", label="Notebook 1", icon="🏠")
     # st.markdown("""
     # <div style="display: flex; justify-content: space-between;">
     #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 1</a></span>
@@ -65,7 +66,7 @@ with col_left:
 with col_mid:
     # Second image and link
     st.image("Notebook.png", width=150)  # Make the image small
-    st.page_link("upload_new_note.py", label="Notebook 2", icon="🏠")
+    st.page_link("./pages/upload_new_note.py", label="Notebook 2", icon="🏠")
     # st.markdown("""
     # <div style="display: flex; justify-content: space-between;">
     #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 2</a></span>
@@ -75,7 +76,7 @@ with col_mid:
 with col_right:
     # Third image and link
     st.image("Notebook.png", width=150)  # Make the image small
-    st.page_link("upload_new_note.py", label="Notebook 3", icon="🏠")
+    st.page_link("./pages/upload_new_note.py", label="Notebook 3", icon="🏠")
     # st.markdown("""
     # <div style="display: flex; justify-content: space-between;">
     #     <span style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/page2" target="_self">Notebook 3</a></span>

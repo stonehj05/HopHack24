@@ -102,122 +102,132 @@ This lecture covers the fundamental concepts of binary search trees (BSTs) in da
 
 st.session_state.question_list=[
         {
-            "topic": "Introduction to Binary Trees@Definition and properties",
-            "tag": "Conceptual",
-            "question": "What is a binary tree?",
-            "answer": "A binary tree is a tree structure where each node has at most two children, commonly referred to as the left and right children."
+            "topic": "Introduction to Binary Trees",
+            "levels": [
+                {
+                    "tag": "Conceptual",
+                    "question": "What is a binary tree?",
+                    "answer": "A binary tree is a tree structure where each node has at most two children, commonly referred to as the left and right children."
+                },
+                {
+                    "tag": "Easy",
+                    "question": "How many children can a node in a binary tree have at most?",
+                    "answer": "A node in a binary tree can have at most two children."
+                },
+                {
+                    "tag": "Challenging",
+                    "question": "Provide an example of a tree structure that is not a binary tree and explain why.",
+                    "hint": "Consider the maximum number of children any node can have.",
+                    "answer": "A tree where any node has more than two children is not a binary tree. For instance, a tree with a root node having three children is not a binary tree because a binary tree is strictly limited to at most two children per node."
+                }
+            ]
         },
         {
-            "topic": "Introduction to Binary Trees@Definition and properties",
-            "tag": "Easy",
-            "question": "Can a binary tree have a node with three children?",
-            "answer": "No, a binary tree cannot have a node with three children. Each node can have at most two children."
+            "topic": "Binary Search Trees (BST)",
+            "levels": [
+                {
+                    "tag": "Conceptual",
+                    "question": "What distinguishes a binary search tree from a regular binary tree?",
+                    "answer": "In a binary search tree, the left child of a node contains values that are less than the parent, and the right child contains values that are greater than the parent, maintaining a sorted order within the tree."
+                },
+                {
+                    "tag": "Easy",
+                    "question": "In a binary search tree, where are the values greater than the parent node located?",
+                    "answer": "In a binary search tree, values greater than the parent node are located in the right subtree."
+                },
+                {
+                    "tag": "Challenging",
+                    "question": "Explain how the ordering rule of a binary search tree contributes to its efficiency in search operations.",
+                    "hint": "Think about how the sorted order helps in reducing the number of comparisons needed.",
+                    "answer": "The ordering rule in a binary search tree ensures that each comparison eliminates half of the remaining nodes from consideration. This makes search operations much faster, as you can quickly determine whether to move left or right based on the value you are looking for, leading to a logarithmic time complexity in the best case."
+                }
+            ]
         },
         {
-            "topic": "Introduction to Binary Trees@Definition and properties",
-            "tag": "Challenging",
-            "question": "Why is it incorrect to classify a tree with a root node having three children as a binary tree?",
-            "hint": "Consider the definition of a binary tree and the constraints on the number of children each node can have.",
-            "answer": "It is incorrect to classify such a tree as a binary tree because, by definition, a binary tree is limited to having each node with at most two children. A node with three children violates this property."
+            "topic": "Operations on BST - Insertion",
+            "levels": [
+                {
+                    "tag": "Conceptual",
+                    "question": "How do you insert a new value into a binary search tree?",
+                    "answer": "To insert a new value into a binary search tree, you start at the root and compare the value to the current node. If the value is smaller, you go left; if it's larger, you go right. You repeat this process until you find an empty spot, and that's where the new value is inserted."
+                },
+                {
+                    "tag": "Easy",
+                    "question": "If you want to insert the value 9 into a binary search tree and the root value is 10, which direction do you move?",
+                    "answer": "You move to the left subtree because 9 is smaller than 10."
+                },
+                {
+                    "tag": "Challenging",
+                    "question": "What will be the position of the value 9 if you insert it into a binary search tree with the following structure: Root(15), Left Child(10), Right Child(20)?",
+                    "hint": "Follow the insertion rules of comparing values at each node.",
+                    "answer": "Starting at the root (15), since 9 is smaller, you move to the left child (10). Since 9 is also smaller than 10, you move to the left again, and since the left child of 10 is empty, 9 will be inserted as the left child of 10."
+                }
+            ]
         },
         {
-            "topic": "Binary Search Trees (BST)@Definition and properties",
-            "tag": "Conceptual",
-            "question": "What is the main distinction between a binary tree and a binary search tree?",
-            "answer": "The main distinction is that in a binary search tree, the left child of a node contains values that are less than the parent, and the right child contains values that are greater than the parent."
+            "topic": "Operations on BST - Deletion",
+            "levels": [
+                {
+                    "tag": "Conceptual",
+                    "question": "What are the three different cases to consider when deleting a node from a binary search tree?",
+                    "answer": "The three cases are: 1) The node has no children, 2) The node has one child, and 3) The node has two children."
+                },
+                {
+                    "tag": "Easy",
+                    "question": "If a node to be deleted has no children, what is the deletion procedure?",
+                    "answer": "If a node to be deleted has no children, you simply remove it from the tree."
+                },
+                {
+                    "tag": "Challenging",
+                    "question": "Explain the process of deleting a node with two children in a binary search tree.",
+                    "hint": "Consider the role of the in-order successor or predecessor.",
+                    "answer": "When deleting a node with two children, you replace the node with its in-order successor or predecessor. This is typically the smallest value in the right subtree (in-order successor) or the largest value in the left subtree (in-order predecessor). After replacing, you reconnect the tree to maintain the binary search property."
+                }
+            ]
         },
         {
-            "topic": "Binary Search Trees (BST)@Definition and properties",
-            "tag": "Easy",
-            "question": "Why are binary search trees efficient for search operations?",
-            "answer": "Binary search trees are efficient for search operations because their structure maintains a sorted order, allowing for quick lookups by navigating left or right based on value comparisons."
+            "topic": "Time Complexity",
+            "levels": [
+                {
+                    "tag": "Conceptual",
+                    "question": "How does the height of a binary search tree affect the time complexity of insertion and deletion operations?",
+                    "answer": "The time complexity of insertion and deletion operations in a binary search tree is proportional to the height of the tree. In a balanced tree, the height is logarithmic with respect to the number of nodes, resulting in O(log n) time complexity. In an unbalanced tree, the height can be linear with respect to the number of nodes, resulting in O(n) time complexity."
+                },
+                {
+                    "tag": "Easy",
+                    "question": "What is the time complexity of insertion in a balanced binary search tree?",
+                    "answer": "The time complexity of insertion in a balanced binary search tree is O(log n)."
+                },
+                {
+                    "tag": "Challenging",
+                    "question": "Describe a scenario where the time complexity for insertion in a binary search tree degrades to O(n).",
+                    "hint": "Consider the structure of the tree when nodes are inserted in a specific order.",
+                    "answer": "The time complexity for insertion in a binary search tree degrades to O(n) when the tree becomes unbalanced, such as when nodes are inserted in strictly increasing or decreasing order. In this case, the tree resembles a linked list where each node has only one child, making the height of the tree equal to the number of nodes."
+                }
+            ]
         },
         {
-            "topic": "Binary Search Trees (BST)@Definition and properties",
-            "tag": "Challenging",
-            "question": "How does the property of binary search trees contribute to their efficiency in dynamic data operations?",
-            "hint": "Think about how the ordering of nodes affects the ease of insertion, deletion, and search operations.",
-            "answer": "The property of binary search trees ensures that for any node, all values in the left subtree are smaller and all values in the right subtree are larger. This sorted order allows for efficient insertion, deletion, and search operations, as it reduces the number of comparisons needed to find the appropriate location for any operation."
-        },
-        {
-            "topic": "Operations on BST@Insertion",
-            "tag": "Conceptual",
-            "question": "What is the basic process for inserting a value into a binary search tree?",
-            "answer": "The basic process for inserting a value into a binary search tree involves starting at the root, comparing the value to the current node, and moving left if the value is smaller or right if it is larger. This process is repeated until an empty spot is found, where the new value is then inserted."
-        },
-        {
-            "topic": "Operations on BST@Insertion",
-            "tag": "Easy",
-            "question": "Where would you insert the value 9 if the root of the binary search tree has a value of 15?",
-            "answer": "Since 9 is smaller than 15, you would move to the left child of the root to continue the insertion process."
-        },
-        {
-            "topic": "Operations on BST@Insertion",
-            "tag": "Challenging",
-            "question": "What are the potential issues if the values are always inserted in increasing order in a binary search tree, and how might this affect performance?",
-            "hint": "Consider the structure of the tree if each new value is larger than the previous ones.",
-            "answer": "If values are always inserted in increasing order, the binary search tree can degrade into a structure similar to a linked list, where each node has only a right child. This leads to an unbalanced tree with a height equal to the number of nodes, significantly affecting performance by increasing the time complexity of operations to O(n)."
-        },
-        {
-            "topic": "Operations on BST@Deletion",
-            "tag": "Conceptual",
-            "question": "What are the steps involved in deleting a node with two children in a binary search tree?",
-            "answer": "When deleting a node with two children, you replace the node with its in-order successor (the smallest value in the right subtree) or predecessor (the largest value in the left subtree), and then reconnect the tree to maintain the binary search property."
-        },
-        {
-            "topic": "Operations on BST@Deletion",
-            "tag": "Easy",
-            "question": "What is the in-order successor of a node in a binary search tree?",
-            "answer": "The in-order successor of a node is the smallest value in its right subtree."
-        },
-        {
-            "topic": "Operations on BST@Deletion",
-            "tag": "Challenging",
-            "question": "Why is it necessary to use the in-order successor or predecessor when deleting a node with two children in a binary search tree?",
-            "hint": "Think about maintaining the binary search tree properties after deletion.",
-            "answer": "Using the in-order successor or predecessor when deleting a node with two children ensures that the tree remains correctly ordered. This replacement maintains the binary search tree property that all values in the left subtree are less than the parent node and all values in the right subtree are greater."
-        },
-        {
-            "topic": "Time Complexity@Height of the tree",
-            "tag": "Conceptual",
-            "question": "How is the height of a binary search tree related to its time complexity for insertion and deletion operations?",
-            "answer": "The height of a binary search tree is directly related to its time complexity for insertion and deletion operations. In the best case, when the tree is balanced, the height is logarithmic in the number of nodes, resulting in O(log n) time complexity. However, if the tree is unbalanced, the height can be linear in the number of nodes, leading to O(n) time complexity."
-        },
-        {
-            "topic": "Time Complexity@Height of the tree",
-            "tag": "Easy",
-            "question": "What is the time complexity for insertion in a balanced binary search tree?",
-            "answer": "The time complexity for insertion in a balanced binary search tree is O(log n)."
-        },
-        {
-            "topic": "Time Complexity@Height of the tree",
-            "tag": "Challenging",
-            "question": "What might cause the time complexity of operations in a binary search tree to degrade from O(log n) to O(n), and how can this issue be addressed?",
-            "hint": "Consider the tree structure when values are inserted in a specific order.",
-            "answer": "The time complexity degrades from O(log n) to O(n) when the binary search tree becomes unbalanced, such as when values are inserted in strictly increasing or decreasing order, causing the tree to resemble a linked list. This issue can be addressed by using balancing techniques, such as AVL trees or red-black trees, which ensure the tree remains balanced and maintains O(log n) time complexity for operations."
-        },
-        {
-            "topic": "Big-O Notation@Definition and explanation",
-            "tag": "Conceptual",
-            "question": "What does Big-O notation describe in terms of algorithm performance?",
-            "answer": "Big-O notation describes the upper bound of an algorithm's time complexity, giving an idea of the worst-case scenario for how long an operation will take as the input set grows."
-        },
-        {
-            "topic": "Big-O Notation@Definition and explanation",
-            "tag": "Easy",
-            "question": "What does O(log n) time complexity indicate about the growth rate of an algorithm's running time?",
-            "answer": "O(log n) time complexity indicates that the running time of the algorithm increases logarithmically as the input size grows, meaning it increases more slowly compared to linear growth."
-        },
-        {
-            "topic": "Big-O Notation@Definition and explanation",
-            "tag": "Challenging",
-            "question": "Explain why the time complexity for operations in a balanced binary search tree is O(log n) using Big-O notation and the concept of tree height.",
-            "hint": "Consider the relationship between tree height and the number of nodes in a balanced binary search tree.",
-            "answer": "In a balanced binary search tree, the height of the tree is logarithmic with respect to the number of nodes, meaning the height is approximately log2(n). Since operations like insertion, deletion, and search depend on the height of the tree, the time complexity for these operations is proportional to the height. Therefore, using Big-O notation, the time complexity is described as O(log n), reflecting that the number of operations needed grows logarithmically with the number of nodes."
+            "topic": "Big-O Notation",
+            "levels": [
+                {
+                    "tag": "Conceptual",
+                    "question": "What does Big-O notation describe?",
+                    "answer": "Big-O notation describes the upper bound of an algorithm's time complexity, giving an idea of the worst-case scenario for how long an operation will take as the input set grows."
+                },
+                {
+                    "tag": "Easy",
+                    "question": "If an algorithm has a time complexity of O(log n), how does the time to perform an operation change as the number of inputs doubles?",
+                    "answer": "If an algorithm has a time complexity of O(log n), the time to perform an operation increases logarithmically. Thus, if the number of inputs doubles, the time increases by a much smaller amount, following a logarithmic pattern."
+                },
+                {
+                    "tag": "Challenging",
+                    "question": "Explain why the time complexity for insert or delete in a balanced binary search tree is O(log n).",
+                    "hint": "Consider the relationship between the height of the tree and the number of nodes.",
+                    "answer": "In a balanced binary search tree, the height of the tree is logarithmic with respect to the number of nodes. This is because a balanced tree maintains a structure where the number of levels grows logarithmically as nodes are added. Since the number of operations needed for insert or delete is proportional to the height of the tree, the time complexity is O(log n)."
+                }
+            ]
         }
     ]
-
-
 
 # Set page configuration
 st.set_page_config(page_title="Notebook Page", layout="wide")
@@ -263,7 +273,7 @@ with col2:
             tab1, tab2, tab3 = st.tabs(["Conceptual", "Easy", "Challenging"])
             
             with tab1:
-                for question in question_data['question']:
+                for question in question_data['levels']:
                     if question['tag'] == "Conceptual":
                         st.write(f"**Question**: {question['question']}")
                         st.text_input("Your answer:", key=f"{topic}_conceptual")
@@ -271,7 +281,7 @@ with col2:
                             st.write(f"**Hint**: {question['hint']}")
 
             with tab2:
-                for question in question_data['question']:
+                for question in question_data['levels']:
                     if question['tag'] == "Easy":
                         st.write(f"**Question**: {question['question']}")
                         st.text_input("Your answer:", key=f"{topic}_easy")
@@ -279,7 +289,7 @@ with col2:
                             st.write(f"**Hint**: {question['hint']}")
 
             with tab3:
-                for question in question_data['question']:
+                for question in question_data['levels']:
                     if question['tag'] == "Challenging":
                         st.write(f"**Question**: {question['question']}")
                         st.text_input("Your answer:", key=f"{topic}_challenging")

@@ -26,12 +26,15 @@ st.markdown(
 )
 
 # Add a button that links back to page 1
-st.page_link("course_page.py", label="Return to Course Page", icon="🏠")
+st.page_link("./pages/course_page.py", label="Return to Course Page", icon="🏠")
 # st.markdown('<a href="/page1" class="return-button">Return to Page 1</a>', unsafe_allow_html=True)
 
 # Example content in the notebook page
 st.write("This is the content of your notebook.")
 
+#st.session_state.audio_file
+#st.session_state.blackboard_file
+#st.session_state.personal_file
 blackboard_file = st.session_state.blackboard_file
 course_name = st.session_state.courseDictionary[1]
 syllabus_file = st.session_state.syllabusList[course_name]

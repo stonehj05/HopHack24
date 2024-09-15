@@ -1,0 +1,5 @@
+[client]
+showSidebarNavigation = false  # This disables the sidebar navigation
+
+[ui]
+hideSidebarNav = true  # Hides the sidebar navigation menu

@@ -65,9 +65,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# # Initialize session state to keep track of pages
-# if 'page' not in st.session_state:
-#     st.session_state.page = 'main'
+# Initialize session state to keep track of pages
+if 'page' not in st.session_state:
+    st.session_state.page = 'main'
 syllabus = None
 Course_name = None
 st.markdown('<div class="title">AI Notetaker</div>', unsafe_allow_html=True)

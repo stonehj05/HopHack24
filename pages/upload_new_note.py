@@ -38,5 +38,6 @@ if (st.session_state.audio_file is not None and
     
     # Generate a clickable link with large font size that says "Loading the new AI notebook"
     if st.button('Generate result'):
+        st.switch_page("./pages/note_detail.py")
         st.session_state.page = 'page3'
         st.rerun()  # Reload the app to switch to page 1

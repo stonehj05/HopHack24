@@ -92,10 +92,12 @@ new_notebook_name = st.text_input("", value="", placeholder="Enter Notebook Name
 
 # Handle the creation of a new notebook
 if st.button('Generate result'):
-        st.session_state.page = 'page2'
-        st.rerun()  # Reload the app to switch to page 1
+        st.switch_page('./pages/upload_new_note.py')
+        # st.session_state.page = 'page2'
+        # st.rerun()  # Reload the app to switch to page 1
 
 # Button to return to the homepage
 if st.button('Go back to homepage'):
-    st.session_state.page = 'main'
-    st.rerun()  # Reload the app to switch to the main page
+    st.switch_page('main.py')
+    # st.session_state.page = 'main'
+    # st.rerun()  # Reload the app to switch to the main page

@@ -22,12 +22,12 @@ def build_vector_db(data_folder):
     for root, dirs, files in os.walk(data_folder):
         for file in files:
             if file.endswith(".txt",".md"):
-                file_path = os.path.join(data_folder, file_name)
+                file_path = os.path.join(data_folder, file)
                 loader = FileLoader(file_path)
                 
                 # Add each document to the vector database
                 for chunk in loader.load_chunks():
-                vector_db.add(chunk['text'], chunk['meta'])  # Store text and metadata (if any)
+                    vector_db.add(chunk['text'], chunk['meta'])  # Store text and metadata (if any)
            
     
     return vector_db

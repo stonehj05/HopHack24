@@ -1,5 +1,7 @@
 import streamlit as st
 import os
+from file_handle import *
+from generate_note import generate_note
 # Set page configuration
 st.write(page_title="Notebook Page", layout="wide")
 
@@ -40,7 +42,7 @@ course_name = st.session_state.courseDictionary[1]
 syllabus_file = st.session_state.syllabusList[course_name]
 audio_file = st.session_state.audio_file
 personal_file = st.session_state.personal_file
-os.makedirs("data", exist_ok=True)
+'''os.makedirs("data", exist_ok=True)
 os.makedirs(f"data/{course_name}", exist_ok=True)
 os.makedirs(f"data/{course_name}/1", exist_ok=True)
 with open(os.path.join(os.getcwd(), "data", course_name, syllabus_file.name), "wb") as file:
@@ -50,4 +52,13 @@ with open(os.path.join(os.getcwd(), "data", course_name, "1", blackboard_file.na
 with open(os.path.join(os.getcwd(), "data", course_name, "1", audio_file.name), "wb") as file: #1 is a placeholder now
     file.write(audio_file.getbuffer())
 with open(os.path.join(os.getcwd(), "data", course_name, "1", personal_file.name), "wb") as file: #1 is a placeholder now
-    file.write(personal_file.getbuffer())
+    file.write(personal_file.getbuffer())'''
+note_name = "1" #for test purposes
+note_path = f"../data/{course_name}/{note_name}"
+if not os.path.exists(os.path.join(note_path, "note.md")):
+    syllabus_content = read_syllabus(syllabus_file.name, course_name)
+    blackboard_images = read_blackboard(blackboard_file.name, course_name, note_name)
+    handnote_images = read_handnote(personal_file.name, course_name, note_name)
+    audio_file_path = os.path.join(os.getcwd(), "data", course_name, "1", audio_file.name)
+    generate_note(blackboard_images, audio_file_path, handnote_images, context=syllabus_content, course_name=course_name, lecture_name=note_name) 
+pass #replace this with illustration function based on markdown

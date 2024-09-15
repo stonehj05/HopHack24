@@ -1,9 +1,14 @@
 import streamlit as st
 from pages import *
+from picture import *
 
 #A dictionary that correspond the courseIndex to the number notebooks it has right now {int : int}
 if 'courseNoteBookNumberCount' not in st.session_state:
      st.session_state.courseNoteBookNumberCount = {}
+
+#A dictionary that correspond the courseIndex to the number notebooks it has right now {int : int}
+if 'menu' not in st.session_state:
+     st.session_state.menu = {}
 
 #A int that keep track the current index of course, which correspond to the order that they are added
 if 'courseIndex' not in st.session_state:
@@ -79,19 +84,14 @@ description_text = """
 Our AI-powered note-taking application transforms the educational experience by automating the capture of lecture content, benefiting all students, especially those with ADHD, visual or hearing impairments, and mental health challenges. The platform allows students to engage more actively in lectures without the distraction of manual note-taking.
 """
 st.markdown(f'<div class="description">{description_text}</div>', unsafe_allow_html=True)
+
 if (st.session_state.courseIndex == 0):
     st.markdown('<div class="larger-text">Please enter the new course syllabus to start: 📂</div>', unsafe_allow_html=True)
 else:
-    num_images = st.session_state.courseIndex
+    for course in st.session_state.courseDictionary.values():
+        num_images = st.session_state.courseIndex
+        image_display("folder.PNG", num_images)
 
-    # Display images in a left-aligned format
-    cols = st.columns(10)  # Creates 10 columns for better left alignment
-    st.write(num_images)
-    for i in range(num_images):
-        with cols[0]:  # Use the first column (leftmost)
-            st.image('Folder.png', use_column_width=True)
-            if st.button(f"Go to Note Page {i+1}", key=f"button_{i}"):
-                st.session_state.page = f"notepage{i+1}"
 
 # Text input for notebook name with larger label
 st.markdown('<div class="input-label">Enter Course Name</div>', unsafe_allow_html=True)
@@ -110,7 +110,6 @@ if syllabus is not None:
 # Conditionally display the button to go to Page 1 only if both the syllabus is uploaded and the notebook name is entered
 if syllabus is not None and Course_name is not None:
     st.markdown('<div class="description">Syllabus uploaded and notebook name provided!</div>', unsafe_allow_html=True)
-    st.write('page' + str(st.session_state.courseIndex))
     # Show button to navigate to Page 1 only after inputs are given
     if st.button('Go to ' + Course_name):
         st.switch_page("pages/course_page.py")
